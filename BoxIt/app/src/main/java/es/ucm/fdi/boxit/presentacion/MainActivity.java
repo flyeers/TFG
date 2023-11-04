@@ -1,8 +1,10 @@
-package es.ucm.fdi.boxit;
+package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import es.ucm.fdi.boxit.R;
 
 public class MainActivity extends AppCompatActivity {
 
