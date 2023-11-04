@@ -21,6 +21,6 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x Boxit/gradlew
+      run: chmod +x BoxIt/gradlew
     - name: Build with Gradle
       run: ./BoxIt/gradlew build
