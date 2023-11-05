@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BoxIt</string>
+    <string name="introduce_usuario">Nombre de usuario o email</string>
+    <string name="contrasenya">Contraseña</string>
+    <string name="botonLogin">Log in</string>
 </resources>

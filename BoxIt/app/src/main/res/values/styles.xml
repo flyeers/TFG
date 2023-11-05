@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Logo">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#310D17</item>
+    </style>
+
+    <style name="Formulario">
+        <item name="android:background">@drawable/shape</item> <!-- Fondo personalizado -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item> <!-- Espacio izquierdo entre texto y field -->
+        <item name="android:paddingEnd">12dp</item> <!-- Espacio derecho entre texto y field -->
+        <item name="android:paddingTop">8dp</item> <!-- Espacio interno superior -->
+        <item name="android:paddingBottom">8dp</item> <!-- Espacio interno inferior -->
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:fontFamily">@font/inter_regular"</item>
+        <item name="android:textColorHint">@color/textoOscuro</item>
+        <item name="android:textColor">@color/textoOscuro</item>
+        <item name="android:textSize">15dp</item>
+
+
+    </style>
+
+    <style name="Boton_login">
+       <item name="android:background">@drawable/button_shape</item> <!-- Fondo personalizado -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+         <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:fontFamily">@font/inter_bold"</item>
+        <item name="android:textColorHint">@color/textoOscuro</item>
+        <item name="android:textColor">@color/fondoClaro</item>
+
+        <item name="android:textSize">15dp</item>
+
+
+    </style>
+</resources>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/fondoClaro">
+
+
+        <TextView
+            android:id="@+id/nombre_logo"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="250dp"
+            android:layout_marginRight="120dp"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="top"
+            android:text="NOMBRE/LOGO"
+            android:textColor="@color/textoOscuro"
+            android:textAppearance="@style/Logo" />
+
+        <EditText
+            style="@style/Formulario"
+            android:id="@+id/usuarioLogin"
+            android:hint="@string/introduce_usuario"
+            android:textColorHint="@color/textoOscuro"
+
+
+
+            />
+
+        <EditText
+            style="@style/Formulario"
+            android:id="@+id/contrasenyaLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/contrasenya"
+            android:inputType="numberPassword"
+            android:textColorHint="@color/textoOscuro"
+
+            />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Boton_login"
+            android:text="@string/botonLogin"
+            android:textColorHighlight="@color/rosaBoton"
+            android:textColorLink="@color/rosaBoton" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="170dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/rosaBoton" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="9dp"
+                android:textColor="@color/rosaBoton"
+                android:fontFamily="@font/inter_regular"
+                android:text="or" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="185dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/rosaBoton" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            style="@style/Boton_login"
+            android:layout_marginTop="15dp"
+            android:src="@android:drawable/btn_star" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
