@@ -93,7 +93,9 @@
             android:id="@+id/imageButton"
             style="@style/Boton_login"
             android:layout_marginTop="15dp"
-            android:src="@android:drawable/btn_star" />
+            android:src="@drawable/common_google_signin_btn_icon_light"
+            android:text="hola"
+            />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
