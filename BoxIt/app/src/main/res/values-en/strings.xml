@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">BoxIt</string>
     <string name="introduce_usuario">User name or email</string>
     <string name="contrasenya">Password</string>
     <string name="botonLogin">Log in</string>
