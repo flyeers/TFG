@@ -14,4 +14,9 @@
     <string name="registrarte">Sign up</string>
     <string name="signupgoogle">Sign up with Google</string>
     <string name="crearCuenta">Create Account</string>
+    <string name="contraseñasDiferentes">The passwords must match</string>
+    <string name="emailIncorrecto">Invalid email</string>
+    <string name="passwordIncorrecto">Invalid password</string>
+    <string name="userNameDuplicado">Existing username </string>
+    <string name="userNameIncorrecto">Invalid username </string>
 </resources>

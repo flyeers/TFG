@@ -47,39 +47,70 @@
                 android:textColor="@color/textoOscuro"
                 android:textAppearance="@style/Logo" />
 
-            <EditText
-                android:id="@+id/reg_email"
-                style="@style/Formulario"
-                android:fontFamily="@font/interregular"
-                android:hint="@string/email"
-                android:textColorHint="@color/textoOscuro" />
-            <EditText
-                android:id="@+id/reg_nombre"
-                style="@style/Formulario"
-                android:fontFamily="@font/interregular"
-                android:hint="@string/nombreUsuario"
-                android:textColorHint="@color/textoOscuro" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_email_lay"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/crear_contrasenya"
-                style="@style/Formulario"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_email"
+                    style="@style/Formulario"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="@font/interregular"
+                    android:hint="@string/email"
+                    android:textColorHint="@color/textoOscuro" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_nombre_lay"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/interregular"
-                android:hint="@string/contrasenya"
-                android:inputType="numberPassword"
-                android:textColorHint="@color/textoOscuro" />
-            <EditText
-                android:id="@+id/confirmar_contrasenya"
-                style="@style/Formulario"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_nombre"
+                    style="@style/Formulario"
+                    android:fontFamily="@font/interregular"
+                    android:hint="@string/nombreUsuario"
+                    android:textColorHint="@color/textoOscuro" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_contrasenya_lay"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/interregular"
-                android:hint="@string/confirmarContraseña"
-                android:inputType="numberPassword"
-                android:textColorHint="@color/textoOscuro" />
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_crear_contrasenya"
+                    style="@style/Formulario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/interregular"
+                    android:hint="@string/contrasenya"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/textoOscuro" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_confirmar_contrasenya_lay"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_confirmar_contrasenya"
+                    style="@style/Formulario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/interregular"
+                    android:hint="@string/confirmarContraseña"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/textoOscuro" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/buttonRegistrarse"

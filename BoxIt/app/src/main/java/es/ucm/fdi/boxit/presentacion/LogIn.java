@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class LogIn extends AppCompatActivity {
 
         //NO FUCIONA EL ONCLICK DE REGISTRARSE
         TextView registrarse = findViewById(R.id.registrateBtn);
+        //Button b = findViewById(R.id.entrar);
 
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override

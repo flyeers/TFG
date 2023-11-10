@@ -47,7 +47,7 @@
             />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/entrar"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:backgroundTint="@color/rosaBoton"
@@ -56,6 +56,7 @@
             android:layout_marginTop="50dp"
             android:fontFamily="@font/interregular"
             android:textColor="@color/rosaFormulario"
+            android:clickable="true"
             android:text="@string/botonLogin" />
 
         <LinearLayout
