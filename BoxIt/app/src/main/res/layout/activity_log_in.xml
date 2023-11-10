@@ -17,7 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="120dp"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="200dp"
             android:layout_marginRight="120dp"
             android:fontFamily="@font/interbold"
             android:gravity="top"
@@ -31,9 +31,6 @@
             android:id="@+id/usuarioLogin"
             android:hint="@string/introduce_usuario"
             android:textColorHint="@color/textoOscuro"
-
-
-
             />
 
         <EditText
@@ -51,12 +48,15 @@
 
         <Button
             android:id="@+id/button"
-            style="@style/Boton_login"
-            android:text="@string/botonLogin"
-            android:textColorHighlight="@color/rosaBoton"
-            android:textColorLink="@color/rosaBoton"
-            android:fontFamily="@font/interbold"
-        />
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:backgroundTint="@color/rosaBoton"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/interregular"
+            android:textColor="@color/rosaFormulario"
+            android:text="@string/botonLogin" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,13 +93,55 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            style="@style/Boton_login"
+        <Button
+            android:id="@+id/registrarse_google"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:backgroundTint="@color/rosaCards"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="15dp"
-            android:text="hola"
-            android:fontFamily="@font/interbold"
-            />
+            android:fontFamily="@font/interregular"
+            android:textColor="@color/textoOscuro"
+            android:text="@string/logingoogle" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="380dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="230dp"
+            android:background="@color/rosaBoton" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="@string/noTienesCuenta"
+                android:textColor="@color/textoOscuro" />
+
+            <TextView
+                android:id="@+id/registrateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/interbold"
+                android:text="@string/regis"
+                android:textColor="@color/textoOscuro"
+                android:clickable="true"
+                />
+        </LinearLayout>
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,4 +4,14 @@
     <string name="introduce_usuario">User name or email</string>
     <string name="contrasenya">Password</string>
     <string name="botonLogin">Log in</string>
+    <string name="logingoogle">Sign in with Google</string>
+    <string name="noTienesCuenta">¿Do not have an account?</string>
+    <string name="regis">Sign up</string>
+    <string name="email">Email</string>
+    <string name="nombreUsuario">User name</string>
+    <string name="crearContraseña">Password</string>
+    <string name="confirmarContraseña">Confirm password</string>
+    <string name="registrarte">Sign up</string>
+    <string name="signupgoogle">Sign up with Google</string>
+    <string name="crearCuenta">Create Account</string>
 </resources>

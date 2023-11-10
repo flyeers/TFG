@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentacion.Registro">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/fondoClaro">
+
+
+    <TextView
+        android:id="@+id/nombre_logo"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="120dp"
+        android:fontFamily="@font/interbold"
+        android:gravity="top"
+        android:text="NOMBRE/LOGO"
+        android:textColor="@color/textoOscuro"
+        android:textAppearance="@style/Logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="135dp"
+                android:layout_marginRight="120dp"
+                android:fontFamily="@font/interbold"
+                android:gravity="center"
+                android:text="@string/crearCuenta"
+                android:textColor="@color/textoOscuro"
+                android:textAppearance="@style/Logo" />
+
+            <EditText
+                android:id="@+id/reg_email"
+                style="@style/Formulario"
+                android:fontFamily="@font/interregular"
+                android:hint="@string/email"
+                android:textColorHint="@color/textoOscuro" />
+            <EditText
+                android:id="@+id/reg_nombre"
+                style="@style/Formulario"
+                android:fontFamily="@font/interregular"
+                android:hint="@string/nombreUsuario"
+                android:textColorHint="@color/textoOscuro" />
+
+            <EditText
+                android:id="@+id/crear_contrasenya"
+                style="@style/Formulario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/interregular"
+                android:hint="@string/contrasenya"
+                android:inputType="numberPassword"
+                android:textColorHint="@color/textoOscuro" />
+            <EditText
+                android:id="@+id/confirmar_contrasenya"
+                style="@style/Formulario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/interregular"
+                android:hint="@string/confirmarContraseña"
+                android:inputType="numberPassword"
+                android:textColorHint="@color/textoOscuro" />
+
+            <Button
+                android:id="@+id/buttonRegistrarse"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="40dp"
+                android:backgroundTint="@color/rosaBoton"
+                android:fontFamily="@font/interregular"
+                android:text="@string/registrarte"
+                android:textColor="@color/rosaFormulario" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="170dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/rosaBoton" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="9dp"
+                    android:fontFamily="@font/interregular"
+                    android:text="or"
+                    android:textColor="@color/rosaBoton" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="185dp"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/rosaBoton" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/registrarse_google"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="40dp"
+                android:backgroundTint="@color/rosaCards"
+                android:fontFamily="@font/interregular"
+                android:text="@string/signupgoogle"
+                android:textColor="@color/textoOscuro" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
