@@ -14,7 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.negocio.BoxInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         /*
         Intent intent = new Intent(this, LogIn.class);
         startActivity(intent);*/
@@ -40,6 +45,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });*/
+
+        BoxInfo box1 = new BoxInfo("prueba", "");
+        BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", "");
+        BoxInfo box3 = new BoxInfo("help", "");
+        ArrayList<BoxInfo> a = new ArrayList<>();
+        a.add(box1);
+        a.add(box2);
+        a.add(box3);
+
+        BoxAdapter b = new BoxAdapter();
+        b.setBoxData(a);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
+        recyclerView.setAdapter(b);
+
 
 
 
