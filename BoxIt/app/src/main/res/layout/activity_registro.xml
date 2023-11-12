@@ -145,7 +145,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="9dp"
                     android:fontFamily="@font/interregular"
-                    android:text="or"
+                    android:text="@string/o"
                     android:textColor="@color/rosaBoton" />
 
                 <View

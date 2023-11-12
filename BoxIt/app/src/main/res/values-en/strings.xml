@@ -19,4 +19,5 @@
     <string name="passwordIncorrecto">Invalid password</string>
     <string name="userNameDuplicado">Existing username </string>
     <string name="userNameIncorrecto">Invalid username </string>
+    <string name="o">or </string>
 </resources>

@@ -81,7 +81,7 @@
                 android:layout_marginTop="9dp"
                 android:textColor="@color/rosaBoton"
                 android:fontFamily="@font/interregular"
-                android:text="or" />
+                android:text="@string/o" />
 
             <View
                 android:id="@+id/divider2"
