@@ -19,4 +19,6 @@
     <string name="userNameDuplicado">Nombre de usuario ya existente </string>
     <string name="userNameIncorrecto">Nombre de usuario incorrecto </string>
     <string name="o">o </string>
+    <string name="bienvenida">Hola </string>
+
 </resources>

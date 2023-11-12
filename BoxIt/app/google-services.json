@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664586567048",
+    "project_id": "boxit-9b1b9",
+    "storage_bucket": "boxit-9b1b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664586567048:android:bd5be3a40f72bc15b38e3d",
+        "android_client_info": {
+          "package_name": "es.ucm.fdi.boxit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlgB-A_U2P5SWeeiSbE8dlUQiFQitM9yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

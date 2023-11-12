@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="200dp"
+        android:layout_height="255dp"
+        android:background="@drawable/shape_box_add"
+        app:cardBackgroundColor="@color/rosaCards"
+        app:cardCornerRadius="15dp"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="16dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgBox"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                tools:srcCompat="@android:drawable/divider_horizontal_bright" />
+
+            <TextView
+                android:id="@+id/nameBox"
+                style="@style/CardFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="?attr/selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/imgSimpbol"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="?attr/selectableItemBackground" />
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

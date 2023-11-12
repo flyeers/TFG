@@ -72,6 +72,7 @@ public class Registro extends AppCompatActivity {
         ValidarFormulario valid = new ValidarFormulario(this, email, username,password);
 
         if(!valid.isValidEmail()){
+            //TODO DA ERROR mirar logs
             textInputLayoutEmail.setError(getString(R.string.emailIncorrecto));
             ok = false;
         }

@@ -20,4 +20,6 @@
     <string name="userNameDuplicado">Existing username </string>
     <string name="userNameIncorrecto">Invalid username </string>
     <string name="o">or </string>
+    <string name="bienvenida">Hey </string>
+
 </resources>
