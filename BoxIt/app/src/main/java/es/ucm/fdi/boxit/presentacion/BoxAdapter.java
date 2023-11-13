@@ -21,9 +21,11 @@ import es.ucm.fdi.boxit.negocio.BoxInfo;
 public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.ViewHolder>{
 
     private ArrayList<BoxInfo> boxesData;
+    private boolean small;
 
-    public void setBoxData(List<BoxInfo> data){
+    public void setBoxData(List<BoxInfo> data, boolean small){
         this.boxesData = (ArrayList<BoxInfo>) data;
+        this.small = small;
     }
 
     @NonNull
@@ -41,7 +43,17 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull BoxAdapter.ViewHolder holder, int position) {
-        //Actualiza una vista
+        if(small){
+            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
+            layoutParams.height = (int) (layoutParams.height * 0.8);
+            layoutParams.width = (int) (layoutParams.width * 0.8);
+            holder.cardView.setLayoutParams(layoutParams);
+
+            ViewGroup.LayoutParams layoutParams2 = holder.imagen.getLayoutParams();
+            layoutParams2.height = (int) (layoutParams2.height * 0.8);
+            holder.imagen.setLayoutParams(layoutParams2);
+        }
+
         BoxInfo box = boxesData.get(position);
         holder.titulo.setText(box.getTitle());
         Glide.with(holder.cardView)

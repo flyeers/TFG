@@ -59,40 +59,18 @@ public class MainActivity extends AppCompatActivity {
         a.add(box3);
 
         BoxAdapter b = new BoxAdapter();
-        b.setBoxData(a);
+        b.setBoxData(a, false);
         RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
         recyclerView2.setAdapter(b);
 
 
 
-        b.setBoxData(a);
+        BoxAdapter b2 = new BoxAdapter();
+        b2.setBoxData(a, true);
         RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
-        recyclerView.setAdapter(b);
+        recyclerView.setAdapter(b2);
 
 
-        /*
-        recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                // Accede a las vistas después de que estén listas
-                for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                    View view = recyclerView.getChildAt(i);
-                    if (view != null) {
-                        CardView cardView = view.findViewById(R.id.cardView);
-
-                        // Ahora puedes cambiar las propiedades del CardView según tus necesidades
-                        ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
-                        layoutParams.width = 145;
-                        layoutParams.height = 200;
-                        cardView.setLayoutParams(layoutParams);
-                    }
-                }
-
-                return true;
-            }
-        });*/
 
 
     }
