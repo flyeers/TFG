@@ -2,11 +2,15 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,10 +60,39 @@ public class MainActivity extends AppCompatActivity {
 
         BoxAdapter b = new BoxAdapter();
         b.setBoxData(a);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
+        RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
+        recyclerView2.setAdapter(b);
+
+
+
+        b.setBoxData(a);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
         recyclerView.setAdapter(b);
 
 
+        /*
+        recyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                recyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                // Accede a las vistas después de que estén listas
+                for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                    View view = recyclerView.getChildAt(i);
+                    if (view != null) {
+                        CardView cardView = view.findViewById(R.id.cardView);
+
+                        // Ahora puedes cambiar las propiedades del CardView según tus necesidades
+                        ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
+                        layoutParams.width = 145;
+                        layoutParams.height = 200;
+                        cardView.setLayoutParams(layoutParams);
+                    }
+                }
+
+                return true;
+            }
+        });*/
 
 
     }

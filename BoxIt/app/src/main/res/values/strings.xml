@@ -1,4 +1,5 @@
 <resources>
+    <!--Registro + Log in-->
     <string name="app_name">BoxIt</string>
     <string name="introduce_usuario">Nombre de usuario o email</string>
     <string name="contrasenya">Contraseña</string>
@@ -19,6 +20,15 @@
     <string name="userNameDuplicado">Nombre de usuario ya existente </string>
     <string name="userNameIncorrecto">Nombre de usuario incorrecto </string>
     <string name="o">o </string>
+
+    <!--Vista principal-->
     <string name="bienvenida">Hola </string>
+    <string name="tusCap">Tus Cápsulas </string>
+    <string name="tusBox">Tus Cajas </string>
+    <string name="verTod">ver todas </string>
+
+
+
+
 
 </resources>
