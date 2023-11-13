@@ -18,15 +18,17 @@
     <string name="contraseñasDiferentes">The passwords must match</string>
     <string name="emailIncorrecto">Invalid email</string>
     <string name="passwordIncorrecto">Invalid password</string>
-    <string name="userNameDuplicado">Existing username </string>
-    <string name="userNameIncorrecto">Invalid username </string>
+    <string name="userNameDuplicado">Existing username</string>
+    <string name="userNameIncorrecto">Invalid username</string>
     <string name="o">or </string>
 
     <!--Main view-->
-    <string name="bienvenida">Hey </string>
+    <string name="bienvenida">Hey</string>
     <string name="tusCap">Your Capsules </string>
     <string name="tusBox">Your Boxes</string>
-    <string name="verTod">see all </string>
+    <string name="verTod">see all</string>
+    <string name="sharedCap">Shared Capsules</string>
+    <string name="sharedBox">Shared Boxes</string>
 
 
 </resources>

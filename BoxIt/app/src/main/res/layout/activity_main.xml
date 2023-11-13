@@ -54,12 +54,12 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="239dp"
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
@@ -93,12 +93,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    tools:ignore="ExtraText">
 
                     <TextView
                         android:id="@+id/textView7"
-                        android:layout_width="203dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
@@ -121,6 +122,46 @@
                     android:id="@+id/recycler_view_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/fondoCards"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:reverseLayout="true"
+                    app:stackFromEnd="true">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/layoutShare"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/sharedCap"
+                        android:textAppearance="@style/Logo"
+                        android:textColor="@color/textoOscuro" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:text="@string/verTod"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:background="@color/fondoCards"
                     android:orientation="horizontal"

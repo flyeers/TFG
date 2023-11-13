@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });*/
 
+        BoxInfo boxAdd = new BoxInfo("ADD", "");
         BoxInfo box1 = new BoxInfo("prueba", "");
         BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", "");
         BoxInfo box3 = new BoxInfo("help", "");
         ArrayList<BoxInfo> a = new ArrayList<>();
+        a.add(boxAdd);
         a.add(box1);
         a.add(box2);
         a.add(box3);
@@ -71,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(b2);
 
 
+
+        BoxAdapter b3 = new BoxAdapter();
+        b3.setBoxData(a, true);
+        RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
+        recyclerView3.setAdapter(b3);
+
+        //Este Layout no se vera si no hay ninguna caja compartida
+        /*LinearLayout lShare = findViewById(R.id.layoutShare);
+        lShare.setVisibility(View.GONE);
+        recyclerView3.setVisibility(View.GONE);*/
 
 
     }

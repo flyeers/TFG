@@ -45,6 +45,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:src="?attr/selectableItemBackground" />
+            android:src="?attr/selectableItemBackground"
+            android:stateListAnimator="@null"/>
 
 </androidx.cardview.widget.CardView>

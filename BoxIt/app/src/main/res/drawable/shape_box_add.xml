@@ -6,7 +6,7 @@
         android:height="255dp"
         android:width="200dp" />
     <stroke
-        android:width="5dp"
+        android:width="10dp"
         android:color="@color/rosaCards"/>
 
 </shape>

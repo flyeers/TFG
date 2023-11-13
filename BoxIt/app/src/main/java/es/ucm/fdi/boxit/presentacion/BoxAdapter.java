@@ -1,5 +1,6 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,11 +87,21 @@ public class BoxAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         switch (holder.getItemViewType()) {
-           /* case ADD_CARD:
+            case ADD_CARD:
                 AddViewHolder h2 = (AddViewHolder) holder;
-                if(small){
-
-                }*/
+                  if(small){
+                    ViewGroup.LayoutParams layoutParams = h2.addCard.getLayoutParams();
+                    layoutParams.height = (int) (layoutParams.height * 0.8);
+                    layoutParams.width = (int) (layoutParams.width * 0.8);
+                    h2.addCard.setLayoutParams(layoutParams);
+                  }
+                  h2.addCard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d("YOOOOOOOO", "SOY ADD");
+                        }
+                    });
+                    break;
             case NORMAL_CARD:
                 ViewHolder h1 = (ViewHolder) holder;
                 if (small) {
@@ -108,8 +119,17 @@ public class BoxAdapter extends RecyclerView.Adapter{
                 h1.titulo.setText(box.getTitle());
                 Glide.with(h1.cardView)
                         .load(box.getImg())
-                        .placeholder(R.drawable.button_shape)
+                        .placeholder(R.drawable.img_asturias)
                         .into(h1.imagen);
+
+                h1.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("YOOOOOOOO", "SOY CARDDD");
+                    }
+                });
+                break;
+
 
         }
     }
