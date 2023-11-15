@@ -31,5 +31,7 @@
 
     <!--Creaciones-->
     <string name="crearCaja">Crear caja</string>
+    <string name="desde0">Crear desde 0</string>
+    <string name="diseños">Diseños recomendados</string>
 
 </resources>

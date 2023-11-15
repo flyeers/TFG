@@ -32,6 +32,8 @@
 
     <!--Creations-->
     <string name="crearCaja">Create box</string>
+    <string name="desde0">Build from 0</string>
+    <string name="diseños">Recommended designs</string>
 
 
 </resources>

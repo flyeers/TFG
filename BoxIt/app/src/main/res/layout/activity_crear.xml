@@ -23,6 +23,42 @@
             android:layout_marginTop="-100dp"
             android:text="@string/crearCaja" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="569dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/addCajatext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="@string/desde0"
+                android:textAppearance="@style/Logo"
+                android:textColor="@color/textoOscuro" />
+
+            <ImageButton
+                android:id="@+id/addCaja"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/shape_add_btn"
+                android:elevation="10dp"
+                android:src="@drawable/add" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/diseños"
+                android:textAppearance="@style/Logo"
+                android:textColor="@color/textoOscuro"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -44,4 +80,5 @@
             app:srcCompat="@drawable/user" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
