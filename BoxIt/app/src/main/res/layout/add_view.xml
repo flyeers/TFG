@@ -27,6 +27,6 @@
         android:layout_height="90dp"
         android:layout_gravity="center"
         android:scrollbarSize="200dp"
-        app:srcCompat="@drawable/add" />
+        app:srcCompat="@drawable/add_icon" />
 
 </androidx.cardview.widget.CardView>

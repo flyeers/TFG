@@ -49,5 +49,29 @@
         <item name="android:layout_marginTop">15dp</item>
 
     </style>
+    
+    <style name="FondoBase">
+
+        <item name = "android:layout_width">540dp</item>
+        <item name="android:layout_height">312dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginLeft">-75dp</item>
+        <item name="android:layout_marginTop">-156dp</item>
+        <item name="android:background">@drawable/shape_ellipse</item>
+
+
+    </style>
+
+    <style name="TituloFondo">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/rosaBoton</item>
+        <item name="android:fontFamily">@font/inter_black</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+
+
+    </style>
 
 </resources>

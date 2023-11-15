@@ -30,5 +30,8 @@
     <string name="sharedCap">Shared Capsules</string>
     <string name="sharedBox">Shared Boxes</string>
 
+    <!--Creations-->
+    <string name="crearCaja">Create box</string>
+
 
 </resources>

@@ -29,9 +29,7 @@
     <string name="sharedCap">Cápsulas compartidas</string>
     <string name="sharedBox">Cajas compartidas</string>
 
-
-
-
-
+    <!--Creaciones-->
+    <string name="crearCaja">Crear caja</string>
 
 </resources>

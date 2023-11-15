@@ -1,5 +1,9 @@
 package es.ucm.fdi.boxit.presentacion;
 
+
+
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +102,10 @@ public class BoxAdapter extends RecyclerView.Adapter{
                   h2.addCard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Log.d("YOOOOOOOO", "SOY ADD");
+                            Context ctx = v.getContext();
+                            Intent intent = new Intent(ctx, Crear.class);
+                            ctx.startActivity(intent);
+
                         }
                     });
                     break;
