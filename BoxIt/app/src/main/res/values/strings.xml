@@ -33,5 +33,9 @@
     <string name="crearCaja">Crear caja</string>
     <string name="desde0">Crear desde 0</string>
     <string name="diseños">Diseños recomendados</string>
+    <string name="NombreCaja">Introduce Nombre de la caja</string>
+    <string name="NombreCapsula">Introduce Nombre de la cápsula</string>
+    <string name="selectImg">Elegir foto de Portada</string>
+    <string name="addCol">Añadir Colaboradores</string>
 
 </resources>

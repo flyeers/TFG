@@ -35,7 +35,6 @@ public class BoxAdapter extends RecyclerView.Adapter{
         this.small = small;
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView titulo;
@@ -98,11 +97,22 @@ public class BoxAdapter extends RecyclerView.Adapter{
                     layoutParams.height = (int) (layoutParams.height * 0.8);
                     layoutParams.width = (int) (layoutParams.width * 0.8);
                     h2.addCard.setLayoutParams(layoutParams);
+
+                      h2.addCard.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              Context ctx = v.getContext();
+                              Intent intent = new Intent(ctx, Crear.class);
+                              ctx.startActivity(intent);
+
+                          }
+                      });
                   }
                   h2.addCard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Context ctx = v.getContext();
+                            //TODO habria que diferenciar entre crearCaja y crear Capsula
                             Intent intent = new Intent(ctx, Crear.class);
                             ctx.startActivity(intent);
 

@@ -74,4 +74,28 @@
 
     </style>
 
+    <style name="TituloPrediseñado">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textoOscuro</item>
+        <item name="android:fontFamily">@font/interbold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+
+    <style name="inputLayoutForm" parent="Widget.Design.TextInputLayout">
+        <item name="boxBackgroundMode">none</item>
+    </style>
+
+    <style name="editTextForm">
+        <item name="backgroundTint">@color/rosaFormulario</item>
+        <item name="boxBackgroundMode">none</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColorHint">@color/grisForm</item>
+        <item name="android:textColor">@color/textoOscuro</item>
+
+    </style>
+
 </resources>
