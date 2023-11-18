@@ -103,5 +103,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button verTodoCapsula = findViewById(R.id.verTodoCapsula);
+        verTodoCapsula.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, VerTodoCapsula.class);
+                ctx.startActivity(intent);
+
+            }
+        });
+
     }
 }

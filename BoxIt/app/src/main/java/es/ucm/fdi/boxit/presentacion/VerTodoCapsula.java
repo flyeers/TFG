@@ -1,11 +1,9 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,16 +13,16 @@ import java.util.ArrayList;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 
-public class VerTodoCaja extends AppCompatActivity {
+public class VerTodoCapsula extends AppCompatActivity {
     private GestureDetector gestureDetector;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertodo_caja);
+        setContentView(R.layout.activity_vertodo_capsula);
 
-        gestureDetector = new GestureDetector(this, new VerTodoCaja.GestureListener());
+        gestureDetector = new GestureDetector(this, new VerTodoCapsula.GestureListener());
 
         BoxInfo boxAdd = new BoxInfo("ADD", "");
         BoxInfo box1 = new BoxInfo("prueba", "");
@@ -59,9 +57,9 @@ public class VerTodoCaja extends AppCompatActivity {
             if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (diffX > 0) {
                     // Deslizamiento hacia la derecha
-                    abrirNuevaActividad();
                 } else {
                     // Deslizamiento hacia la izquierda
+                    abrirNuevaActividad();
                 }
                 return true;
             }
@@ -70,10 +68,10 @@ public class VerTodoCaja extends AppCompatActivity {
     }
 
     private void abrirNuevaActividad() {
-        //TODO cambiar 
-        Intent intent = new Intent(this, VerTodoCapsula.class);
+        //TODO cambiar
+        Intent intent = new Intent(this, VerTodoCaja.class);
         startActivity(intent);
-    }
 
+    }
 
 }
