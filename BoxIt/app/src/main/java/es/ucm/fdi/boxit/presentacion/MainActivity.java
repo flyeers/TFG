@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button plus = findViewById(R.id.button2);
+        plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
         /*
         Intent intent = new Intent(this, LogIn.class);
         startActivity(intent);*/
@@ -62,21 +67,21 @@ public class MainActivity extends AppCompatActivity {
         a.add(box3);
 
         BoxAdapter b = new BoxAdapter();
-        b.setBoxData(a, false);
+        b.setBoxData(a, false, true);
         RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
         recyclerView2.setAdapter(b);
 
 
 
         BoxAdapter b2 = new BoxAdapter();
-        b2.setBoxData(a, true);
+        b2.setBoxData(a, true,true);
         RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
         recyclerView.setAdapter(b2);
 
 
 
         BoxAdapter b3 = new BoxAdapter();
-        b3.setBoxData(a, true);
+        b3.setBoxData(a, true,true);
         RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
         recyclerView3.setAdapter(b3);
 
@@ -85,6 +90,18 @@ public class MainActivity extends AppCompatActivity {
         lShare.setVisibility(View.GONE);
         recyclerView3.setVisibility(View.GONE);*/
 
+        //VER ALL
+
+        Button verTodoCaja = findViewById(R.id.verTodoCaja);
+        verTodoCaja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, VerTodoCaja.class);
+                ctx.startActivity(intent);
+
+            }
+        });
 
     }
 }

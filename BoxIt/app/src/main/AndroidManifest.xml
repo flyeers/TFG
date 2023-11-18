@@ -13,12 +13,16 @@
         android:theme="@style/Theme.BoxIt"
         tools:targetApi="31">
         <activity
+            android:name=".presentacion.VerTodoCaja"
+            android:exported="false" />
+        <activity
             android:name=".presentacion.CrearCajaForm"
             android:exported="false" />
         <activity
             android:name=".presentacion.Crear"
             android:exported="false" />
-        <activity android:name=".presentacion.Registro" />
+        <activity
+            android:name=".presentacion.Registro" />
         <activity
             android:name=".presentacion.LogIn"
             android:exported="true" />

@@ -29,10 +29,12 @@ public class BoxAdapter extends RecyclerView.Adapter{
     private static final int ADD_CARD = 0;
     private ArrayList<BoxInfo> boxesData;
     private boolean small;
+    private boolean addCard;
 
-    public void setBoxData(List<BoxInfo> data, boolean small){
+    public void setBoxData(List<BoxInfo> data, boolean small, boolean addCard){
         this.boxesData = (ArrayList<BoxInfo>) data;
         this.small = small;
+        this.addCard = addCard;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +67,8 @@ public class BoxAdapter extends RecyclerView.Adapter{
     public int getItemViewType(int position) {
         // Devuelve el tipo de vista según la posición
 
-        return (position == 0) ? ADD_CARD : NORMAL_CARD;
+        if(addCard) return (position == 0) ? ADD_CARD : NORMAL_CARD;
+        else return NORMAL_CARD;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

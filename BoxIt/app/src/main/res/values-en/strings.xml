@@ -39,5 +39,12 @@
     <string name="selectImg">Choose Cover photo</string>
     <string name="addCol">Add Collaborators</string>
 
+    <!--Ver all-->
+    <string name="cajas">Boxes</string>
+    <string name="capsulas">Capsules</string>
+    <string name="todas">All</string>
+    <string name="mine">Mine</string>
+    <string name="compartidas">Shared with me</string>
+
 
 </resources>

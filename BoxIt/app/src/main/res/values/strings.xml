@@ -38,4 +38,12 @@
     <string name="selectImg">Elegir foto de Portada</string>
     <string name="addCol">Añadir Colaboradores</string>
 
+    <!--Ver all-->
+    <string name="cajas">Cajas</string>
+    <string name="capsulas">Cápsulas</string>
+    <string name="todas">Todas</string>
+    <string name="mine">Mias</string>
+    <string name="compartidas">Compartidas conmigo</string>
+
+
 </resources>
