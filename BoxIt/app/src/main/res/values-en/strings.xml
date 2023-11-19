@@ -32,12 +32,19 @@
 
     <!--Creations-->
     <string name="crearCaja">Create box</string>
+    <string name="crearCapsula">Create capsule</string>
     <string name="desde0">Build from 0</string>
     <string name="diseños">Recommended designs</string>
     <string name="NombreCaja">Enter Box name</string>
     <string name="NombreCapsula">Enter Capsule name</string>
+    <string name="CapsulaTitulo">Capsule name</string>
+    <string name="CajaTitulo">Box name</string>
     <string name="selectImg">Choose Cover photo</string>
     <string name="addCol">Add Collaborators</string>
+    <string name="abrirse">open</string>
+    <string name="cerrarse">close</string>
+    <string name="fechaApertura">Open date</string>
+    <string name="fechaCierre">Close date</string>
 
     <!--Ver all-->
     <string name="cajas">Boxes</string>

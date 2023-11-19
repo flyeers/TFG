@@ -15,7 +15,7 @@
             style="@style/FondoBase" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/nombre_caja_tit"
             style="@style/TituloFondo"
             android:layout_marginTop="-100dp"
             android:text="Nombre de la caja" />
@@ -30,7 +30,7 @@
             android:layout_marginTop="50dp">
 
             <EditText
-                android:id="@+id/campo_nombre"
+                android:id="@+id/nombre_caja_input"
                 style="@style/editTextForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +92,32 @@
                 android:textColor="@color/rosaBoton"
                 android:text="@string/addCol" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"/>
+
+        <Button
+            android:id="@+id/CrearCajaBTN"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_shape"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/interbold"
+            android:elevation="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/rosaFormulario"
+            android:clickable="true"
+            android:text="@string/crearCaja" />
 
 
     </LinearLayout>

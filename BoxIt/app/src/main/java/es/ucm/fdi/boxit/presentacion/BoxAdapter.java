@@ -28,8 +28,9 @@ public class BoxAdapter extends RecyclerView.Adapter{
     private static final int NORMAL_CARD = 1;
     private static final int ADD_CARD = 0;
     private ArrayList<BoxInfo> boxesData;
-    private boolean small;
-    private boolean addCard;
+    private boolean small, addCard, isBox;
+
+
 
     public void setBoxData(List<BoxInfo> data, boolean small, boolean addCard){
         this.boxesData = (ArrayList<BoxInfo>) data;
@@ -96,31 +97,39 @@ public class BoxAdapter extends RecyclerView.Adapter{
             case ADD_CARD:
                 AddViewHolder h2 = (AddViewHolder) holder;
                   if(small){
-                    ViewGroup.LayoutParams layoutParams = h2.addCard.getLayoutParams();
-                    layoutParams.height = (int) (layoutParams.height * 0.8);
-                    layoutParams.width = (int) (layoutParams.width * 0.8);
-                    h2.addCard.setLayoutParams(layoutParams);
+                      Log.d("CLAU", "Soy las cards pequeñas");
+                      ViewGroup.LayoutParams layoutParams = h2.addCard.getLayoutParams();
+                      layoutParams.height = (int) (layoutParams.height * 0.8);
+                      layoutParams.width = (int) (layoutParams.width * 0.8);
+                      h2.addCard.setLayoutParams(layoutParams);
 
                       h2.addCard.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View v) {
+                              isBox = true;
                               Context ctx = v.getContext();
                               Intent intent = new Intent(ctx, Crear.class);
+                              intent.putExtra("TIPO", isBox);
                               ctx.startActivity(intent);
 
                           }
                       });
                   }
-                  h2.addCard.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Context ctx = v.getContext();
-                            //TODO habria que diferenciar entre crearCaja y crear Capsula
-                            Intent intent = new Intent(ctx, Crear.class);
-                            ctx.startActivity(intent);
+                  else{
+                      Log.d("CLAU", "Soy las cards grandes");
+                      h2.addCard.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              isBox = false;
+                              Context ctx = v.getContext();
+                              Intent intent = new Intent(ctx, Crear.class);
+                              intent.putExtra("TIPO", isBox);
+                              ctx.startActivity(intent);
 
-                        }
-                    });
+                          }
+                      });
+                  }
+
                     break;
             case NORMAL_CARD:
                 ViewHolder h1 = (ViewHolder) holder;

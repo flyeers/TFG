@@ -10,20 +10,19 @@ import android.widget.TextView;
 
 import es.ucm.fdi.boxit.R;
 
-public class CrearCajaForm extends AppCompatActivity {
+public class CrearCapsulaForm extends AppCompatActivity {
 
-    private EditText nombreCajaInput;
-    private TextView nombreCajaTitulo;
-
+    private EditText nombreCapsulaInput;
+    private TextView nombreCapsulaTitulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_caja_form);
+        setContentView(R.layout.activity_crear_capsula_form);
 
-        nombreCajaTitulo = findViewById(R.id.nombre_caja_tit);
-        nombreCajaInput = findViewById(R.id.nombre_caja_input);
+        nombreCapsulaTitulo = findViewById(R.id.nombreCapsulaTit);
+        nombreCapsulaInput = findViewById(R.id.campo_nombre_capsula);
 
-        nombreCajaInput.addTextChangedListener(new TextWatcher() {
+        nombreCapsulaInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -31,7 +30,7 @@ public class CrearCajaForm extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                nombreCajaTitulo.setText(s.toString());
+                nombreCapsulaTitulo.setText(s.toString());
             }
 
             @Override
@@ -39,5 +38,7 @@ public class CrearCajaForm extends AppCompatActivity {
 
             }
         });
+
+
     }
 }

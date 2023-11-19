@@ -18,10 +18,10 @@
             style="@style/FondoBase" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tituloCrear"
             style="@style/TituloFondo"
             android:layout_marginTop="-100dp"
-            android:text="@string/crearCaja" />
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"

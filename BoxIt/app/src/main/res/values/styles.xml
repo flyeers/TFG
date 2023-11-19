@@ -98,4 +98,12 @@
 
     </style>
 
+    <style name="textCapsuleForm">
+
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColorHint">@color/grisForm</item>
+        <item name="android:textColor">@color/rosaBoton</item>
+
+    </style>
+
 </resources>

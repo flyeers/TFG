@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentacion.CrearCapsulaForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/ellipse_13"
+            style="@style/FondoBase" />
+
+        <TextView
+            android:id="@+id/nombreCapsulaTit"
+            style="@style/TituloFondo"
+            android:layout_marginTop="-120dp"
+            android:text="@string/CapsulaTitulo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/daysToClose"
+                style="@style/textCapsuleForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="8dp"
+                android:text="12 dias para"
+                />
+
+            <TextView
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="top"
+                android:fontFamily="@font/inter_medium"
+                android:gravity="center"
+                android:text="@string/cerrarse"
+                android:textColor="@color/rosaBotonClaro" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/daysToOpen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:fontFamily="@font/inter_medium"
+                android:text="12 dias para"
+                android:textColor="@color/rosaBoton" />
+
+            <TextView
+                android:id="@+id/open"
+                style="@style/textCapsuleForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:text="@string/abrirse" />
+        </LinearLayout>
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_nombre"
+            style="@style/inputLayoutForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="50dp">
+
+            <EditText
+                android:id="@+id/campo_nombre_capsula"
+                style="@style/editTextForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor = "@color/textoOscuro"
+                android:textColorHint="@color/grisForm"
+                android:hint="@string/NombreCapsula"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView10"
+                style="@style/textCapsuleForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="@string/fechaCierre" />
+
+            <TextView
+                android:id="@+id/fechaCierre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="17dp"
+                android:textColor="@color/rosaBoton"
+                android:fontFamily="@font/interregular"
+                android:text="fechadelpicker" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView12"
+                style="@style/textCapsuleForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="@string/fechaApertura" />
+
+            <TextView
+                android:id="@+id/fechaApertura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textSize="17dp"
+                android:textColor="@color/rosaBoton"
+                android:fontFamily="@font/interregular"
+                android:text="fechadelpicker" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iconoImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:src="@drawable/photo" />
+
+            <TextView
+                android:id="@+id/fotoPortadaCaja"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/Logo"
+                android:textSize="17dp"
+                android:textColor="@color/rosaBoton"
+                android:text="@string/selectImg" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iconoCol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:src="@drawable/colaboradores" />
+
+            <TextView
+                android:id="@+id/addColCaja"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/Logo"
+                android:textSize="17dp"
+                android:textColor="@color/rosaBoton"
+                android:text="@string/addCol" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="true"
+            app:stackFromEnd="true">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            style="@style/textCapsuleForm"
+            android:gravity="center"
+            android:text="The capsule remains closed for .." />
+
+        <Button
+            android:id="@+id/CrearCajaBTN"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_shape"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/interbold"
+            android:elevation="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/rosaFormulario"
+            android:clickable="true"
+            android:text="@string/crearCapsula" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
