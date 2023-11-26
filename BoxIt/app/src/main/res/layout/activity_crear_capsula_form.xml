@@ -167,7 +167,7 @@
             android:orientation="horizontal">
 
             <NumberPicker
-                android:id="@+id/numberPickerDay"
+                android:id="@+id/numberPickerDayClose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -175,7 +175,7 @@
 
             </NumberPicker>
             <NumberPicker
-                android:id="@+id/numberPickerMonth"
+                android:id="@+id/numberPickerMonthClose"
                 android:layout_marginLeft="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,7 +183,41 @@
             </NumberPicker>
 
             <NumberPicker
-                android:id="@+id/numberPickerYear"
+                android:id="@+id/numberPickerYearClose"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+            </NumberPicker>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <NumberPicker
+                android:id="@+id/numberPickerDayOpen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+
+            </NumberPicker>
+            <NumberPicker
+                android:id="@+id/numberPickerMonthOpen"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+            </NumberPicker>
+
+            <NumberPicker
+                android:id="@+id/numberPickerYearOpen"
                 android:layout_marginLeft="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, Registro.class);
+        startActivity(intent);
+
         Button plus = findViewById(R.id.button2);
         plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
         /*
