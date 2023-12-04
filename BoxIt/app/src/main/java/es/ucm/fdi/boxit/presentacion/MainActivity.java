@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,10 +35,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser == null){
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, Registro.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, Registro.class);
+        //startActivity(intent);
 
         Button plus = findViewById(R.id.button2);
         plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));

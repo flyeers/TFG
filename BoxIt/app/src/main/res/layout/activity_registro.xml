@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/reg_email"
                     style="@style/Formulario"
                     android:inputType="textEmailAddress"
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/reg_nombre"
                     style="@style/Formulario"
                     android:fontFamily="@font/interregular"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/reg_crear_contrasenya"
                     style="@style/Formulario"
                     android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/reg_confirmar_contrasenya"
                     style="@style/Formulario"
                     android:layout_width="match_parent"

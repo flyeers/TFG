@@ -4,23 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.auth.User;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.negocio.SAUser;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 import es.ucm.fdi.boxit.negocio.ValidarFormulario;
 
 public class Registro extends AppCompatActivity {
 
-    String email;
-    String username;
-    String password;
-    String passwordConfirm;
+    EditText email, username, password, passwordConfirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,10 @@ public class Registro extends AppCompatActivity {
 
 
         Button r = findViewById(R.id.buttonRegistrarse);
+        email = findViewById(R.id.reg_email);
+        username = findViewById(R.id.reg_nombre);
+        password = findViewById(R.id.reg_crear_contrasenya);
+        passwordConfirm = findViewById(R.id.reg_confirmar_contrasenya);
 
         r.setOnClickListener(new View.OnClickListener() {
 
@@ -36,9 +43,23 @@ public class Registro extends AppCompatActivity {
             public void onClick(View v) {
                 if(validar()){
                     //Registro valido
-                    //TODO hacer el registro en si en la BD
-                    Intent intent = new Intent(Registro.this, MainActivity.class);
-                    startActivity(intent);
+                    SAUser saUser = new SAUser();
+                    UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() );
+
+                    try{
+                        saUser.crearUsuario(userInfo);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent2 = new Intent(Registro.this, MainActivity.class);
+                                startActivity(intent2);
+                            }
+                        }, 2000);
+                    }catch (Exception e){
+                        Toast.makeText(Registro.this, "ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                    //Intent intent = new Intent(Registro.this, MainActivity.class);
+                    //startActivity(intent);
                 }
                 //Registro no valido
             }
@@ -47,7 +68,8 @@ public class Registro extends AppCompatActivity {
 
     private boolean validar(){
 
-        TextInputEditText e = findViewById(R.id.reg_email);
+        //LO HE PASADO  A EDITTEXT PARA AHORRARNOS ESTO
+        /*TextInputEditText e = findViewById(R.id.reg_email);
         TextInputEditText n = findViewById(R.id.reg_nombre);
         TextInputEditText c1 = findViewById(R.id.reg_crear_contrasenya);
         TextInputEditText c2 = findViewById(R.id.reg_confirmar_contrasenya);
@@ -59,7 +81,7 @@ public class Registro extends AppCompatActivity {
         editable = c1.getText();
         password = editable.toString();
         editable = c2.getText();
-        passwordConfirm = editable.toString();
+        passwordConfirm = editable.toString();*/
 
         TextInputLayout textInputLayoutEmail = findViewById(R.id.reg_email_lay);
         TextInputLayout textInputLayoutName = findViewById(R.id.reg_nombre_lay);
@@ -69,7 +91,7 @@ public class Registro extends AppCompatActivity {
         boolean ok = true;
 
         //TODO COMPROBAR QUE ESTO FUNCIONA PORQUE NO LO HE PROBADO y meterlo en otro lado !!!!
-        ValidarFormulario valid = new ValidarFormulario(this, email, username,password);
+        ValidarFormulario valid = new ValidarFormulario(this, email.getText().toString(), username.getText().toString(),password.getText().toString());
 
         if(!valid.isValidEmail()){
             //TODO DA ERROR mirar logs
