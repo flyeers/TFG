@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,8 +30,13 @@ import java.util.List;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.SAUser;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    Button verTodoCapsula, plus;
+    ImageButton perfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, Registro.class);
         //startActivity(intent);
 
-        Button plus = findViewById(R.id.button2);
+        plus = findViewById(R.id.button2);
         plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
         /*
         Intent intent = new Intent(this, LogIn.class);
@@ -118,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button verTodoCapsula = findViewById(R.id.verTodoCapsula);
+        verTodoCapsula = findViewById(R.id.verTodoCapsula);
         verTodoCapsula.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +134,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        perfil = findViewById(R.id.perfil1);
+
+        //CIERRA SESION POR AHORA !!!!! ES TEMPORAL *****************************
+        perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SAUser saUser = new SAUser();
+                saUser.cerrarSesion();
+            }
+        });
+
 
     }
 }

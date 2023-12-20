@@ -9,6 +9,7 @@
     <string name="noTienesCuenta">¿Do not have an account?</string>
     <string name="regis">Sign up</string>
     <string name="email">Email</string>
+    <string name="nombre">Name</string>
     <string name="nombreUsuario">User name</string>
     <string name="crearContraseña">Password</string>
     <string name="confirmarContraseña">Confirm password</string>
@@ -20,6 +21,7 @@
     <string name="passwordIncorrecto">Invalid password</string>
     <string name="userNameDuplicado">Existing username</string>
     <string name="userNameIncorrecto">Invalid username</string>
+    <string name="nameIncorrecto">Invalid name</string>
     <string name="o">or </string>
 
     <!--Main view-->

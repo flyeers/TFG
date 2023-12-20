@@ -24,19 +24,29 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="203dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/bienvenida"
                 android:textAppearance="@style/Logo"
                 android:textColor="@color/textoOscuro" />
+            <TextView
+                android:id="@+id/nombreUsuario"
+                android:layout_width="245dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textAppearance="@style/Logo"
+                android:textColor="@color/textoOscuro" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/perfil1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:backgroundTint="#00FFFFFF"
                 app:srcCompat="@drawable/user" />

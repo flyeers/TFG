@@ -1,15 +1,16 @@
 package es.ucm.fdi.boxit.negocio;
 
 public class UserInfo {
-    private String nombreUsuario, correo, contraseña;
+    private String nombreUsuario, correo, contraseña, nombre;
 
-    public UserInfo(String nombreUsuario, String correo, String contraseña){
+    public UserInfo(String nombreUsuario, String correo, String contraseña, String nombre){
         this.contraseña = contraseña;
         this.nombreUsuario = nombreUsuario;
         this.correo = correo;
+        this.nombre = nombre;
     }
 
-    //constructo para usuario ya creado
+    //constructor para usuario ya creado
 
     public UserInfo(){
 
@@ -24,6 +25,10 @@ public class UserInfo {
 
     public String getContraseña() {
         return contraseña;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
 

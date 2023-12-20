@@ -63,6 +63,20 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_nombrePers_lay"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/reg_nombrePers"
+                    style="@style/Formulario"
+                    android:fontFamily="@font/interregular"
+                    android:hint="@string/nombre"
+                    android:textColorHint="@color/textoOscuro" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_nombre_lay"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
