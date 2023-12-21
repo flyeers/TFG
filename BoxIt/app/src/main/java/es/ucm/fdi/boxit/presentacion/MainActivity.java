@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,14 +31,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SAUser;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
 
 
     Button verTodoCapsula, plus;
     ImageButton perfil;
+    TextView nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        //Intent intent = new Intent(this, Registro.class);
-        //startActivity(intent);
+        nombre = findViewById(R.id.nombreUsuario);
+        SAUser saUser = new SAUser();
+        saUser.infoUsuario(currentUser.getEmail().toString(), new Callbacks() {
+            @Override
+            public void onCallback(UserInfo u) {
+                nombre.setText(u.getNombre());
+            }
+        });
+
+
 
         plus = findViewById(R.id.button2);
         plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
@@ -141,8 +154,12 @@ public class MainActivity extends AppCompatActivity {
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("CLAU", "aquii");
                 SAUser saUser = new SAUser();
                 saUser.cerrarSesion();
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, MainActivity.class);
+                startActivity(intent);
             }
         });
 

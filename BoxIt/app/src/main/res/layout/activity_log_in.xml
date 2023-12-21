@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/contrasenya"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:textColorHint="@color/textoOscuro"
             android:fontFamily="@font/interregular"
 

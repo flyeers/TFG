@@ -35,6 +35,9 @@ public class UserInfo {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public void setCorreo(String correo) {
         this.correo = correo;
