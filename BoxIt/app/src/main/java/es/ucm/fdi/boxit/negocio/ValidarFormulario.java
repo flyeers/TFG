@@ -6,6 +6,8 @@ import android.util.Patterns;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.ucm.fdi.boxit.integracion.Callbacks;
+
 public class ValidarFormulario {
     String email;
     String username;
@@ -23,9 +25,17 @@ public class ValidarFormulario {
     }
 
     public boolean isValidUserName(){
-        //TODO HACE FALTA REVISAR QUE EL USERNAME NO ESTE YA EN LA BD
-        return username != null && !username.trim().isEmpty();
+
+        String regex = "^[\\d\\p{L}-]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(username);
+        if(username == null || username.trim().isEmpty()){return false;}
+       else if (!matcher.matches()) { return false;}
+
+        return true;
     }
+
+
 
     public boolean isValidName(){
 

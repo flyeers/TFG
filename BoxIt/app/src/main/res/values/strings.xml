@@ -22,6 +22,7 @@
     <string name="userNameIncorrecto">Nombre de usuario incorrecto</string>
     <string name="nameIncorrecto">Nombre incorrecto</string>
     <string name="o">o </string>
+    <string name="patronContraseña">La contraseña debe contener almenos 11 caracteres, un número y una mayúscula </string>
 
     <!--Vista principal-->
     <string name="bienvenida">Hola</string>

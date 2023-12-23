@@ -108,9 +108,19 @@
                     android:textColorHint="@color/textoOscuro" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:layout_marginRight="55dp"
+                android:fontFamily="@font/interregular"
+                android:textSize="11dp"
+                android:text="@string/patronContraseña" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_confirmar_contrasenya_lay"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

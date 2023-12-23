@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.concurrent.CountDownLatch;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -20,6 +23,7 @@ import es.ucm.fdi.boxit.negocio.ValidarFormulario;
 public class Registro extends AppCompatActivity {
 
     EditText email, username, password, passwordConfirm, name;
+    boolean ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +69,14 @@ public class Registro extends AppCompatActivity {
     private boolean validar(){
 
 
-
         TextInputLayout textInputLayoutEmail = findViewById(R.id.reg_email_lay);
         TextInputLayout textInputLayoutName = findViewById(R.id.reg_nombre_lay);
         TextInputLayout textInputLayoutPassword = findViewById(R.id.reg_contrasenya_lay);
         TextInputLayout textInputLayoutConfirmPassword = findViewById(R.id.reg_confirmar_contrasenya_lay);
         TextInputLayout textInputLayoutNamePersona = findViewById(R.id.reg_nombrePers_lay);
+        CountDownLatch latch = new CountDownLatch(1);
 
-
-
-        boolean ok = true;
+        ok = true;
 
 
         ValidarFormulario valid = new ValidarFormulario(this, email.getText().toString(), username.getText().toString(),password.getText().toString(), name.getText().toString());
@@ -96,14 +98,6 @@ public class Registro extends AppCompatActivity {
             textInputLayoutNamePersona.setError(null);
         }
 
-        if(!valid.isValidUserName()){
-            textInputLayoutName.setError(getString(R.string.userNameIncorrecto));
-            ok = false;
-        }
-        else{
-            textInputLayoutName.setError(null);
-        }
-
         if(!valid.isValidPassword()){
             textInputLayoutPassword.setError(getString(R.string.passwordIncorrecto));
             ok = false;
@@ -119,6 +113,32 @@ public class Registro extends AppCompatActivity {
                 textInputLayoutConfirmPassword.setError(null);
             }
         }
+
+        if(!valid.isValidUserName()){
+            textInputLayoutName.setError(getString(R.string.userNameIncorrecto));
+            ok = false;
+        }
+        else{
+            SAUser saUser = new SAUser();
+            saUser.getUsuarioByUsername(username.getText().toString(), new Callbacks() {
+                @Override
+                public void onCallbackExito(Boolean exito) {
+                    if(exito){
+                        Log.d("CLAU", "nombre ya se usa");
+                        textInputLayoutName.setError(getString(R.string.userNameDuplicado));
+                        ok = false;
+                    }
+                    else{
+                        textInputLayoutName.setError(null);
+                    }
+
+                }
+            });
+
+
+        }
+
+
         return ok;
     }
 

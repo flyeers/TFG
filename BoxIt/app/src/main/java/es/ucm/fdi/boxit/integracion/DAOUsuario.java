@@ -111,14 +111,26 @@ public class DAOUsuario {
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(NOMBRE_USU,
                 username).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                for (QueryDocumentSnapshot d: task.getResult()){
 
-                    userInfo.setNombre(d.get(NOMBRE).toString());
-                    userInfo.setCorreo(d.get(CORREO).toString());
+                if(!task.getResult().isEmpty()){
+                    Log.d("CLAU", "ELUSUARIOEXISTE");
+                    for (QueryDocumentSnapshot d: task.getResult()){
 
+                        userInfo.setNombre(d.get(NOMBRE).toString());
+                        userInfo.setCorreo(d.get(CORREO).toString());
+
+                    }
+
+                    cb.onCallback(userInfo);
+                    cb.onCallbackExito(true);
+                }
+                else{
+                    cb.onCallbackExito(false);
                 }
 
-                cb.onCallback(userInfo);
+            }
+            else{
+                cb.onCallbackExito(false);
             }
         });
 
@@ -158,9 +170,5 @@ public class DAOUsuario {
         });
     }
 
-    public void loginUserName(String username, String contraseña, Callbacks cb){
-
-
-    }
 
 }

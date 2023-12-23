@@ -55,22 +55,23 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LogIn.class);
             startActivity(intent);
         }
+        else{
 
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
 
-        nombre = findViewById(R.id.nombreUsuario);
-        SAUser saUser = new SAUser();
-        saUser.infoUsuario(currentUser.getEmail().toString(), new Callbacks() {
-            @Override
-            public void onCallback(UserInfo u) {
-                nombre.setText(u.getNombre());
-            }
-        });
+            nombre = findViewById(R.id.nombreUsuario);
+            SAUser saUser = new SAUser();
+            saUser.infoUsuario(currentUser.getEmail().toString(), new Callbacks() {
+                @Override
+                public void onCallback(UserInfo u) {
+                    nombre.setText(u.getNombre());
+                }
+            });
 
 
 
-        plus = findViewById(R.id.button2);
-        plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+            plus = findViewById(R.id.button2);
+            plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
         /*
         Intent intent = new Intent(this, LogIn.class);
         startActivity(intent);*/
@@ -90,78 +91,81 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });*/
 
-        BoxInfo boxAdd = new BoxInfo("ADD", "");
-        BoxInfo box1 = new BoxInfo("prueba", "");
-        BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", "");
-        BoxInfo box3 = new BoxInfo("help", "");
-        ArrayList<BoxInfo> a = new ArrayList<>();
-        a.add(boxAdd);
-        a.add(box1);
-        a.add(box2);
-        a.add(box3);
+            BoxInfo boxAdd = new BoxInfo("ADD", "");
+            BoxInfo box1 = new BoxInfo("prueba", "");
+            BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", "");
+            BoxInfo box3 = new BoxInfo("help", "");
+            ArrayList<BoxInfo> a = new ArrayList<>();
+            a.add(boxAdd);
+            a.add(box1);
+            a.add(box2);
+            a.add(box3);
 
-        BoxAdapter b = new BoxAdapter();
-        b.setBoxData(a, false, true);
-        RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
-        recyclerView2.setAdapter(b);
-
-
-
-        BoxAdapter b2 = new BoxAdapter();
-        b2.setBoxData(a, true,true);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
-        recyclerView.setAdapter(b2);
+            BoxAdapter b = new BoxAdapter();
+            b.setBoxData(a, false, true);
+            RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
+            recyclerView2.setAdapter(b);
 
 
 
-        BoxAdapter b3 = new BoxAdapter();
-        b3.setBoxData(a, true,true);
-        RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
-        recyclerView3.setAdapter(b3);
+            BoxAdapter b2 = new BoxAdapter();
+            b2.setBoxData(a, true,true);
+            RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
+            recyclerView.setAdapter(b2);
 
-        //Este Layout no se vera si no hay ninguna caja compartida
+
+
+            BoxAdapter b3 = new BoxAdapter();
+            b3.setBoxData(a, true,true);
+            RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
+            recyclerView3.setAdapter(b3);
+
+            //Este Layout no se vera si no hay ninguna caja compartida
         /*LinearLayout lShare = findViewById(R.id.layoutShare);
         lShare.setVisibility(View.GONE);
         recyclerView3.setVisibility(View.GONE);*/
 
-        //VER ALL
+            //VER ALL
 
-        Button verTodoCaja = findViewById(R.id.verTodoCaja);
-        verTodoCaja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context ctx = v.getContext();
-                Intent intent = new Intent(ctx, VerTodoCaja.class);
-                ctx.startActivity(intent);
+            Button verTodoCaja = findViewById(R.id.verTodoCaja);
+            verTodoCaja.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
+                    Intent intent = new Intent(ctx, VerTodoCaja.class);
+                    ctx.startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        verTodoCapsula = findViewById(R.id.verTodoCapsula);
-        verTodoCapsula.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context ctx = v.getContext();
-                Intent intent = new Intent(ctx, VerTodoCapsula.class);
-                ctx.startActivity(intent);
+            verTodoCapsula = findViewById(R.id.verTodoCapsula);
+            verTodoCapsula.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
+                    Intent intent = new Intent(ctx, VerTodoCapsula.class);
+                    ctx.startActivity(intent);
 
-            }
-        });
+                }
+            });
 
-        perfil = findViewById(R.id.perfil1);
+            perfil = findViewById(R.id.perfil1);
 
-        //CIERRA SESION POR AHORA !!!!! ES TEMPORAL *****************************
-        perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CLAU", "aquii");
-                SAUser saUser = new SAUser();
-                saUser.cerrarSesion();
-                Context ctx = v.getContext();
-                Intent intent = new Intent(ctx, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+            //CIERRA SESION POR AHORA !!!!! ES TEMPORAL *****************************
+            perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    SAUser saUser = new SAUser();
+                    saUser.cerrarSesion();
+                    Context ctx = v.getContext();
+                    Intent intent = new Intent(ctx, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
 
 
     }
