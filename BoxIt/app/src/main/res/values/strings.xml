@@ -55,5 +55,10 @@
     <string name="mine">Mias</string>
     <string name="compartidas">Compartidas conmigo</string>
 
+    <!--Perfil-->
+    <string name="editarPerf">Editar perfil</string>
+    <string name="cerrar">Cerrar sesión</string>
+
+
 
 </resources>

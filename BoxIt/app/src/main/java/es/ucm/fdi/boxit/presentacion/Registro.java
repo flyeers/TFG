@@ -43,30 +43,36 @@ public class Registro extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(validar()){
-                    //Registro valido
-                    SAUser saUser = new SAUser();
-                    UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString());
+                validar(new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito1) {
+                        if(exito1){
+                            //Registro valido
+                            SAUser saUser = new SAUser();
+                            UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString());
 
-                    saUser.crearUsuario(userInfo, new Callbacks() {
-                        @Override
-                        public void onCallbackExito(Boolean exito) {
-                            if(exito){
-                                Intent intent2 = new Intent(Registro.this, MainActivity.class);
-                                startActivity(intent2);
-                            }
-                            else{
-                                Toast.makeText(Registro.this, "ERROR", Toast.LENGTH_SHORT).show();
-                            }
+                            saUser.crearUsuario(userInfo, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito2) {
+                                    if(exito2){
+                                        Intent intent2 = new Intent(Registro.this, MainActivity.class);
+                                        startActivity(intent2);
+                                    }
+                                    else{
+                                        Toast.makeText(Registro.this, "ERROR", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
+
                 // TODO Registro no valido
             }
         });
     }
 
-    private boolean validar(){
+    private void validar(Callbacks cb){
 
 
         TextInputLayout textInputLayoutEmail = findViewById(R.id.reg_email_lay);
@@ -81,42 +87,10 @@ public class Registro extends AppCompatActivity {
 
         ValidarFormulario valid = new ValidarFormulario(this, email.getText().toString(), username.getText().toString(),password.getText().toString(), name.getText().toString());
 
-        if(!valid.isValidEmail()){
-            //TODO DA ERROR mirar logs
-            textInputLayoutEmail.setError(getString(R.string.emailIncorrecto));
-            ok = false;
-        }
-        else{
-            textInputLayoutEmail.setError(null);
-        }
-
-        if(!valid.isValidName()){
-            textInputLayoutNamePersona.setError(getString(R.string.nameIncorrecto));
-            ok = false;
-        }
-        else{
-            textInputLayoutNamePersona.setError(null);
-        }
-
-        if(!valid.isValidPassword()){
-            textInputLayoutPassword.setError(getString(R.string.passwordIncorrecto));
-            ok = false;
-        }
-        else{
-            textInputLayoutPassword.setError(null);
-            //si la contraseña es valida miramos el confirmar contraseña, si no no haria falta
-            if(!passwordConfirm.getText().toString().equals(password.getText().toString())){
-                textInputLayoutConfirmPassword.setError(getString(R.string.contraseñasDiferentes));
-                ok = false;
-            }
-            else{
-                textInputLayoutConfirmPassword.setError(null);
-            }
-        }
-
         if(!valid.isValidUserName()){
             textInputLayoutName.setError(getString(R.string.userNameIncorrecto));
-            ok = false;
+            //ok = false;
+            cb.onCallbackExito(false);
         }
         else{
             SAUser saUser = new SAUser();
@@ -126,10 +100,46 @@ public class Registro extends AppCompatActivity {
                     if(exito){
                         Log.d("CLAU", "nombre ya se usa");
                         textInputLayoutName.setError(getString(R.string.userNameDuplicado));
-                        ok = false;
+                        //ok = false;
+                        cb.onCallbackExito(false);
                     }
                     else{
                         textInputLayoutName.setError(null);
+                        if(!valid.isValidEmail()){
+                            //TODO DA ERROR mirar logs
+                            textInputLayoutEmail.setError(getString(R.string.emailIncorrecto));
+                            ok = false;
+                        }
+                        else{
+                            textInputLayoutEmail.setError(null);
+                        }
+
+                        if(!valid.isValidName()){
+                            textInputLayoutNamePersona.setError(getString(R.string.nameIncorrecto));
+                            ok = false;
+                        }
+                        else{
+                            textInputLayoutNamePersona.setError(null);
+                        }
+
+                        if(!valid.isValidPassword()){
+                            textInputLayoutPassword.setError(getString(R.string.passwordIncorrecto));
+                            ok = false;
+                        }
+                        else{
+                            textInputLayoutPassword.setError(null);
+                            //si la contraseña es valida miramos el confirmar contraseña, si no no haria falta
+                            if(!passwordConfirm.getText().toString().equals(password.getText().toString())){
+                                textInputLayoutConfirmPassword.setError(getString(R.string.contraseñasDiferentes));
+                                ok = false;
+                            }
+                            else{
+                                textInputLayoutConfirmPassword.setError(null);
+                            }
+                        }
+
+                        if(ok){ cb.onCallbackExito(true);}
+                        else{ cb.onCallbackExito(false);}
                     }
 
                 }
@@ -139,7 +149,7 @@ public class Registro extends AppCompatActivity {
         }
 
 
-        return ok;
+        //return ok;
     }
 
 

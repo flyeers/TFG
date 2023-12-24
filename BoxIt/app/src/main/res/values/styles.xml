@@ -63,6 +63,19 @@
 
     </style>
 
+    <style name="FondoPerfilView">
+
+        <item name = "android:layout_width">540dp</item>
+        <item name="android:layout_height">400dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginLeft">-75dp</item>
+        <item name="android:layout_marginTop">-156dp</item>
+        <item name="android:background">@drawable/shape_ellipse</item>
+
+
+    </style>
+
     <style name="TituloFondo">
         <item name="android:textSize">32sp</item>
         <item name="android:textColor">@color/rosaBoton</item>
@@ -104,6 +117,12 @@
         <item name="android:textColorHint">@color/grisForm</item>
         <item name="android:textColor">@color/rosaBoton</item>
 
+    </style>
+
+    <style name="EstiloMenu">
+        <item name="android:background">@color/rosaBotonClaro</item>
+        <item name="android:textColor">@color/rosaBoton</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
 </resources>

@@ -156,10 +156,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    SAUser saUser = new SAUser();
-                    saUser.cerrarSesion();
                     Context ctx = v.getContext();
-                    Intent intent = new Intent(ctx, MainActivity.class);
+                    Intent intent = new Intent(ctx, Perfil.class);
                     startActivity(intent);
                 }
             });
