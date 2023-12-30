@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -161,6 +165,44 @@ public class MainActivity extends AppCompatActivity {
                     Context ctx = v.getContext();
                     Intent intent = new Intent(ctx, Perfil.class);
                     startActivity(intent);
+                }
+            });
+
+            plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
+                    ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(ctx, R.style.EstiloMenu);
+                    PopupMenu popup = new PopupMenu(contextThemeWrapper, v);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.add_menu, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            int id = item.getItemId();
+                            if(id == R.id.nuevaCajaMenu){
+
+                                boolean isBox = true;
+                                Intent intent = new Intent(ctx, Crear.class);
+                                intent.putExtra("TIPO", isBox);
+                                ctx.startActivity(intent);
+                                return true;
+                            }
+                            else if(id == R.id.nuevaCapsulaMenu){
+                                boolean isBox = false;
+                                Intent intent = new Intent(ctx, Crear.class);
+                                intent.putExtra("TIPO", isBox);
+                                ctx.startActivity(intent);
+
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                    popup.show();
                 }
             });
         }

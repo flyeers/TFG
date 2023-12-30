@@ -62,5 +62,12 @@
     <string name="editarPerf">Edit profile</string>
     <string name="cerrar">Log out</string>
 
+    <!--Elementos-->
+    <string name="camara">Camera</string>
+    <string name="galeria">Photos and videos</string>
+    <string name="musica">Music</string>
+    <string name="notas">Notes</string>
+    <string name="docs">Documents</string>
+
 
 </resources>

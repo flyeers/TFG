@@ -18,7 +18,7 @@
             android:id="@+id/nombre_caja_tit"
             style="@style/TituloFondo"
             android:layout_marginTop="-100dp"
-            android:text="Nombre de la caja" />
+            android:text="@string/CajaTitulo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_nombre"

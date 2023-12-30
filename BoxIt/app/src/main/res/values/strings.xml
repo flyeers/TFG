@@ -61,6 +61,12 @@
     <string name="editarPerf">Editar perfil</string>
     <string name="cerrar">Cerrar sesión</string>
 
+    <!--Elementos-->
+    <string name="camara">Camara</string>
+    <string name="galeria">Fotos y videos</string>
+    <string name="musica">Música</string>
+    <string name="notas">Notas</string>
+    <string name="docs">Documentos</string>
 
 
 </resources>
