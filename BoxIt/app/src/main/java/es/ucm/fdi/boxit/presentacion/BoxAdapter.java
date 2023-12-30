@@ -16,7 +16,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,7 +147,7 @@ public class BoxAdapter extends RecyclerView.Adapter{
                 h1.titulo.setText(box.getTitle());
                 Glide.with(h1.cardView)
                         .load(box.getImg())
-                        .placeholder(R.drawable.img_asturias)
+                        .placeholder(R.drawable.default_image)
                         .into(h1.imagen);
 
                 h1.cardView.setOnClickListener(new View.OnClickListener() {

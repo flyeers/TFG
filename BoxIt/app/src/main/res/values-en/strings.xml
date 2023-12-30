@@ -48,6 +48,8 @@
     <string name="cerrarse">close</string>
     <string name="fechaApertura">Open date</string>
     <string name="fechaCierre">Close date</string>
+    <string name="requerido">Required field</string>
+    <string name="errCrearCaja">The box could not be created</string>
 
     <!--Ver all-->
     <string name="cajas">Boxes</string>

@@ -47,6 +47,8 @@
     <string name="cerrarse">cerrarse</string>
     <string name="fechaApertura">Fecha de apertura</string>
     <string name="fechaCierre">Fecha de cierre</string>
+    <string name="requerido">Campo obligatorio</string>
+    <string name="errCrearCaja">No se ha podido crear la caja</string>
 
     <!--Ver all-->
     <string name="cajas">Cajas</string>

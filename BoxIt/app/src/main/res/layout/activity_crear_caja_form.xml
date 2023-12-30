@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <View
+        <ImageView
             android:id="@+id/ellipse_13"
             style="@style/FondoBase" />
 
@@ -41,6 +41,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/btnAddImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -107,17 +108,17 @@
         <Button
             android:id="@+id/CrearCajaBTN"
             android:layout_width="match_parent"
-            android:background="@drawable/button_shape"
             android:layout_height="53dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/interbold"
-            android:elevation="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/rosaFormulario"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/rosaBoton"
             android:clickable="true"
-            android:text="@string/crearCaja" />
+            android:elevation="5dp"
+            android:fontFamily="@font/interbold"
+            android:text="@string/crearCaja"
+            android:textColor="@color/rosaFormulario"
+            android:textSize="20dp" />
 
 
     </LinearLayout>

@@ -11,6 +11,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
@@ -27,6 +30,12 @@ public class DAOUsuario {
     private final String CORREO = "correo";
     private final String COL_USERS = "users";
     private final String TOKEN = "token";
+    private final String CAJAS_PROPIAS = "boxes";
+    private final String CAJAS_COMPARTIDAS = "boxes_shared";
+    private final String CAPSULAS_PROPIAS = "capsules";
+    private final String CAPSULAS_COMPARTIDAS = "capsules_shared";
+
+
 
     public DAOUsuario(){
         this.mAuth = FirebaseAuth.getInstance();
@@ -60,6 +69,16 @@ public class DAOUsuario {
                                         data.put(CORREO, usuarioInsertar.getCorreo());
                                         data.put(NOMBRE, usuarioInsertar.getNombre());
                                         data.put(TOKEN, token);
+
+                                        //instanciamos y metemos las listas de cajas
+                                        ArrayList<String> boxProp = new ArrayList<>();
+                                        ArrayList<String> boxComp = new ArrayList<>();
+                                        ArrayList<String> capProp = new ArrayList<>();
+                                        ArrayList<String> capComp = new ArrayList<>();
+                                        data.put(CAJAS_PROPIAS, boxProp);
+                                        data.put(CAJAS_COMPARTIDAS, boxComp);
+                                        data.put(CAPSULAS_PROPIAS, capProp);
+                                        data.put(CAPSULAS_COMPARTIDAS, capComp);
 
                                         //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
                                         SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
@@ -169,6 +188,24 @@ public class DAOUsuario {
             }
         });
     }
+
+    /*
+    public void insertBox(String correo, String idBox, boolean propia){
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    String userID = d.getId();
+                    if(propia){
+                        usersCollection.document(userID).update(CAJAS_PROPIAS, FieldValue.arrayUnion(idBox));
+                    }
+                    else{
+                        usersCollection.document(userID).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(idBox));
+                    }
+                }
+            }
+        });
+    }*/
 
 
 }

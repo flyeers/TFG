@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,10 +92,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });*/
 
-            BoxInfo boxAdd = new BoxInfo("ADD", "");
-            BoxInfo box1 = new BoxInfo("prueba", "");
-            BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", "");
-            BoxInfo box3 = new BoxInfo("help", "");
+            android.net.Uri img = null;
+            BoxInfo boxAdd = new BoxInfo("ADD", img);
+            BoxInfo box1 = new BoxInfo("prueba", img);
+            BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", img);
+            BoxInfo box3 = new BoxInfo("help", img);
             ArrayList<BoxInfo> a = new ArrayList<>();
             a.add(boxAdd);
             a.add(box1);
