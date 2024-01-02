@@ -125,4 +125,14 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
+    <style name="titulosVista">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/rosaBoton</item>
+        <item name="android:fontFamily">@font/interbold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+
+    </style>
+
 </resources>

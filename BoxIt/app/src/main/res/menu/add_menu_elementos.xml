@@ -9,14 +9,15 @@
         android:id="@+id/addGaleria"
         android:icon="@drawable/photo"
         android:title="@string/galeria" />
-    <item
-        android:id="@+id/addDoc"
-        android:title="@string/docs" />
+
     <item
         android:id="@+id/addMusic"
         android:title="@string/musica" />
     <item
         android:id="@+id/addNote"
         android:title="@string/notas" />
+    <item
+        android:id="@+id/addAudio"
+        android:title="@string/audio" />
 
 </menu>

@@ -153,7 +153,10 @@ public class BoxAdapter extends RecyclerView.Adapter{
                 h1.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("YOOOOOOOO", "SOY CARDDD");
+                        Context ctx = v.getContext();
+                        Intent intent = new Intent(ctx, Caja.class);
+                        ctx.startActivity(intent);
+
                     }
                 });
                 break;

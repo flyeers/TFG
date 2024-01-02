@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import es.ucm.fdi.boxit.R;
 public class Caja extends AppCompatActivity {
 
     private Button add;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int CAMERA_REQUEST_CODE = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,19 +42,30 @@ public class Caja extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
 
                         int id = item.getItemId();
-                        if(id == R.id.nuevaCajaMenu){
+                        if(id == R.id.addCamara){
+                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
 
-                            boolean isBox = true;
-                            Intent intent = new Intent(ctx, Crear.class);
-                            intent.putExtra("TIPO", isBox);
-                            ctx.startActivity(intent);
                             return true;
                         }
-                        else if(id == R.id.nuevaCapsulaMenu){
-                            boolean isBox = false;
-                            Intent intent = new Intent(ctx, Crear.class);
-                            intent.putExtra("TIPO", isBox);
-                            ctx.startActivity(intent);
+                        else if(id == R.id.addGaleria){
+                            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+                            startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+
+                            return true;
+                        }
+                        else if(id == R.id.addMusic){
+
+
+                            return true;
+                        }
+                        else if(id == R.id.addNote){
+
+
+                            return true;
+                        }
+                        else if(id == R.id.addAudio){
+
 
                             return true;
                         }

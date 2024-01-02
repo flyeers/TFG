@@ -67,6 +67,16 @@
     <string name="musica">Música</string>
     <string name="notas">Notas</string>
     <string name="docs">Documentos</string>
+    <string name="fot">Fotos</string>
+    <string name="vid">Videos</string>
+    <string name="audio">Audio</string>
+
+    <!--titulos-->
+    <string name="delacaja">de la caja</string>
+    <string name="delacapsula">de la capsula</string>
+    <string name="tododelacapsula">Contenido de la cápsula</string>
+    <string name="tododelacaja">Contenido de la caja</string>
+
 
 
 </resources>

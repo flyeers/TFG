@@ -68,6 +68,15 @@
     <string name="musica">Music</string>
     <string name="notas">Notes</string>
     <string name="docs">Documents</string>
+    <string name="fot">Photos</string>
+    <string name="vid">Video</string>
+    <string name="audio">Audio</string>
+
+    <!--titulos-->
+    <string name="delacaja">from the box</string>
+    <string name="delacapsula">from the capsule</string>
+    <string name="tododelacapsula">Capsule content</string>
+    <string name="tododelacaja">Box content</string>
 
 
 </resources>
