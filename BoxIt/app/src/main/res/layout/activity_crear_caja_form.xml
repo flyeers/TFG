@@ -10,13 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ellipse_13"
             style="@style/FondoBase" />
 
         <TextView
             android:id="@+id/nombre_caja_tit"
             style="@style/TituloFondo"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="-100dp"
             android:text="@string/CajaTitulo" />
 
@@ -27,17 +29,18 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="60dp"
+            >
 
             <EditText
                 android:id="@+id/nombre_caja_input"
                 style="@style/editTextForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor = "@color/textoOscuro"
-                android:textColorHint="@color/grisForm"
                 android:hint="@string/NombreCaja"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/textoOscuro"
+                android:textColorHint="@color/grisForm" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -68,6 +71,7 @@
                 android:text="@string/selectImg" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/btnAddCol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
