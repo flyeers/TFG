@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardUser"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_collaborator">
 
     <LinearLayout
         android:layout_width="70dp"
@@ -9,11 +11,11 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
 
-        <View
+        <ImageView
+            android:id="@+id/imgPerfil"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/shape_collaborator">
-        </View>
+            android:background="@drawable/shape_collaborator"></ImageView>
 
         <TextView
             android:id="@+id/nombreColaborador"
@@ -21,21 +23,20 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/interregular"
             android:gravity="center"
+            android:text=""
             android:textColor="@color/rosaBotonClaro"
-            android:textSize="12dp"
-            android:text=""/>
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/letraNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/interbold"
-            android:textSize="30dp"
-            android:textColor="@color/fondoClaro"
             android:layout_marginTop="-75dp"
+            android:fontFamily="@font/interbold"
             android:gravity="center"
-            android:text="" />
-
+            android:text=""
+            android:textColor="@color/fondoClaro"
+            android:textSize="30dp" />
 
 
     </LinearLayout>

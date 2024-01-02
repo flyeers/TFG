@@ -1,17 +1,19 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.UrlQuerySanitizer;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
+import java.util.ArrayList;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -33,9 +39,9 @@ public class CrearCajaForm extends AppCompatActivity {
     private TextView nombreCajaTitulo;
 
     private Button btnCrear;
-    private LinearLayout btnAddImg;
+    private LinearLayout btnAddImg, btnAddColaborator;
 
-    private ImageView elipse;
+    private ImageView ellipse;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -76,6 +82,40 @@ public class CrearCajaForm extends AppCompatActivity {
             }
         });
 
+        //COLABORADORES //TODO
+        btnAddColaborator = findViewById(R.id.btnAddCol);
+        btnAddColaborator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CrearCajaForm.this);
+                builder.setTitle("AÑADIR COLABORADOR");
+                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //AÑADIR A UN ARRAY
+                    }
+                });
+                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+            }
+        });
+        //lista de colaboradores
+
+        //TODO CAMBIAR - lo q hay q coger (y en el modal no aqui), es la lista amigos del usuario
+        ArrayList<Pair<String, String>> users = new ArrayList<Pair<String, String>>();
+        users.add(new Pair<>("Pepe03", ""));
+        UsersAdapter u = new UsersAdapter();
+        u.setUserData(users);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
+        recyclerView.setAdapter(u);
+
+
         //CREAR
         btnCrear = findViewById(R.id.CrearCajaBTN);
         btnCrear.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +126,8 @@ public class CrearCajaForm extends AppCompatActivity {
                     nombreCajaInput.setError(getString(R.string.requerido));
                 }
                 else{
-                    //TODO coger solaboradores
+                    //TODO coger colaboradores
+
 
 
                     SABox saBox = new SABox();
@@ -118,12 +159,16 @@ public class CrearCajaForm extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //seleccionamos la imagen y la sustituimos
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            elipse = findViewById(R.id.ellipse_13);
+            ellipse = findViewById(R.id.ellipse_13);
             Uri selectedImageUri = data.getData();
-            Glide.with(this)
+            /*Glide.with(this)
                     .load(selectedImageUri)
                     .centerCrop()
-                    .into(elipse);
+                    .into(elipse);*/
+            Glide.with(this)
+                    .load(selectedImageUri)
+                    .transform(new CenterCrop(), new RoundedCorners(5000))
+                    .into(ellipse);
             selectedImage = data.getData();
         }
     }

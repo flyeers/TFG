@@ -27,7 +27,7 @@ public class DAOBox {
     private final String NOMBRE = "nombre";
     private final String PORTADA = "cover";
     private final String COLABORADORES = "colaborators";
-    private final String COL_BOX = "colaborators";
+    private final String COL_BOX = "boxes";
     private final String COL_USERS = "users";
 
     private final String CAJAS_PROPIAS = "boxes";
