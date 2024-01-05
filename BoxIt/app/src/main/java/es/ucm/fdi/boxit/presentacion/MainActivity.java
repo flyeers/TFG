@@ -107,20 +107,43 @@ public class MainActivity extends AppCompatActivity {
             a.add(box2);
             a.add(box3);
 
+            /////////////////////////// CAPSULAS ///////////////////////////////
             BoxAdapter b = new BoxAdapter();
             b.setBoxData(a, false, true);
             RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
             recyclerView2.setAdapter(b);
 
 
-
+            /////////////////////////// CAJAS ///////////////////////////////
             BoxAdapter b2 = new BoxAdapter();
+            ArrayList<BoxInfo> boxes = new ArrayList<>();
+
+
+            //card para la card de añadir caja
+           // b2.setBoxData(a, true,true);
+            //android.net.Uri selectedImage=null;
+           // BoxInfo boxAdd = new BoxInfo("", selectedImage);
+
+            boxes.add(boxAdd);
+
+            saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
+                @Override
+                public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
+                    boxes.addAll(bs);
+                    b2.setBoxData(boxes, true, true);
+                    RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
+                    recyclerView.setAdapter(b2);
+                }
+            });
+
+
+            /*BoxAdapter b2 = new BoxAdapter();
             b2.setBoxData(a, true,true);
             RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
-            recyclerView.setAdapter(b2);
+            recyclerView.setAdapter(b2);*/
 
 
-
+            /////////////////////////// COMPARTIDO ///////////////////////////////
             BoxAdapter b3 = new BoxAdapter();
             b3.setBoxData(a, true,true);
             RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);

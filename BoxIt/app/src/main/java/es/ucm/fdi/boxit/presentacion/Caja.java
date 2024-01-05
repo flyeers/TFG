@@ -12,14 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.negocio.BoxInfo;
 
 public class Caja extends AppCompatActivity {
 
     private Button add;
+    private TextView nombre;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST_CODE = 123;
+
+    private BoxInfo boxInfo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +34,11 @@ public class Caja extends AppCompatActivity {
 
         add = findViewById(R.id.buttonAdd2);
         add.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+
+
+       // boxInfo = (BoxInfo) getIntent().getSerializableExtra("boxInfo");
+       //nombre.findViewById(R.id.nombre_caja);
+       // nombre.setText(boxInfo.getTitle());
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

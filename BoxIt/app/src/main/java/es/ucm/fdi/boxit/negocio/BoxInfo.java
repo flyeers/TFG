@@ -1,8 +1,9 @@
 package es.ucm.fdi.boxit.negocio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BoxInfo {
+public class BoxInfo{
 
     private String title;
     private android.net.Uri img;

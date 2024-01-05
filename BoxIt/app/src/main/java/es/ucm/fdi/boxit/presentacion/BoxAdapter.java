@@ -153,8 +153,10 @@ public class BoxAdapter extends RecyclerView.Adapter{
                 h1.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        BoxInfo selectedBox = boxesData.get(holder.getAdapterPosition());
                         Context ctx = v.getContext();
                         Intent intent = new Intent(ctx, Caja.class);
+                      //  intent.putExtra("boxInfo", selectedBox);
                         ctx.startActivity(intent);
 
                     }

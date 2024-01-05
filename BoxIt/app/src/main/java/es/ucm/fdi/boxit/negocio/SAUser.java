@@ -30,4 +30,9 @@ public class SAUser {
         DAOUsuario dao = new DAOUsuario();
         dao.getUsuarioByUserName(username, cb);
     }
+
+    public void getBoxes(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getUserBoxes(correo, cb);
+    }
 }

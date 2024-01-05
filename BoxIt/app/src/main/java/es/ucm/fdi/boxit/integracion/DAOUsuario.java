@@ -18,8 +18,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class DAOUsuario {
@@ -207,5 +210,40 @@ public class DAOUsuario {
         });
     }*/
 
+
+    public void getUserBoxes(String correo, Callbacks cb){
+        ArrayList<BoxInfo> boxes = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        DAOBox daoBox = new DAOBox();
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array el documento del usuario
+                    List<String> idCajas = (List<String>) d.get(CAJAS_PROPIAS);
+                    AtomicInteger count = new AtomicInteger(idCajas.size());
+                    for(String caja: idCajas){
+
+                        daoBox.getBoxById(caja, new Callbacks() {
+                            @Override
+                            public void onCallbackBox(BoxInfo b) {
+                                if( b != null){
+                                    boxes.add(b);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    // Todas lñas cajas se han cargado, llamar al callback
+                                    cb.onCallbackBoxes(boxes);
+                                }
+                            }
+                        });
+
+                    }
+                    //ninguna caja
+                    cb.onCallbackBoxes(boxes);
+
+                }
+            }
+        });
+    }
 
 }

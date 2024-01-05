@@ -11,4 +11,9 @@ public class SABox {
         dao.createBox(b,cb);
     }
 
+    public void getBoxById(String id, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getBoxById(id, cb);
+    }
+
 }
