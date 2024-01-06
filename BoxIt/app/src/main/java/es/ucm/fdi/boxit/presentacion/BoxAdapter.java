@@ -156,7 +156,7 @@ public class BoxAdapter extends RecyclerView.Adapter{
                         BoxInfo selectedBox = boxesData.get(holder.getAdapterPosition());
                         Context ctx = v.getContext();
                         Intent intent = new Intent(ctx, Caja.class);
-                      //  intent.putExtra("boxInfo", selectedBox);
+                        intent.putExtra("boxInfo", selectedBox);
                         ctx.startActivity(intent);
 
                     }

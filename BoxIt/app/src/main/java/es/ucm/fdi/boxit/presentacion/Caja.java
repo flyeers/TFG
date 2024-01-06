@@ -36,6 +36,7 @@ public class Caja extends AppCompatActivity {
         add.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
 
 
+        boxInfo = getIntent().getParcelableExtra("boxInfo");
        // boxInfo = (BoxInfo) getIntent().getSerializableExtra("boxInfo");
        //nombre.findViewById(R.id.nombre_caja);
        // nombre.setText(boxInfo.getTitle());
