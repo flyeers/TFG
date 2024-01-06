@@ -37,6 +37,7 @@ public class Caja extends AppCompatActivity {
 
 
         boxInfo = getIntent().getParcelableExtra("boxInfo");
+
        // boxInfo = (BoxInfo) getIntent().getSerializableExtra("boxInfo");
        //nombre.findViewById(R.id.nombre_caja);
        // nombre.setText(boxInfo.getTitle());

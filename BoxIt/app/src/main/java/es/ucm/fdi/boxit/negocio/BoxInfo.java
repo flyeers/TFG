@@ -60,6 +60,6 @@ public class BoxInfo implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(title);
-       // dest.writeString(String.valueOf(img));
+        dest.writeParcelable(img, flags);
     }
 }
