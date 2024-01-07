@@ -2,10 +2,13 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,8 +17,11 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.SABox;
 
 public class Caja extends AppCompatActivity {
 
@@ -25,6 +31,8 @@ public class Caja extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 123;
 
     private BoxInfo boxInfo;
+
+    private android.net.Uri selectedImage = null;
 
 
     @Override
@@ -38,9 +46,9 @@ public class Caja extends AppCompatActivity {
 
         boxInfo = getIntent().getParcelableExtra("boxInfo");
 
-       // boxInfo = (BoxInfo) getIntent().getSerializableExtra("boxInfo");
-       //nombre.findViewById(R.id.nombre_caja);
-       // nombre.setText(boxInfo.getTitle());
+
+        nombre = findViewById(R.id.nombre_caja);
+        nombre.setText(boxInfo.getTitle());
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +74,9 @@ public class Caja extends AppCompatActivity {
                             Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
                             startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
 
+                            SABox saBox = new SABox();
+                            //TODO necesitamos el id de la caja para añadirle elementos
+                            //saBox.addFromGalley();
                             return true;
                         }
                         else if(id == R.id.addMusic){
@@ -90,5 +101,16 @@ public class Caja extends AppCompatActivity {
                 popup.show();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("CLAU", "ESTAMOS EN EL onactivity");
+        super.onActivityResult(requestCode, resultCode, data);
+        //seleccionamos la imagen y la sustituimos por el boton
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
+
+            selectedImage = data.getData();
+        }
     }
 }

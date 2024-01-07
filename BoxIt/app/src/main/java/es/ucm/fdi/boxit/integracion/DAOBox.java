@@ -38,6 +38,8 @@ public class DAOBox {
     private final String CAJAS_COMPARTIDAS = "boxes_shared";
     private final String CAPSULAS_PROPIAS = "capsules";
     private final String CAPSULAS_COMPARTIDAS = "capsules_shared";
+    private final String FOTOS = "box_photos";
+    private final String MUSICA = "box_music";
 
     private BoxInfo boxInfo;
 
@@ -54,9 +56,11 @@ public class DAOBox {
             CollectionReference boxCollection = SingletonDataBase.getInstance().getDB().collection(COL_BOX);
             CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
+            ArrayList<String> fotos = new ArrayList<>();
             Map<String, Object> data = new HashMap<>();
             data.put(NOMBRE, b.getTitle());
             data.put(COLABORADORES, b.getColaborators());
+            data.put(FOTOS, fotos);
 
             //IMG
             int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
@@ -145,6 +149,17 @@ public class DAOBox {
             callBacks.onCallbackExito(false);
         }
 
+
+    }
+
+    public void addFromGalley(String id, String img, Callbacks cb){
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        boxDocument.update(FOTOS, FieldValue.arrayUnion(img)).addOnSuccessListener(aVoid -> {
+                    cb.onCallbackExito(true);
+                })
+                .addOnFailureListener(e -> {
+                    cb.onCallbackExito(false);
+                });
 
     }
 

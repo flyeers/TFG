@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -140,7 +141,10 @@ public class CrearCajaForm extends AppCompatActivity {
                         @Override
                         public void onCallbackExito(Boolean exito) {
                             if(exito){
-                                //TODO intent a vista del interior de la caja
+                                Context ctx = v.getContext();
+                                Intent intent = new Intent(ctx, Caja.class);
+                                intent.putExtra("boxInfo", box);
+                                ctx.startActivity(intent);
                             }
                             else{
                                 Toast.makeText(CrearCajaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
