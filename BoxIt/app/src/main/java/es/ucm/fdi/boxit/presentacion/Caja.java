@@ -92,19 +92,7 @@ public class Caja extends AppCompatActivity {
                             Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
                             startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
 
-                            SABox saBox = new SABox();
 
-                            saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
-                                @Override
-                                public void onCallbackExito(Boolean exito) {
-                                    if(exito){
-                                        //TODO rellenar el recycler view
-                                    }
-                                    else{
-                                        //TODO poner un toas
-                                    }
-                                }
-                            });
                             return true;
                         }
                         else if(id == R.id.addMusic){
@@ -145,7 +133,25 @@ public class Caja extends AppCompatActivity {
             if (data != null && data.getExtras() != null) {
 
                 selectedImage = data.getData();
+
+
             }
         }
+
+        SABox saBox = new SABox();
+
+        saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
+            @Override
+            public void onCallbackExito(Boolean exito) {
+                if(exito){
+                    //TODO rellenar el recycler view
+                    Log.d("CLAU", "todo bien");
+                }
+                else{
+                    //TODO poner un toas
+                    Log.d("CLAU", "todo mal");
+                }
+            }
+        });
     }
 }

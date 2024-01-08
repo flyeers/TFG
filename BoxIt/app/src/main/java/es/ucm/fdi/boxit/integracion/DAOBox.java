@@ -158,12 +158,42 @@ public class DAOBox {
 
     public void addPhotos(String id, String img, Callbacks cb){
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
-        boxDocument.update(FOTOS, FieldValue.arrayUnion(img)).addOnSuccessListener(aVoid -> {
-                    cb.onCallbackExito(true);
-                })
-                .addOnFailureListener(e -> {
-                    cb.onCallbackExito(false);
+
+        //IMG
+        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+        String idImg = id + "foto" + random;
+
+        FirebaseStorage imageStorage = new FirebaseStorage();
+        StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+
+        fileReference.putFile(Uri.parse(img))
+                .addOnSuccessListener(taskSnapshot -> {
+
+                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                        //guardamos la de la img ruta en la propia caja
+
+                        boxDocument.update(FOTOS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                                    cb.onCallbackExito(true);
+                                })
+                                .addOnFailureListener(e -> {
+                                    cb.onCallbackExito(false);
+                                });
+
+
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            cb.onCallbackExito(false);
+                        }
+                    });
+
                 });
+
+
+
+
 
     }
 
