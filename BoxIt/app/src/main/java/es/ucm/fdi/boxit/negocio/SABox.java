@@ -16,9 +16,9 @@ public class SABox {
         dao.getBoxById(id, cb);
     }
 
-    public void addFromGalley(String id, String img, Callbacks cb){
+    public void addPhotos(String id, String img, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addFromGalley(id, img, cb);
+        dao.addPhotos(id, img, cb);
     }
 
 }

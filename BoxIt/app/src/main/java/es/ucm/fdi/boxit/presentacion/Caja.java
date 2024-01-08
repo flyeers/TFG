@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 
@@ -50,6 +52,8 @@ public class Caja extends AppCompatActivity {
         nombre = findViewById(R.id.nombre_caja);
         nombre.setText(boxInfo.getTitle());
 
+
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +72,20 @@ public class Caja extends AppCompatActivity {
                             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
 
+                            SABox saBox = new SABox();
+
+                            saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        //TODO rellenar el recycler view
+                                    }
+                                    else{
+                                        //TODO poner un toas
+                                    }
+                                }
+                            });
+
                             return true;
                         }
                         else if(id == R.id.addGaleria){
@@ -75,8 +93,18 @@ public class Caja extends AppCompatActivity {
                             startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
 
                             SABox saBox = new SABox();
-                            //TODO necesitamos el id de la caja para añadirle elementos
-                            //saBox.addFromGalley();
+
+                            saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        //TODO rellenar el recycler view
+                                    }
+                                    else{
+                                        //TODO poner un toas
+                                    }
+                                }
+                            });
                             return true;
                         }
                         else if(id == R.id.addMusic){
@@ -105,12 +133,19 @@ public class Caja extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("CLAU", "ESTAMOS EN EL onactivity");
+
         super.onActivityResult(requestCode, resultCode, data);
-        //seleccionamos la imagen y la sustituimos por el boton
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
             selectedImage = data.getData();
+        }
+        else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Imagen capturada con la cámara
+            if (data != null && data.getExtras() != null) {
+
+                selectedImage = data.getData();
+            }
         }
     }
 }

@@ -136,7 +136,7 @@ public class CrearCajaForm extends AppCompatActivity {
                         String packageName = getApplicationContext().getPackageName();
                         selectedImage = Uri.parse("android.resource://" + packageName + "/drawable/default_image");
                     }
-                    BoxInfo box = new BoxInfo(nombreCajaInput.getText().toString(), selectedImage);
+                    BoxInfo box = new BoxInfo("a",nombreCajaInput.getText().toString(), selectedImage);
                     saBox.createBox(box, new Callbacks() {
                         @Override
                         public void onCallbackExito(Boolean exito) {

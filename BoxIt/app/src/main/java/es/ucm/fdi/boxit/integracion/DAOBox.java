@@ -84,6 +84,9 @@ public class DAOBox {
                                 @Override
                                 public Task<Void> then(@NonNull Task<DocumentReference> task) throws Exception {
                                     String newBoxId = task.getResult().getId(); //id de la caja creada
+
+                                    //añadimos al boxInfo el id para posteriormente tener acceso a qué caja en la BD se refiere ese boxinfo
+                                    b.setId(newBoxId);
                                     if(b.getColaborators().isEmpty()){ //UNICO PROPIETARIO
                                         return usersCollection.document(user.getUid()).update(CAJAS_PROPIAS, FieldValue.arrayUnion(newBoxId));
                                     }
@@ -99,6 +102,7 @@ public class DAOBox {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     cb.onCallbackExito(true);
+
                                 }
                             });
 
@@ -134,7 +138,7 @@ public class DAOBox {
                     if(task.isSuccessful()){
                         DocumentSnapshot ds = task.getResult();
                         if(ds.exists()){
-                            boxInfo = new BoxInfo(ds.getData().get(NOMBRE).toString(), Uri.parse(ds.getData().get(PORTADA).toString()));
+                            boxInfo = new BoxInfo(id, ds.getData().get(NOMBRE).toString(), Uri.parse(ds.getData().get(PORTADA).toString()));
 
                         }
                     }
@@ -152,7 +156,7 @@ public class DAOBox {
 
     }
 
-    public void addFromGalley(String id, String img, Callbacks cb){
+    public void addPhotos(String id, String img, Callbacks cb){
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
         boxDocument.update(FOTOS, FieldValue.arrayUnion(img)).addOnSuccessListener(aVoid -> {
                     cb.onCallbackExito(true);

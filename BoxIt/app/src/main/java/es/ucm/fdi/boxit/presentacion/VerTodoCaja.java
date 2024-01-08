@@ -27,10 +27,10 @@ public class VerTodoCaja extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new VerTodoCaja.GestureListener());
 
         android.net.Uri img = null;
-        BoxInfo boxAdd = new BoxInfo("ADD", img);
-        BoxInfo box1 = new BoxInfo("prueba", img);
-        BoxInfo box2 = new BoxInfo("ahhhhhhhhhhhh", img);
-        BoxInfo box3 = new BoxInfo("help", img);
+        BoxInfo boxAdd = new BoxInfo("","ADD", img);
+        BoxInfo box1 = new BoxInfo("","prueba", img);
+        BoxInfo box2 = new BoxInfo("","ahhhhhhhhhhhh", img);
+        BoxInfo box3 = new BoxInfo("","help", img);
         ArrayList<BoxInfo> a = new ArrayList<>();
         a.add(boxAdd);
         a.add(box1);
