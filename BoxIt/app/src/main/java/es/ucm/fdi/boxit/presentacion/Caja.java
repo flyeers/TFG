@@ -1,11 +1,14 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +23,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
@@ -28,11 +34,13 @@ import es.ucm.fdi.boxit.negocio.SABox;
 public class Caja extends AppCompatActivity {
 
     private Button add;
-    private TextView nombre;
+    private TextView nombre, fotos, musica, notas, audio, textoFotos1, textoFotos2;
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int CAMERA_REQUEST_CODE = 123;
+    private static final int CAMERA_REQUEST_CODE = 1001;
+    private static final int RESULT_OK = -1;
 
     private BoxInfo boxInfo;
+    private String imagePath;
 
     private android.net.Uri selectedImage = null;
 
@@ -52,7 +60,45 @@ public class Caja extends AppCompatActivity {
         nombre = findViewById(R.id.nombre_caja);
         nombre.setText(boxInfo.getTitle());
 
+        fotos = findViewById(R.id.fotosCaja);
+        musica = findViewById(R.id.musicaCaja);
+        textoFotos2 = findViewById(R.id.fdelacaja);
+        textoFotos1 = findViewById(R.id.fotosdelacaja);
 
+
+        SABox saBox = new SABox();
+        ElementsAdapter elementsAdapter = new ElementsAdapter();
+
+
+        fotos.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                fotos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+                fotos.setTextColor(getResources().getColor(R.color.fondoClaro));
+                textoFotos1.setText(getResources().getString(R.string.galeria));
+                textoFotos2.setText(getResources().getString(R.string.delacaja));
+                saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+                    @Override
+                    public void onCallbackPhotos(ArrayList<String> photos) {
+                        elementsAdapter.setElementsData(photos, true);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                        recyclerView.setAdapter(elementsAdapter);
+
+                    }
+                });
+            }
+        });
+        saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+            @Override
+            public void onCallbackPhotos(ArrayList<String> photos) {
+                elementsAdapter.setElementsData(photos, true);
+                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                recyclerView.setAdapter(elementsAdapter);
+
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,19 +118,6 @@ public class Caja extends AppCompatActivity {
                             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
 
-                            SABox saBox = new SABox();
-
-                            saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
-                                @Override
-                                public void onCallbackExito(Boolean exito) {
-                                    if(exito){
-                                        //TODO rellenar el recycler view
-                                    }
-                                    else{
-                                        //TODO poner un toas
-                                    }
-                                }
-                            });
 
                             return true;
                         }
@@ -129,22 +162,19 @@ public class Caja extends AppCompatActivity {
             selectedImage = data.getData();
         }
         else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Imagen capturada con la cámara
-            if (data != null && data.getExtras() != null) {
 
-                selectedImage = data.getData();
+            //TODO quedarse con la imagen sacada con la camara
 
-
-            }
         }
 
         SABox saBox = new SABox();
+
 
         saBox.addPhotos(boxInfo.getId(), selectedImage.toString(), new Callbacks() {
             @Override
             public void onCallbackExito(Boolean exito) {
                 if(exito){
-                    //TODO rellenar el recycler view
+                    //TODO Actualizar el recycler
                     Log.d("CLAU", "todo bien");
                 }
                 else{

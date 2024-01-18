@@ -41,6 +41,8 @@ public class DAOBox {
     private final String FOTOS = "box_photos";
     private final String MUSICA = "box_music";
 
+
+
     private BoxInfo boxInfo;
 
 
@@ -161,6 +163,7 @@ public class DAOBox {
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+        //TODO GENERAR UN ID SIMILAR AL RESTO
         String idImg = id + "foto" + random;
 
         FirebaseStorage imageStorage = new FirebaseStorage();
@@ -192,8 +195,30 @@ public class DAOBox {
                 });
 
 
+    }
 
+    public void getPhotos(String id, Callbacks cb){
 
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Object arrayPhotos = document.get(FOTOS);
+                        if (arrayPhotos != null) {
+
+                            cb.onCallbackPhotos((ArrayList<String>) arrayPhotos);
+                        }
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
 
     }
 

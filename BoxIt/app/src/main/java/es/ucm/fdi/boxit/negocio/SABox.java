@@ -21,4 +21,10 @@ public class SABox {
         dao.addPhotos(id, img, cb);
     }
 
+    public void getPhotos(String id, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getPhotos(id, cb);
+
+    }
+
 }

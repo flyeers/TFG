@@ -12,4 +12,6 @@ public interface Callbacks {
     default void onCallbackBox(BoxInfo b){}
     default void onCallbackBoxes(ArrayList<BoxInfo> boxes){}
 
+    default void onCallbackPhotos(ArrayList<String> photos){}
+
 }

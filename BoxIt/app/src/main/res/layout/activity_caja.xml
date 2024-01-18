@@ -50,28 +50,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="-380dp"
                         android:fontFamily="@font/interbold"
-                        android:text="Fotos"
+                        android:text="@string/galeria"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
 
-                    <TextView
-                        android:id="@+id/videosCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/interbold"
-                        android:text="Videos"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
+
                     <TextView
                         android:id="@+id/musicaCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
-                        android:text="Musica"
+                        android:text="@string/musica"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
@@ -81,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
-                        android:text="Notas"
+                        android:text="@string/notas"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
@@ -91,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
-                        android:text="Audio"
+                        android:text="@string/audio"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
@@ -119,6 +110,7 @@
                         android:id="@+id/recyclerTodoCaja"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"/>
                 </LinearLayout>
 
@@ -159,6 +151,7 @@
                         android:id="@+id/recyclerfotosCaja"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"/>
                 </LinearLayout>
 
@@ -176,7 +169,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/videosdelacaja"
+                            android:id="@+id/musicadelacaja"
                             style="@style/titulosVista"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -185,7 +178,7 @@
                             android:textColor="@color/textoOscuro" />
 
                         <TextView
-                            android:id="@+id/vdelacaja"
+                            android:id="@+id/mdelacaja"
                             style="@style/titulosVista"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -196,9 +189,10 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclervideosCaja"
+                        android:id="@+id/recyclermusicaCaja"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"/>
                 </LinearLayout>
 

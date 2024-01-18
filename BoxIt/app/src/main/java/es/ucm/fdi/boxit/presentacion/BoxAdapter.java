@@ -96,7 +96,7 @@ public class BoxAdapter extends RecyclerView.Adapter{
             case ADD_CARD:
                 AddViewHolder h2 = (AddViewHolder) holder;
                   if(small){
-                      Log.d("CLAU", "Soy las cards pequeñas");
+
                       ViewGroup.LayoutParams layoutParams = h2.addCard.getLayoutParams();
                       layoutParams.height = (int) (layoutParams.height * 0.8);
                       layoutParams.width = (int) (layoutParams.width * 0.8);
@@ -115,7 +115,7 @@ public class BoxAdapter extends RecyclerView.Adapter{
                       });
                   }
                   else{
-                      Log.d("CLAU", "Soy las cards grandes");
+
                       h2.addCard.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View v) {
