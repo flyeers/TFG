@@ -33,11 +33,17 @@
                 android:text="TextView" />
 
         </LinearLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/imgOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             tools:srcCompat="?attr/selectableItemBackground" />
 
         <ImageView
@@ -46,6 +52,8 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:src="?attr/selectableItemBackground"
+
             android:stateListAnimator="@null"/>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

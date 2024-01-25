@@ -4,18 +4,27 @@ package es.ucm.fdi.boxit.presentacion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +37,8 @@ public class BoxAdapter extends RecyclerView.Adapter{
     private static final int ADD_CARD = 0;
     private ArrayList<BoxInfo> boxesData;
     private boolean small, addCard, isBox;
+    private static final int IMAGE_WIDTH_KEY = 1;
+    private static final int IMAGE_HEIGHT_KEY = 2;
 
 
 
@@ -145,8 +156,34 @@ public class BoxAdapter extends RecyclerView.Adapter{
 
                 BoxInfo box = boxesData.get(position);
                 h1.titulo.setText(box.getTitle());
+
+               /* Glide.with(h1.cardView)
+                        .load(box.getImg())
+                        .placeholder(R.drawable.default_image)
+                        .into(h1.imagen);*/
+
+
                 Glide.with(h1.cardView)
                         .load(box.getImg())
+                        .transform(new CenterCrop(), new RoundedCorners(20))
+                        .addListener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                try {
+                                    h1.imagen.setTag(IMAGE_WIDTH_KEY, resource.getIntrinsicWidth());
+                                    h1.imagen.setTag(IMAGE_HEIGHT_KEY, resource.getIntrinsicHeight());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return false;
+                            }
+                        })
                         .placeholder(R.drawable.default_image)
                         .into(h1.imagen);
 
