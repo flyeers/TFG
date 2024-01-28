@@ -30,14 +30,15 @@ import es.ucm.fdi.boxit.negocio.BoxInfo;
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
-    private boolean photo;
+    private boolean photo, doc;
 
     private static final int IMAGE_WIDTH_KEY = 1;
     private static final int IMAGE_HEIGHT_KEY = 2;
 
-    public void setElementsData(List<String> data, boolean photo){
+    public void setElementsData(List<String> data, boolean photo, boolean doc){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
+        this.doc = doc;
 
     }
 
@@ -62,8 +63,14 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         //Crea una nueva vista
         //viewType podemos cargar distintos tipos -> con getitemviewtipe
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v;
-        v = inflater.inflate(R.layout.photo_view,parent,false);
+        View v = null;
+
+        if(photo){
+            v = inflater.inflate(R.layout.photo_view,parent,false);
+        } else if (doc) {
+            v = inflater.inflate(R.layout.document_view,parent,false);
+        }
+
         return new ViewHolder(v);
 
     }
@@ -103,6 +110,10 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     })
                     .placeholder(R.drawable.default_image)
                     .into(h1.imagen);
+        }
+        else{
+
+
         }
 
 

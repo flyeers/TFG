@@ -64,13 +64,16 @@
 
     <!--Elementos-->
     <string name="camara">Camera</string>
-    <string name="galeria">Photos and videos</string>
+    <string name="galeria">Gallery</string>
     <string name="musica">Music</string>
     <string name="notas">Notes</string>
     <string name="docs">Documents</string>
     <string name="fot">Photos</string>
     <string name="vid">Video</string>
     <string name="audio">Audio</string>
+    <string name="addBien">Item added to box</string>
+    <string name="addMal">Error while inserting item</string>
+
 
     <!--titulos-->
     <string name="delacaja">from the box</string>

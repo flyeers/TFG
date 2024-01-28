@@ -39,6 +39,7 @@ public class DAOBox {
     private final String CAPSULAS_PROPIAS = "capsules";
     private final String CAPSULAS_COMPARTIDAS = "capsules_shared";
     private final String FOTOS = "box_photos";
+    private final String DOCS = "box_documents";
     private final String MUSICA = "box_music";
 
 
@@ -59,10 +60,12 @@ public class DAOBox {
             CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
             ArrayList<String> fotos = new ArrayList<>();
+            ArrayList<String> docs = new ArrayList<>();
             Map<String, Object> data = new HashMap<>();
             data.put(NOMBRE, b.getTitle());
             data.put(COLABORADORES, b.getColaborators());
             data.put(FOTOS, fotos);
+            data.put(DOCS, docs);
 
             //IMG
             int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
@@ -158,6 +161,43 @@ public class DAOBox {
 
     }
 
+    public void addDocs(String id, String d, Callbacks cb){
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+
+        //IMG
+        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+        //TODO GENERAR UN ID SIMILAR AL RESTO
+        String idDoc = id + "PDF" + random;
+
+        FirebaseStorage storage = new FirebaseStorage();
+        StorageReference fileReference = storage.getStorageRef().child(idDoc + ".pdf");
+
+        fileReference.putFile(Uri.parse(d))
+                .addOnSuccessListener(taskSnapshot -> {
+
+                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+
+
+                        boxDocument.update(DOCS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                                    cb.onCallbackExito(true);
+                                })
+                                .addOnFailureListener(e -> {
+                                    cb.onCallbackExito(false);
+                                });
+
+
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            cb.onCallbackExito(false);
+                        }
+                    });
+
+                });
+    }
+
     public void addPhotos(String id, String img, Callbacks cb){
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
 
@@ -209,7 +249,7 @@ public class DAOBox {
                         Object arrayPhotos = document.get(FOTOS);
                         if (arrayPhotos != null) {
 
-                            cb.onCallbackPhotos((ArrayList<String>) arrayPhotos);
+                            cb.onCallbackItems((ArrayList<String>) arrayPhotos);
                         }
                     } else {
                         cb.onCallbackExito(false);
@@ -222,4 +262,27 @@ public class DAOBox {
 
     }
 
+    public void getDocs(String id, Callbacks cb) {
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Object arrayDocs = document.get(DOCS);
+                        if (arrayDocs != null) {
+
+                            cb.onCallbackItems((ArrayList<String>) arrayDocs);
+                        }
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
+
+    }
 }

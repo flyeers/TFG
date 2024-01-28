@@ -27,4 +27,23 @@ public class SABox {
 
     }
 
+    public void addDocs(String id, String d, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.addDocs(id, d, cb);
+    }
+
+    public void getDocs(String id, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getDocs(id, cb);
+
+    }
+
+    public void getItems(String id, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getDocs(id, cb);
+        dao.getPhotos(id, cb);
+
+    }
+
+
 }

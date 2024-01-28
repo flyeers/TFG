@@ -14,8 +14,8 @@
         android:id="@+id/addMusic"
         android:title="@string/musica" />
     <item
-        android:id="@+id/addNote"
-        android:title="@string/notas" />
+        android:id="@+id/addDoc"
+        android:title="@string/docs" />
     <item
         android:id="@+id/addAudio"
         android:title="@string/audio" />

@@ -63,13 +63,15 @@
 
     <!--Elementos-->
     <string name="camara">Camara</string>
-    <string name="galeria">Fotos y videos</string>
+    <string name="galeria">Galeria</string>
     <string name="musica">Música</string>
     <string name="notas">Notas</string>
     <string name="docs">Documentos</string>
     <string name="fot">Fotos</string>
     <string name="vid">Videos</string>
     <string name="audio">Audio</string>
+    <string name="addBien">Elemento añadido a la caja</string>
+    <string name="addMal">Error al insertar elemento</string>
 
     <!--titulos-->
     <string name="delacaja">de la caja</string>
