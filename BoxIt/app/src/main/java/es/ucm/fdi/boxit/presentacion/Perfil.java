@@ -1,6 +1,8 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -80,5 +84,32 @@ public class Perfil extends AppCompatActivity {
                 popup.show();
             }
         });
+
+        //Amigos fragments
+        //CARGAMOS LA BIBLIOTECA DE PRIMERAS
+        this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) new AmigosFragment()).commit();
+
+        //Navbar
+        BottomNavigationView navbar = (BottomNavigationView) this.findViewById(R.id.navigationView_amigos);
+        navbar.setOnItemSelectedListener((NavigationBarView.OnItemSelectedListener)(new NavigationBarView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.nav_amigos){
+                    Perfil.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) new AmigosFragment()).commit();//remplazo el blanco por el fragmento nuevo
+                    return true;
+                }
+                else if(item.getItemId() == R.id.nav_solicitudes){
+                    Perfil.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) new AmigosSolicitudesFragment()).commit();
+                    return true;
+                }
+                else if(item.getItemId() == R.id.nav_buscar){
+                    Perfil.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, (Fragment) new AmigosBuscarFragment()).commit();
+                    return true;
+                }
+                return true;
+            }
+        }));
+
+
     }
 }

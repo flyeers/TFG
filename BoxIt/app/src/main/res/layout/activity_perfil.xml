@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,12 +20,13 @@
             <View
                 android:id="@+id/ellipse_13"
                 style="@style/FondoPerfilView" />
+
             <ImageButton
                 android:id="@+id/perfilfoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-200dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="-200dp"
                 android:backgroundTint="#00FFFFFF"
                 app:srcCompat="@drawable/user_pordefecto" />
 
@@ -34,6 +36,7 @@
                 android:layout_gravity="top"
                 android:layout_marginTop="-240dp"
                 android:orientation="horizontal">
+
                 <ImageButton
                     android:id="@+id/buttonNotification"
                     android:layout_width="0dp"
@@ -97,12 +100,30 @@
                     android:layout_marginBottom="30dp"
                     android:background="@color/rosaBoton" />
 
-                <SearchView
-                    android:layout_width="301dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center"
-                    android:background="@color/fondoCards"
-                    android:backgroundTint="@color/fondoCards" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="336dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|center_horizontal"
+                android:gravity="center|center_horizontal"
+                android:orientation="vertical">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/navigationView_amigos"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/rectangle"
+                    app:backgroundTint="@color/rosaBotonClaro"
+                    app:itemTextAppearanceActive="@style/MyBottomNavTextSelected"
+                    app:menu="@menu/nav_amigos" />
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"></FrameLayout>
             </LinearLayout>
 
 

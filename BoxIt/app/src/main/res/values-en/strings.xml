@@ -62,6 +62,11 @@
     <string name="editarPerf">Edit profile</string>
     <string name="cerrar">Log out</string>
 
+    <!--Amigos-->
+    <string name="amigos">Friends</string>
+    <string name="solicitudesAmistad">Requests</string>
+    <string name="buscarAmigos">Find</string>
+
     <!--Elementos-->
     <string name="camara">Camera</string>
     <string name="galeria">Gallery</string>

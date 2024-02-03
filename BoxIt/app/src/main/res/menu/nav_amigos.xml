@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/amigos"
+        android:id="@+id/nav_amigos"></item>
+    <item android:title="@string/solicitudesAmistad"
+        android:id="@+id/nav_solicitudes"></item>
+    <item android:title="@string/buscarAmigos"
+        android:id="@+id/nav_buscar"></item>
+</menu>

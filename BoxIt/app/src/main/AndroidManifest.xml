@@ -22,10 +22,7 @@
             android:name=".presentacion.CrearCapsulaForm"
             android:exported="false" />
         <activity
-            android:name=".presentacion.VerTodoCapsula"
-            android:exported="false" />
-        <activity
-            android:name=".presentacion.VerTodoCaja"
+            android:name=".presentacion.VerTodo"
             android:exported="false" />
         <activity
             android:name=".presentacion.CrearCajaForm"
