@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class Caja extends AppCompatActivity {
     private android.net.Uri selectedItem = null;
 
 
+    private ImageView home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class Caja extends AppCompatActivity {
         documentos = findViewById(R.id.documentosCaja);
         textoDoc1 = findViewById(R.id.docsdelacaja);
         textoDoc2 = findViewById(R.id.ddelacaja);
+        home = findViewById(R.id.homeBtn);
 
 
         SABox saBox = new SABox();
@@ -107,6 +110,17 @@ public class Caja extends AppCompatActivity {
 
 
 
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent1 = new Intent(ctx, MainActivity.class);
+                ctx.startActivity(intent1);
+
+                //TODO revisar si cuando viene de la main deberia de ser un onBackPressed() en lugar de crear un intent nuevo
+
+            }
+        });
 
         fotos.setOnClickListener(new View.OnClickListener() {
 
@@ -127,7 +141,7 @@ public class Caja extends AppCompatActivity {
                     }
                 });*/
 
-                elementsAdapter.setElementsData(photos_b, true, false);
+                elementsAdapter.setElementsData(photos_b, true, false, ctx);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(elementsAdapter);
 
@@ -151,7 +165,7 @@ public class Caja extends AppCompatActivity {
 
                     }
                 });*/
-                elementsAdapter.setElementsData(documents_b, false, true);
+                elementsAdapter.setElementsData(documents_b, false, true, ctx);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(elementsAdapter);
             }
@@ -228,37 +242,52 @@ public class Caja extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
                 selectedItem = data.getData();
+                saBox.addPhotos(boxInfo.getId(), selectedItem.toString(), new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+                            //TODO Realmente no estoy actualizando, estoy volviendo a hacer peticion, ns si se puede hacer de manera mas optima
+                            saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+                                @Override
+                                public void onCallbackItems(ArrayList<String> photos) {
+                                    elementsAdapter.setElementsData(photos, true, false, ctx);
+                                    RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                                    recyclerView.setAdapter(elementsAdapter);
+
+                                }
+                            });
+
+
+                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
             else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
-                //TODO quedarse con la imagen sacada con la camara
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+                saBox.addPhotosFromCamera(boxInfo.getId(), imageBitmap, new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
 
             }
 
-            saBox.addPhotos(boxInfo.getId(), selectedItem.toString(), new Callbacks() {
-                @Override
-                public void onCallbackExito(Boolean exito) {
-                    if(exito){
-                        //TODO Realmente no estoy actualizando, estoy volviendo a hacer peticion, ns si se puede hacer de manera mas optima
-                        saBox.getPhotos(boxInfo.getId(), new Callbacks() {
-                            @Override
-                            public void onCallbackItems(ArrayList<String> photos) {
-                                elementsAdapter.setElementsData(photos, true, false);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                                recyclerView.setAdapter(elementsAdapter);
 
-                            }
-                        });
-
-
-                        Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
-
-                    }
-                    else{
-                        Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
         }
         //si lo añadido es un doc
          else if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -288,7 +317,7 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                elementsAdapter.setElementsData(photos, true, false);
+                elementsAdapter.setElementsData(photos, true, false, ctx);
                 RecyclerView recyclerView = findViewById(R.id.recyclerTodoCaja);
                 recyclerView.setAdapter(elementsAdapter);
 
@@ -300,7 +329,7 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> docs) {
 
                 documents_b = docs;
-                elementsAdapter.setElementsData(docs, false, true);
+                elementsAdapter.setElementsData(docs, false, true, ctx);
                 RecyclerView recyclerView = findViewById(R.id.recyclerTodoCaja);
                 recyclerView.setAdapter(elementsAdapter);
 

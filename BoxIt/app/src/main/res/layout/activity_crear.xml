@@ -17,10 +17,17 @@
             android:id="@+id/ellipse_13"
             style="@style/FondoBase" />
 
+        <ImageView
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-140dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/home" />
+
         <TextView
             android:id="@+id/tituloCrear"
             style="@style/TituloFondo"
-            android:layout_marginTop="-100dp"
             android:text="" />
 
         <LinearLayout
@@ -80,23 +87,5 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="330dp"
-            android:backgroundTint="#00FFFFFF"
-
-            app:srcCompat="@drawable/user" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

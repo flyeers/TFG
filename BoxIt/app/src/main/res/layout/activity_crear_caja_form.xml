@@ -14,12 +14,18 @@
             android:id="@+id/ellipse_13"
             style="@style/FondoBase" />
 
+        <ImageView
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-140dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/home" />
         <TextView
             android:id="@+id/nombre_caja_tit"
             style="@style/TituloFondo"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="-100dp"
             android:text="@string/CajaTitulo" />
 
         <com.google.android.material.textfield.TextInputLayout

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import es.ucm.fdi.boxit.R;
@@ -15,6 +16,8 @@ public class Crear extends AppCompatActivity {
 
     private ImageButton desde0;
     private TextView titulo;
+
+    private ImageView home;
     private boolean box;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class Crear extends AppCompatActivity {
 
         desde0 = findViewById(R.id.addCaja);
         titulo = findViewById(R.id.tituloCrear);
+        home = findViewById(R.id.homeBtn);
         box = getIntent().getBooleanExtra("TIPO", false);
 
         if(box){
@@ -44,6 +48,13 @@ public class Crear extends AppCompatActivity {
                     startActivity(intent);
                 }
 
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }

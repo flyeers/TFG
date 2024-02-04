@@ -42,7 +42,7 @@ public class CrearCajaForm extends AppCompatActivity {
     private Button btnCrear;
     private LinearLayout btnAddImg, btnAddColaborator;
 
-    private ImageView ellipse;
+    private ImageView ellipse, home;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -50,6 +50,18 @@ public class CrearCajaForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_caja_form);
+
+        home = findViewById(R.id.homeBtn);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, MainActivity.class);
+                intent.putExtra("nueva", true);
+                ctx.startActivity(intent);
+            }
+        });
 
         //NOMBRE
         nombreCajaTitulo = findViewById(R.id.nombre_caja_tit);

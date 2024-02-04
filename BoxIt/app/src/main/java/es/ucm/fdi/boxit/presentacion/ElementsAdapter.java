@@ -1,7 +1,10 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,10 +38,13 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private static final int IMAGE_WIDTH_KEY = 1;
     private static final int IMAGE_HEIGHT_KEY = 2;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc){
+    private Context ctx;
+
+    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
+        this.ctx = ctx;
 
     }
 
@@ -82,10 +88,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         ElementsAdapter.ViewHolder h1 = (ElementsAdapter.ViewHolder) holder;
         if(photo){
             Uri img = Uri.parse(itemsData.get(position));
-           /* Glide.with(h1.cardView)
-                    .load(img)
-                    .placeholder(R.drawable.default_image)
-                    .into(h1.imagen);*/
 
             Glide.with(h1.cardView)
                     .load(img)
@@ -110,6 +112,13 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     })
                     .placeholder(R.drawable.default_image)
                     .into(h1.imagen);
+
+            h1.imagen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mostrarImagen(img.toString());
+                }
+            });
         }
         else{
 
@@ -123,5 +132,23 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return itemsData.size();
     }
+
+    private void mostrarImagen(String i) {
+
+        Dialog dialog = new Dialog(ctx);
+        dialog.setContentView(R.layout.photo_preview);
+
+
+        ImageView dialogImageView = dialog.findViewById(R.id.modalImageView);
+
+        Glide.with(ctx)
+                .load(i)
+                .into(dialogImageView);
+
+
+        dialog.show();
+    }
+
+
 }
 

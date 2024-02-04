@@ -1,6 +1,9 @@
 package es.ucm.fdi.boxit.integracion;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.telecom.Call;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -237,6 +241,44 @@ public class DAOBox {
 
     }
 
+    public void addPhotoFromCamera(String id, Bitmap img, Callbacks cb){
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+       // String imagenBase64 = Base64.encodeToString(data, Base64.DEFAULT);
+
+
+
+        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+        String idImg = id + "foto" + random;
+
+        FirebaseStorage imageStorage = new FirebaseStorage();
+        StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+
+        fileReference.putBytes(data)
+                .addOnSuccessListener(taskSnapshot -> {
+
+                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                        boxDocument.update(FOTOS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                                    cb.onCallbackExito(true);
+                                })
+                                .addOnFailureListener(e -> {
+                                    cb.onCallbackExito(false);
+                                });
+
+                    }).addOnFailureListener(e -> {
+                        cb.onCallbackExito(false);
+                    });
+                })
+                .addOnFailureListener(e -> {
+
+                    cb.onCallbackExito(false);
+                });
+    }
+
     public void getPhotos(String id, Callbacks cb){
 
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
@@ -285,4 +327,6 @@ public class DAOBox {
         });
 
     }
+
+
 }
