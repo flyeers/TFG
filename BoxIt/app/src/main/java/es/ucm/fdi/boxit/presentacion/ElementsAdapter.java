@@ -53,6 +53,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
         private ImageView imagen;
         private CardView cardView;
+        private TextView fileName;
 
         public ViewHolder(View view) {
             super(view);
@@ -60,6 +61,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
             imagen = view.findViewById(R.id.photoBox);
             cardView=  view.findViewById(R.id.cardViewPhoto);
+            fileName = view.findViewById(R.id.nombreDoc);
 
         }
     }
@@ -122,10 +124,35 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         }
         else{
 
+            String name = itemsData.get(position);
 
+            h1.fileName.setText(getNombre(name));
+
+            h1.fileName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PDFView.abrirVisorPDF(ctx, name);
+                }
+            });
         }
 
 
+    }
+
+    public String getNombre(String name){
+        int indiceUltimaBarra = name.lastIndexOf("/");
+
+        int indiceUltimoPunto = name.lastIndexOf(".");
+
+
+        if (indiceUltimaBarra != -1 && indiceUltimoPunto != -1 && indiceUltimoPunto > indiceUltimaBarra) {
+
+            String nombre = name.substring(indiceUltimaBarra + 1, indiceUltimoPunto);
+            return nombre;
+        } else {
+
+            return "Desconocido";
+        }
     }
 
     @Override

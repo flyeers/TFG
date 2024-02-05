@@ -87,4 +87,6 @@
     <string name="tododelacaja">Box content</string>
 
 
+    <!--mensajes varios -->
+    <string name="noPDFViewer">Error while opening file</string>
 </resources>

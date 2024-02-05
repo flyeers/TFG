@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -213,7 +214,7 @@ public class Caja extends AppCompatActivity {
                             docsIntent.setType("application/pdf"); // Seleccionar solo archivos de tipo PDF
                             docsIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
-                            // Lanzar el selector de archivos
+
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
@@ -242,7 +243,7 @@ public class Caja extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
                 selectedItem = data.getData();
-                saBox.addPhotos(boxInfo.getId(), selectedItem.toString(), new Callbacks() {
+                saBox.addPhotos(boxInfo, selectedItem.toString(), new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
@@ -272,7 +273,7 @@ public class Caja extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-                saBox.addPhotosFromCamera(boxInfo.getId(), imageBitmap, new Callbacks() {
+                saBox.addPhotosFromCamera(boxInfo, imageBitmap, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
@@ -293,8 +294,9 @@ public class Caja extends AppCompatActivity {
          else if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == RESULT_OK) {
 
             selectedItem = data.getData();
+            String fileName = getFileName(selectedItem);
 
-            saBox.addDocs(boxInfo.getId(), selectedItem.toString(), new Callbacks() {
+            saBox.addDocs(boxInfo, selectedItem.toString(), fileName, new Callbacks() {
                 @Override
                 public void onCallbackExito(Boolean exito) {
                     if(exito){
@@ -338,5 +340,20 @@ public class Caja extends AppCompatActivity {
 
 
 
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndexOrThrow("_display_name");
+                    result = cursor.getString(index);
+                }
+            }
+        } else if (uri.getScheme().equals("file")) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
     }
 }

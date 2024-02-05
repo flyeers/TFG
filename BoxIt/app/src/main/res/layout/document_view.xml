@@ -22,13 +22,25 @@
         <ImageView
             android:id="@+id/photoBox"
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:src="@drawable/file" />
 
+        <TextView
+            android:id="@+id/nombreDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/interbold"
+            android:textColor="@color/textoOscuro"
+            android:text="" />
+
 
     </LinearLayout>
-
 
 
 </androidx.cardview.widget.CardView>

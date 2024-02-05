@@ -165,17 +165,16 @@ public class DAOBox {
 
     }
 
-    public void addDocs(String id, String d, Callbacks cb){
+    public void addDocs(BoxInfo b, String d, String fileName, Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-        //TODO GENERAR UN ID SIMILAR AL RESTO
-        String idDoc = id + "PDF" + random;
+
 
         FirebaseStorage storage = new FirebaseStorage();
-        StorageReference fileReference = storage.getStorageRef().child(idDoc + ".pdf");
+        StorageReference fileReference = storage.getStorageRef().child(fileName);
 
         fileReference.putFile(Uri.parse(d))
                 .addOnSuccessListener(taskSnapshot -> {
@@ -202,13 +201,17 @@ public class DAOBox {
                 });
     }
 
-    public void addPhotos(String id, String img, Callbacks cb){
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+    public void addPhotos(BoxInfo b, String img, Callbacks cb){
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
         //TODO GENERAR UN ID SIMILAR AL RESTO
-        String idImg = id + "foto" + random;
+
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        String idImg = String.format("%s-%s-%s", b.getTitle(), random, user.getEmail().toString()).replace("", "");
+
 
         FirebaseStorage imageStorage = new FirebaseStorage();
         StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
@@ -241,18 +244,18 @@ public class DAOBox {
 
     }
 
-    public void addPhotoFromCamera(String id, Bitmap img, Callbacks cb){
+    public void addPhotoFromCamera(BoxInfo b, Bitmap img, Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-       // String imagenBase64 = Base64.encodeToString(data, Base64.DEFAULT);
-
 
 
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-        String idImg = id + "foto" + random;
+        FirebaseUser user = mAuth.getCurrentUser();
+        String idImg = String.format("%s-%s-%s", b.getTitle(), random, user.getEmail().toString()).replace("", "");
+
 
         FirebaseStorage imageStorage = new FirebaseStorage();
         StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");

@@ -18,14 +18,14 @@ public class SABox {
         dao.getBoxById(id, cb);
     }
 
-    public void addPhotos(String id, String img, Callbacks cb){
+    public void addPhotos( BoxInfo b, String img, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addPhotos(id, img, cb);
+        dao.addPhotos(b, img, cb);
     }
 
-    public void addPhotosFromCamera(String id, Bitmap img, Callbacks cb){
+    public void addPhotosFromCamera(BoxInfo b, Bitmap img, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addPhotoFromCamera(id, img, cb);
+        dao.addPhotoFromCamera(b, img, cb);
     }
 
     public void getPhotos(String id, Callbacks cb){
@@ -34,9 +34,9 @@ public class SABox {
 
     }
 
-    public void addDocs(String id, String d, Callbacks cb){
+    public void addDocs(BoxInfo b , String d, String name, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addDocs(id, d, cb);
+        dao.addDocs(b, d, name, cb);
     }
 
     public void getDocs(String id, Callbacks cb){

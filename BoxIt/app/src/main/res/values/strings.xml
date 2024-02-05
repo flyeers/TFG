@@ -84,6 +84,9 @@
     <string name="tododelacapsula">Contenido de la cápsula</string>
     <string name="tododelacaja">Contenido de la caja</string>
 
+    <!--mensajes varios -->
+    <string name="noPDFViewer">Error al abrir el archivo</string>
+
 
 
 </resources>
