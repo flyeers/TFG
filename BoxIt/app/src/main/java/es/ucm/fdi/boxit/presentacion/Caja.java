@@ -54,6 +54,7 @@ public class Caja extends AppCompatActivity {
     private android.net.Uri selectedItem = null;
 
 
+    private boolean fotoPulsado, docPulsado;
     private ImageView home;
 
     @Override
@@ -65,6 +66,9 @@ public class Caja extends AppCompatActivity {
         add = findViewById(R.id.buttonAdd2);
         add.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
 
+
+        fotoPulsado = false;
+        docPulsado = false;
 
         photos_b = new ArrayList<>();
         documents_b = new ArrayList<>();
@@ -98,16 +102,7 @@ public class Caja extends AppCompatActivity {
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
         getAll();
 
-        /*saBox.getPhotos(boxInfo.getId(), new Callbacks() {
-            @Override
-            public void onCallbackItems(ArrayList<String> photos) {
 
-                elementsAdapter.setElementsData(photos, true, false);
-                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                recyclerView.setAdapter(elementsAdapter);
-
-            }
-        });*/
 
 
 
@@ -128,23 +123,38 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                fotos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
-                fotos.setTextColor(getResources().getColor(R.color.fondoClaro));
-                textoFotos1.setText(getResources().getString(R.string.galeria));
-                textoFotos2.setText(getResources().getString(R.string.delacaja));
-                /*saBox.getPhotos(boxInfo.getId(), new Callbacks() {
-                    @Override
-                    public void onCallbackItems(ArrayList<String> photos) {
-                        elementsAdapter.setElementsData(photos, true, false);
-                        RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                        recyclerView.setAdapter(elementsAdapter);
+                if(!fotoPulsado){
+                    fotoPulsado = true;
+                    fotos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+                    fotos.setTextColor(getResources().getColor(R.color.fondoClaro));
+                    findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
+                    textoFotos1.setText(getResources().getString(R.string.galeria));
+                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+                    elementsAdapter.setElementsData(photos_b, true, false, ctx);
+                    RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                    recyclerView.setAdapter(elementsAdapter);
+                }
+                else{
+                    fotoPulsado = false;
+                    fotos.setBackgroundResource(android.R.color.transparent);
+                    fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
+                    findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+                    textoFotos1.setText("");
+                    textoFotos2.setText("");
 
-                    }
-                });*/
+                }
 
-                elementsAdapter.setElementsData(photos_b, true, false, ctx);
-                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                recyclerView.setAdapter(elementsAdapter);
+                if(docPulsado){
+                    docPulsado = false;
+                    documentos.setBackgroundResource(android.R.color.transparent);
+                    documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+
+                findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
+
+
+
 
             }
         });
@@ -152,23 +162,43 @@ public class Caja extends AppCompatActivity {
         documentos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                documentos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
-                documentos.setTextColor(getResources().getColor(R.color.fondoClaro));
-                textoDoc1.setText(getResources().getString(R.string.docs));
-                textoDoc2.setText(getResources().getString(R.string.delacaja));
 
-               /* saBox.getDocs(boxInfo.getId(), new Callbacks() {
-                    @Override
-                    public void onCallbackItems(ArrayList<String> docs) {
-                        elementsAdapter.setElementsData(docs, false, true);
-                        RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
-                        recyclerView.setAdapter(elementsAdapter);
 
-                    }
-                });*/
-                elementsAdapter.setElementsData(documents_b, false, true, ctx);
-                RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
-                recyclerView.setAdapter(elementsAdapter);
+
+                if(!docPulsado){
+                    docPulsado = true;
+                    findViewById(R.id.recyclerdocsCaja).setVisibility(View.VISIBLE);
+                    documentos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+                    documentos.setTextColor(getResources().getColor(R.color.fondoClaro));
+
+                    textoFotos1.setText(getResources().getString(R.string.docs));
+                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+
+                    elementsAdapter.setElementsData(documents_b, false, true, ctx);
+                    RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
+                    recyclerView.setAdapter(elementsAdapter);
+                }
+                else{
+                    docPulsado = false;
+                    documentos.setBackgroundResource(android.R.color.transparent);
+                    documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                    findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+
+                }
+
+                findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+
+                if(fotoPulsado){
+                    fotoPulsado = false;
+                    fotos.setBackgroundResource(android.R.color.transparent);
+                    fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+
+
             }
         });
 
@@ -314,29 +344,35 @@ public class Caja extends AppCompatActivity {
 
     public void getAll(){
         SABox saBox = new SABox();
+
+
+
+
         saBox.getPhotos(boxInfo.getId(), new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
                 elementsAdapter.setElementsData(photos, true, false, ctx);
-                RecyclerView recyclerView = findViewById(R.id.recyclerTodoCaja);
+                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(elementsAdapter);
+
+                saBox.getDocs(boxInfo.getId(), new Callbacks() {
+                    @Override
+                    public void onCallbackItems(ArrayList<String> docs) {
+
+                        documents_b = docs;
+                        elementsAdapter.setElementsData(docs, false, true, ctx);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
+                        recyclerView.setAdapter(elementsAdapter);
+
+                    }
+                });
 
             }
         });
 
-        saBox.getDocs(boxInfo.getId(), new Callbacks() {
-            @Override
-            public void onCallbackItems(ArrayList<String> docs) {
 
-                documents_b = docs;
-                elementsAdapter.setElementsData(docs, false, true, ctx);
-                RecyclerView recyclerView = findViewById(R.id.recyclerTodoCaja);
-                recyclerView.setAdapter(elementsAdapter);
-
-            }
-        });
 
 
 

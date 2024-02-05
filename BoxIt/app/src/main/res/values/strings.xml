@@ -68,7 +68,7 @@
 
     <!--Elementos-->
     <string name="camara">Camara</string>
-    <string name="galeria">Galeria</string>
+    <string name="galeria">Fotos</string>
     <string name="musica">Música</string>
     <string name="notas">Notas</string>
     <string name="docs">Documentos</string>
