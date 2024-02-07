@@ -71,7 +71,7 @@ public class DAOUsuario {
 
                                         //metemos en la bd la informacion del usuario
                                         Map<String, Object> data = new HashMap<>();
-                                        data.put(NOMBRE_USU, usuarioInsertar.getNombreUsuario());
+                                        data.put(NOMBRE_USU, usuarioInsertar.getNombreUsuario().toLowerCase());//username en minusculas
                                         data.put(CORREO, usuarioInsertar.getCorreo());
                                         data.put(NOMBRE, usuarioInsertar.getNombre());
                                         data.put(TOKEN, token);
@@ -85,6 +85,12 @@ public class DAOUsuario {
                                         data.put(CAJAS_COMPARTIDAS, boxComp);
                                         data.put(CAPSULAS_PROPIAS, capProp);
                                         data.put(CAPSULAS_COMPARTIDAS, capComp);
+
+                                        //instanciamos y metemos las listas de amigos
+                                        ArrayList<String> amigos = new ArrayList<>();
+                                        ArrayList<String> solicitudes = new ArrayList<>();
+                                        data.put(LISTA_AMIGOS, amigos);
+                                        data.put(LISTA_SOLICITUDES, solicitudes);
 
                                         //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
                                         SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
@@ -133,6 +139,8 @@ public class DAOUsuario {
     public void getUsuarioByUserName(String username, Callbacks cb){
         UserInfo userInfo = new UserInfo();
         FirebaseUser user = mAuth.getCurrentUser();
+
+        username = username.toLowerCase();
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(NOMBRE_USU,
                 username).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -316,48 +324,58 @@ public class DAOUsuario {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
-        //Añadimos a la lista de amigos del usuario activo que acepta la solicitud
-        usersCollection.document(currentUser.getUid()).update(LISTA_AMIGOS, FieldValue.arrayUnion(correo));
-        //Quito de la lista de solicitudes
-        usersCollection.document(currentUser.getUid()).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(correo));
+        try {
+            //Añadimos a la lista de amigos del usuario activo que acepta la solicitud
+            usersCollection.document(currentUser.getUid()).update(LISTA_AMIGOS, FieldValue.arrayUnion(correo));
+            //Quito de la lista de solicitudes
+            usersCollection.document(currentUser.getUid()).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(correo));
 
-        //Añadimos a la lista de amigos del otro usuario
-        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot d : task.getResult()) {
-                    String userId = d.getId();
-                    usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayUnion(currentUser.getUid()));
+            //Añadimos a la lista de amigos del otro usuario
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayUnion(currentUser.getEmail()));
+                    }
                 }
-            }
-        });
-        
+            });
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+
     }
 
     public void sendSolicitud(String correo, Callbacks cb) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
-        //Añadimos a la lista de solicitudes del al que se le solicita seguir
-        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot d : task.getResult()) {
-                    String userId = d.getId();
-                    usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getUid()));
+        try {
+            //Añadimos a la lista de solicitudes del al que se le solicita seguir
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getEmail()));
+                    }
                 }
-            }
-        });
-
+            });
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
     }
 
     public void searchUsuario(String username, Callbacks cb) {
         ArrayList<UserInfo> users = new ArrayList<>();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
-        usersCollection.whereEqualTo(NOMBRE_USU, username).get().addOnCompleteListener(task -> {
+        String finalUsername = username.toLowerCase();
+        usersCollection.whereEqualTo(NOMBRE_USU, finalUsername).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 AtomicInteger count = new AtomicInteger(task.getResult().size());
                 for (QueryDocumentSnapshot d: task.getResult()){
-                    getUsuarioByUserName(username, new Callbacks() {
+                    getUsuarioByUserName(finalUsername, new Callbacks() {
                         @Override
                         public void onCallback(UserInfo u) {
                             if( u != null){
