@@ -37,6 +37,9 @@ public class DAOUsuario {
     private final String CAJAS_COMPARTIDAS = "boxes_shared";
     private final String CAPSULAS_PROPIAS = "capsules";
     private final String CAPSULAS_COMPARTIDAS = "capsules_shared";
+    private final String LISTA_AMIGOS = "amigos";
+    private final String LISTA_SOLICITUDES = "solicitudes";
+
 
 
 
@@ -245,5 +248,151 @@ public class DAOUsuario {
             }
         });
     }
+
+    public void getAmigos(String correo, Callbacks cb) {
+        ArrayList<UserInfo> users = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array de amigos del usuario
+                    List<String> amigos = (List<String>) d.get(LISTA_AMIGOS);
+                    AtomicInteger count = new AtomicInteger(amigos.size());
+                    for(String email: amigos){
+                        getUsuario(email, new Callbacks() {
+                            @Override
+                            public void onCallback(UserInfo u) {
+                                if( u != null){
+                                    users.add(u);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    //cargados los amigos
+                                    cb.onCallbackUsers(users);
+                                }
+                            }
+                        });
+                    }
+                    //ningun amigo
+                    cb.onCallbackUsers(users);
+                }
+            }
+        });
+    }
+
+    public void getSolicitudes(String correo, Callbacks cb) {
+        ArrayList<UserInfo> users = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array de solicitudes del usuario
+                    List<String> amigos = (List<String>) d.get(LISTA_SOLICITUDES);
+                    AtomicInteger count = new AtomicInteger(amigos.size());
+                    for(String email: amigos){
+                        getUsuario(email, new Callbacks() {
+                            @Override
+                            public void onCallback(UserInfo u) {
+                                if( u != null){
+                                    users.add(u);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    //cargadas las solicitudes
+                                    cb.onCallbackUsers(users);
+                                }
+                            }
+                        });
+                    }
+                    //ninguna solicitud
+                    cb.onCallbackUsers(users);
+                }
+            }
+        });
+    }
+
+    //Se llama al aceptar la solicitud
+    public void addAmigo(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        //Añadimos a la lista de amigos del usuario activo que acepta la solicitud
+        usersCollection.document(currentUser.getUid()).update(LISTA_AMIGOS, FieldValue.arrayUnion(correo));
+        //Quito de la lista de solicitudes
+        usersCollection.document(currentUser.getUid()).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(correo));
+
+        //Añadimos a la lista de amigos del otro usuario
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    String userId = d.getId();
+                    usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayUnion(currentUser.getUid()));
+                }
+            }
+        });
+        
+    }
+
+    public void sendSolicitud(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        //Añadimos a la lista de solicitudes del al que se le solicita seguir
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    String userId = d.getId();
+                    usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getUid()));
+                }
+            }
+        });
+
+    }
+
+    public void searchUsuario(String username, Callbacks cb) {
+        ArrayList<UserInfo> users = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        usersCollection.whereEqualTo(NOMBRE_USU, username).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                AtomicInteger count = new AtomicInteger(task.getResult().size());
+                for (QueryDocumentSnapshot d: task.getResult()){
+                    getUsuarioByUserName(username, new Callbacks() {
+                        @Override
+                        public void onCallback(UserInfo u) {
+                            if( u != null){
+                                users.add(u);
+                            }
+                            if (count.decrementAndGet() == 0) {
+                                //cargadas los usuarios que coinciden con la busqueda
+                                cb.onCallbackUsers(users);
+                            }
+                        }
+                    });
+                }
+                //la busqueda no ha dado resultados
+                cb.onCallbackUsers(users);
+            }
+        });
+
+
+    }
+
+    //TODO ver si se quiere usar -> puede suponer muchas llamadas
+    /*
+    public void esAmigo(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    String userId = d.getId();
+                    ArrayList<String> amigos = (ArrayList<String>) d.get(LISTA_AMIGOS);
+                    cb.onCallbackExito(amigos.contains(correo));
+                }
+            }
+        });
+    }*/
 
 }

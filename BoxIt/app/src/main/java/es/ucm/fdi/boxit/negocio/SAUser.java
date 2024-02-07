@@ -35,4 +35,30 @@ public class SAUser {
         DAOUsuario dao = new DAOUsuario();
         dao.getUserBoxes(correo, cb);
     }
+
+    public void getAmigos(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getAmigos(correo, cb);
+    }
+
+    public void addAmigo(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.addAmigo(correo, cb);
+    }
+
+    public void getSolicitudes(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getSolicitudes(correo, cb);
+    }
+
+    public void sendSolicitud(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.sendSolicitud(correo, cb);
+    }
+
+    public void searchUsuario(String username, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.searchUsuario(username, cb);
+    }
+
 }

@@ -14,4 +14,7 @@ public interface Callbacks {
 
     default void onCallbackItems(ArrayList<String> items){}
 
+    default void onCallbackUsers(ArrayList<UserInfo> users){}
+
+
 }
