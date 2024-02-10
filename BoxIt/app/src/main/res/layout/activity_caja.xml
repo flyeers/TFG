@@ -33,9 +33,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="90dp"
                 android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/vertodo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Ver todo"
+                    android:textColor="@color/rosaBoton"
+                    android:textSize="18dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,10 +66,10 @@
                         android:id="@+id/fotosCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="-400dp"
+                        android:layout_marginLeft="-380dp"
                         android:fontFamily="@font/interbold"
                         android:text="@string/galeria"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -70,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
                         android:text="@string/musica"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -80,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
                         android:text="@string/docs"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -234,7 +245,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerdocsCaja"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"/>
                 </LinearLayout>

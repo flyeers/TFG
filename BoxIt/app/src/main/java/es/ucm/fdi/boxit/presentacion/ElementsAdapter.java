@@ -35,8 +35,10 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private ArrayList<String> itemsData;
     private boolean photo, doc;
 
+
     private static final int IMAGE_WIDTH_KEY = 1;
     private static final int IMAGE_HEIGHT_KEY = 2;
+
 
     private Context ctx;
 
@@ -145,11 +147,12 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         int indiceUltimoPunto = name.lastIndexOf(".");
 
 
-        if (indiceUltimaBarra != -1 && indiceUltimoPunto != -1 && indiceUltimoPunto > indiceUltimaBarra) {
+        if(indiceUltimaBarra != -1 && indiceUltimoPunto != -1 && indiceUltimoPunto > indiceUltimaBarra) {
 
             String nombre = name.substring(indiceUltimaBarra + 1, indiceUltimoPunto);
             return nombre;
-        } else {
+        }
+        else {
 
             return "Desconocido";
         }
@@ -174,6 +177,14 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
 
         dialog.show();
+    }
+
+    public void addElem(String newElem, String filename) {
+
+        itemsData.add(newElem);
+
+
+        notifyDataSetChanged();
     }
 
 

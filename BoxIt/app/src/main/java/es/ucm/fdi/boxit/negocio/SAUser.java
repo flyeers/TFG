@@ -22,6 +22,8 @@ public class SAUser {
         dao.getUsuario(correo, cb);
     }
 
+
+
     public void loginCorreo(String correo, String contraseña, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.loginCorreo(correo, contraseña, cb);

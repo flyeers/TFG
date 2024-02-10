@@ -47,9 +47,18 @@
                 android:textColor="@color/textoOscuro"
                 android:textAppearance="@style/Logo" />
 
+            <ImageButton
+                android:id="@+id/addfotoperfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/user_pordefecto2" />
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_email_lay"
-                android:layout_marginTop="10dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -148,52 +157,6 @@
                 android:text="@string/registrarte"
                 android:textColor="@color/rosaFormulario" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="34dp"
-                android:orientation="horizontal">
-
-                <View
-                    android:id="@+id/divider1"
-                    android:layout_width="170dp"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/rosaBoton" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="9dp"
-                    android:fontFamily="@font/interregular"
-                    android:text="@string/o"
-                    android:textColor="@color/rosaBoton" />
-
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="185dp"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/rosaBoton" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/registrarse_google"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="40dp"
-                android:backgroundTint="@color/rosaCards"
-                android:fontFamily="@font/interregular"
-                android:text="@string/signupgoogle"
-                android:textColor="@color/textoOscuro" />
         </LinearLayout>
 
     </LinearLayout>

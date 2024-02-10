@@ -248,7 +248,7 @@ public class DAOBox {
 
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray();
 
 

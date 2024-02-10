@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,8 +27,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
@@ -38,7 +41,7 @@ import es.ucm.fdi.boxit.negocio.SABox;
 public class Caja extends AppCompatActivity {
 
     private Button add;
-    private TextView nombre, fotos, musica, documentos, audio, textoFotos1, textoFotos2, textoDoc1, textoDoc2, textoInicio;
+    private TextView nombre, fotos, musica, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST_CODE = 1001;
     private static final int PICK_PDF_REQUEST_CODE = 2;
@@ -47,12 +50,13 @@ public class Caja extends AppCompatActivity {
 
     private BoxInfo boxInfo;
     private String imagePath;
-    private ElementsAdapter elementsAdapter;
+    private ElementsAdapter photoAdapter, docAdapter;
 
     private List<String> documents_b, photos_b;
 
     private android.net.Uri selectedItem = null;
 
+    private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado;
     private ImageView home;
@@ -84,19 +88,19 @@ public class Caja extends AppCompatActivity {
         textoFotos2 = findViewById(R.id.fdelacaja);
         textoFotos1 = findViewById(R.id.fotosdelacaja);
         textoInicio = findViewById(R.id.todoElContenidoCaja);
+        verTodo = findViewById(R.id.vertodo);
 
         musica = findViewById(R.id.musicaCaja);
         textoFotos2 = findViewById(R.id.fdelacaja);
         textoFotos1 = findViewById(R.id.fotosdelacaja);
 
         documentos = findViewById(R.id.documentosCaja);
-        textoDoc1 = findViewById(R.id.docsdelacaja);
-        textoDoc2 = findViewById(R.id.ddelacaja);
         home = findViewById(R.id.homeBtn);
 
 
         SABox saBox = new SABox();
-        elementsAdapter = new ElementsAdapter();
+        docAdapter = new ElementsAdapter();
+        photoAdapter = new ElementsAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
@@ -118,6 +122,31 @@ public class Caja extends AppCompatActivity {
             }
         });
 
+        verTodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fotoPulsado){
+                    fotoPulsado = false;
+                    fotos.setBackgroundResource(android.R.color.transparent);
+                    fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
+                    textoFotos1.setText("");
+                    textoFotos2.setText("");
+                }
+                if (docPulsado){
+                    docPulsado = false;
+                    documentos.setBackgroundResource(android.R.color.transparent);
+                    documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+                }
+
+                findViewById(R.id.recyclerdocsCaja).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
+            }
+        });
+
         fotos.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -125,14 +154,22 @@ public class Caja extends AppCompatActivity {
 
                 if(!fotoPulsado){
                     fotoPulsado = true;
-                    fotos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setShape(GradientDrawable.RECTANGLE);
+                    drawable.setCornerRadius(20);
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton)); // Cambia el color según lo desees
+
+                    fotos.setBackground(drawable);
+
+
                     fotos.setTextColor(getResources().getColor(R.color.fondoClaro));
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
-                    elementsAdapter.setElementsData(photos_b, true, false, ctx);
+                    photoAdapter.setElementsData(photos_b, true, false, ctx);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                    recyclerView.setAdapter(elementsAdapter);
+                    recyclerView.setAdapter(photoAdapter);
                 }
                 else{
                     fotoPulsado = false;
@@ -164,19 +201,25 @@ public class Caja extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
                 if(!docPulsado){
                     docPulsado = true;
                     findViewById(R.id.recyclerdocsCaja).setVisibility(View.VISIBLE);
-                    documentos.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+
+
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setShape(GradientDrawable.RECTANGLE);
+                    drawable.setCornerRadius(20);
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton)); // Cambia el color según lo desees
+
+                    documentos.setBackground(drawable);
                     documentos.setTextColor(getResources().getColor(R.color.fondoClaro));
 
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    elementsAdapter.setElementsData(documents_b, false, true, ctx);
+                    docAdapter.setElementsData(documents_b, false, true, ctx);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
-                    recyclerView.setAdapter(elementsAdapter);
+                    recyclerView.setAdapter(docAdapter);
                 }
                 else{
                     docPulsado = false;
@@ -277,18 +320,9 @@ public class Caja extends AppCompatActivity {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
-                            //TODO Realmente no estoy actualizando, estoy volviendo a hacer peticion, ns si se puede hacer de manera mas optima
-                            saBox.getPhotos(boxInfo.getId(), new Callbacks() {
-                                @Override
-                                public void onCallbackItems(ArrayList<String> photos) {
-                                    elementsAdapter.setElementsData(photos, true, false, ctx);
-                                    RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                                    recyclerView.setAdapter(elementsAdapter);
 
-                                }
-                            });
-
-
+                            photoAdapter.addElem(selectedItem.toString(), null);
+                            photoAdapter.notifyDataSetChanged();
                             Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
 
                         }
@@ -303,10 +337,23 @@ public class Caja extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
 
+
+
                 saBox.addPhotosFromCamera(boxInfo, imageBitmap, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
+
+                            saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+                                @Override
+                                public void onCallbackItems(ArrayList<String> photos) {
+                                    photoAdapter.setElementsData(photos, true, false, ctx);
+                                    RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                                    recyclerView.setAdapter(photoAdapter);
+
+                                }
+                            });
+
                             Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -330,6 +377,15 @@ public class Caja extends AppCompatActivity {
                 @Override
                 public void onCallbackExito(Boolean exito) {
                     if(exito){
+
+                        saBox.getDocs(boxInfo.getId(), new Callbacks() {
+                            @Override
+                            public void onCallbackItems(ArrayList<String> items) {
+                                docAdapter.setElementsData(items, true, false, ctx);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                                recyclerView.setAdapter(docAdapter);
+                            }
+                        });
                         Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -347,36 +403,31 @@ public class Caja extends AppCompatActivity {
 
 
 
-
-        saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+        saBox.getDocs(boxInfo.getId(), new Callbacks() {
+            @Override
+            public void onCallbackItems(ArrayList<String> docs) {
+                documents_b = docs;
+                docAdapter.setElementsData(documents_b, false, true, ctx);
+                RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
+                recyclerView.setAdapter(docAdapter);
+            }
+        });
+       saBox.getPhotos(boxInfo.getId(), new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                elementsAdapter.setElementsData(photos, true, false, ctx);
+                photoAdapter.setElementsData(photos_b, true, false, ctx);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
-                recyclerView.setAdapter(elementsAdapter);
-
-                saBox.getDocs(boxInfo.getId(), new Callbacks() {
-                    @Override
-                    public void onCallbackItems(ArrayList<String> docs) {
-
-                        documents_b = docs;
-                        elementsAdapter.setElementsData(docs, false, true, ctx);
-                        RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
-                        recyclerView.setAdapter(elementsAdapter);
-
-                    }
-                });
+                recyclerView.setAdapter(photoAdapter);
 
             }
         });
 
 
-
-
-
     }
+
+
 
     private String getFileName(Uri uri) {
         String result = null;

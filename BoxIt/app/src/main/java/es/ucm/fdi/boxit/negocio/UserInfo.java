@@ -14,6 +14,7 @@ public class UserInfo {
         this.nombreUsuario = nombreUsuario;
         this.correo = correo;
         this.nombre = nombre;
+        //this.imgPerfil = foto;
     }
 
     //constructor para usuario ya creado
