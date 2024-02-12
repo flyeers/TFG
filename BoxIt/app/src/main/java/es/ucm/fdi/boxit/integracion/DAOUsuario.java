@@ -92,6 +92,14 @@ public class DAOUsuario {
                                         data.put(LISTA_AMIGOS, amigos);
                                         data.put(LISTA_SOLICITUDES, solicitudes);
 
+
+
+                                        //añadir la foto de perfil:
+
+
+
+
+
                                         //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
                                         SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
                                         cb.onCallbackExito(true);

@@ -39,20 +39,22 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="135dp"
-                android:layout_marginRight="120dp"
                 android:fontFamily="@font/interbold"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:text="@string/crearCuenta"
                 android:textColor="@color/textoOscuro"
                 android:textAppearance="@style/Logo" />
 
             <ImageButton
                 android:id="@+id/addfotoperfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:backgroundTint="#00FFFFFF"
+                style="@style/ImagenRedondeada"
+
                 app:srcCompat="@drawable/user_pordefecto2" />
 
 
