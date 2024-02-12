@@ -354,6 +354,29 @@ public class DAOUsuario {
 
     }
 
+    public void removeAmigo(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        try {
+            //Quitar a la lista de amigos del usuario activo
+            usersCollection.document(currentUser.getUid()).update(LISTA_AMIGOS, FieldValue.arrayRemove(correo));
+            //Quitar a la lista de amigos del otro usuario
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayRemove(currentUser.getEmail()));
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+
+    }
+
     public void sendSolicitud(String correo, Callbacks cb) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
@@ -368,6 +391,19 @@ public class DAOUsuario {
                     }
                 }
             });
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+
+    public void removeSolicitud(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        try {
+            //Quitamos de la lista de solicitudes
+            usersCollection.document(currentUser.getUid()).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(correo));
             cb.onCallbackExito(true);
         } catch (Exception e) {
             cb.onCallbackExito(false);
