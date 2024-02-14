@@ -127,7 +127,7 @@ public class DAOUsuario {
 
     public void getUsuario(String email, Callbacks cb){
         UserInfo userInfo = new UserInfo();
-        FirebaseUser user = mAuth.getCurrentUser();
+        //FirebaseUser user = mAuth.getCurrentUser();
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(CORREO,
                 email).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -135,6 +135,8 @@ public class DAOUsuario {
 
                     userInfo.setNombre(d.get(NOMBRE).toString());
                     userInfo.setNombreUsuario(d.get(NOMBRE_USU).toString());
+                    userInfo.setCorreo(email);
+                    //userInfo.setImgPerfil(d.get()); TODO poner imagen
 
                 }
 
@@ -148,9 +150,9 @@ public class DAOUsuario {
         UserInfo userInfo = new UserInfo();
         FirebaseUser user = mAuth.getCurrentUser();
 
-        username = username.toLowerCase();
+        String finalUsername = username.toLowerCase();
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(NOMBRE_USU,
-                username).get().addOnCompleteListener(task -> {
+                finalUsername).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
                 if(!task.getResult().isEmpty()){
@@ -159,7 +161,8 @@ public class DAOUsuario {
 
                         userInfo.setNombre(d.get(NOMBRE).toString());
                         userInfo.setCorreo(d.get(CORREO).toString());
-
+                        userInfo.setNombreUsuario(finalUsername);
+                        //userInfo.setImgPerfil(d.get()); TODO poner imagen
                     }
 
                     cb.onCallback(userInfo);
@@ -326,6 +329,7 @@ public class DAOUsuario {
             }
         });
     }
+
 
     //Se llama al aceptar la solicitud
     public void addAmigo(String correo, Callbacks cb) {

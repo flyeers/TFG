@@ -2,6 +2,7 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -33,6 +34,7 @@ import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class CrearCajaForm extends AppCompatActivity {
 
@@ -96,37 +98,33 @@ public class CrearCajaForm extends AppCompatActivity {
         });
 
         //COLABORADORES //TODO
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
+        recyclerView.setVisibility(View.GONE);
         btnAddColaborator = findViewById(R.id.btnAddCol);
         btnAddColaborator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CrearCajaForm.this);
-                builder.setTitle("AÑADIR COLABORADOR");
-                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //AÑADIR A UN ARRAY
-                    }
-                });
-                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-
+                if(recyclerView.getVisibility() == View.GONE)
+                    recyclerView.setVisibility(View.VISIBLE);
+                else
+                    recyclerView.setVisibility(View.GONE);
             }
         });
         //lista de colaboradores
 
-        //TODO CAMBIAR - lo q hay q coger (y en el modal no aqui), es la lista amigos del usuario
-        ArrayList<Pair<String, String>> users = new ArrayList<Pair<String, String>>();
-        users.add(new Pair<>("Pepe03", ""));
+        //TODO Colaboradores
+
+        ArrayList<UserInfo> users = new ArrayList<>();
+        UserInfo usu = new UserInfo();
+        usu.setCorreo("correo");
+        usu.setNombreUsuario("nombre");
+        users.add(usu);
         UsersAdapter u = new UsersAdapter();
         u.setUserData(users);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
         recyclerView.setAdapter(u);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CrearCajaForm.this);
+        recyclerView.setLayoutManager(layoutManager);
+
 
 
         //CREAR

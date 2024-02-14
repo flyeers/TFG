@@ -32,7 +32,7 @@ public class AmigosSolicitudesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Intrinsics.checkNotNullParameter(inflater, "inflater"); //comprobamos que lo que llega no es ulo
-        View view = inflater.inflate(R.layout.fragment_amigos, container, false);
+        View view = inflater.inflate(R.layout.fragment_amigos_solicitudes, container, false);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         SAUser saUser = new SAUser();
@@ -53,7 +53,7 @@ public class AmigosSolicitudesFragment extends Fragment {
 
             adapter = new AmigosAdapter();
             adapter.setUsersData(solicitudes, 2);
-            RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_amigos);
+            RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_solicitudes);
             recyclerView.setAdapter(adapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);

@@ -1,6 +1,6 @@
 package es.ucm.fdi.boxit.presentacion;
 
-import android.util.Pair;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +23,10 @@ import es.ucm.fdi.boxit.negocio.UserInfo;
 public class UsersAdapter extends RecyclerView.Adapter{
 
 
-    private ArrayList<Pair<String,String>> usersData; //nombreUsuario e imagen de perfil
+    private ArrayList<UserInfo> usersData; //nombreUsuario e imagen de perfil
 
-    public void setUserData(List<Pair<String,String>> data){
-        this.usersData = (ArrayList<Pair<String,String>>) data;
+    public void setUserData(List<UserInfo> data){
+        this.usersData = (ArrayList<UserInfo>) data;
     }
 
 
@@ -40,24 +40,37 @@ public class UsersAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Pair<String, String> u = usersData.get(position);
+        UserInfo u = usersData.get(position);
+        Log.d("hola", u.getNombreUsuario());
         UsersAdapter.ViewHolder h = (UsersAdapter.ViewHolder) holder;
-        h.nombre.setText(u.first);
+        h.nombre.setText(u.getNombreUsuario());
         Glide.with(h.cardView)
-                .load(u.second)
+                .load(u.getImgPerfil())
                 .placeholder(R.drawable.user)
                 .into(h.imagen);
+
+        h.imgOver.setVisibility(View.GONE);
+        h.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(h.imgOver.getVisibility() == View.GONE)
+                    h.imgOver.setVisibility(View.VISIBLE);
+                else
+                    h.imgOver.setVisibility(View.GONE);
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return usersData != null ? usersData.size() : 0;
     }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nombre;
         private ImageView imagen;
+        private ImageView imgOver;
         private CardView cardView;
 
         public ViewHolder(View view) {
@@ -65,6 +78,7 @@ public class UsersAdapter extends RecyclerView.Adapter{
 
             nombre = view.findViewById(R.id.nombreColaborador);
             imagen = view.findViewById(R.id.imgPerfil);
+            imgOver = view.findViewById(R.id.imgOver);
             cardView =  view.findViewById(R.id.cardUser);
 
         }
