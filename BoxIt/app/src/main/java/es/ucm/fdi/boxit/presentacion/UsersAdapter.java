@@ -25,8 +25,13 @@ public class UsersAdapter extends RecyclerView.Adapter{
 
     private ArrayList<UserInfo> usersData; //nombreUsuario e imagen de perfil
 
+    private ArrayList<String> colaboradores = new ArrayList<>();
+
     public void setUserData(List<UserInfo> data){
         this.usersData = (ArrayList<UserInfo>) data;
+    }
+    public ArrayList<String> getData(){
+        return colaboradores;
     }
 
 
@@ -41,7 +46,6 @@ public class UsersAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         UserInfo u = usersData.get(position);
-        Log.d("hola", u.getNombreUsuario());
         UsersAdapter.ViewHolder h = (UsersAdapter.ViewHolder) holder;
         h.nombre.setText(u.getNombreUsuario());
         Glide.with(h.cardView)
@@ -53,10 +57,14 @@ public class UsersAdapter extends RecyclerView.Adapter{
         h.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(h.imgOver.getVisibility() == View.GONE)
+                if(h.imgOver.getVisibility() == View.GONE){
                     h.imgOver.setVisibility(View.VISIBLE);
-                else
+                    colaboradores.add(u.getCorreo());
+                }
+                else{
                     h.imgOver.setVisibility(View.GONE);
+                    colaboradores.remove(u.getCorreo());
+                }
 
             }
         });

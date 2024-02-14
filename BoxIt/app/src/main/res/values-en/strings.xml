@@ -66,6 +66,9 @@
     <string name="amigos">Friends</string>
     <string name="solicitudesAmistad">Requests</string>
     <string name="buscarAmigos">Find</string>
+    <string name="noAmigos">You do not have friends yet</string>
+    <string name="noSolicitudes">You have no requests</string>
+    <string name="noBusqueda">No results found</string>
 
     <!--Elementos-->
     <string name="camara">Camera</string>

@@ -43,23 +43,20 @@ public class AmigosSolicitudesFragment extends Fragment {
             @Override
             public void onCallbackUsers(ArrayList<UserInfo> users) {
                 solicitudes = users;
+
+                if(!solicitudes.isEmpty()){
+                    text_amigo = view.findViewById(R.id.text_amigos);
+                    text_amigo.setVisibility(View.GONE);
+
+                    adapter = new AmigosAdapter();
+                    adapter.setUsersData(solicitudes, 2);
+                    RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_solicitudes);
+                    recyclerView.setAdapter(adapter);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                }
             }
         });
-
-        text_amigo = view.findViewById(R.id.text_amigos);
-
-        if(!solicitudes.isEmpty()){
-            text_amigo.setVisibility(View.GONE);
-
-            adapter = new AmigosAdapter();
-            adapter.setUsersData(solicitudes, 2);
-            RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_solicitudes);
-            recyclerView.setAdapter(adapter);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-        }else{
-            text_amigo.setText("NO SOLICITUDES");
-        }
 
         return view;
     }

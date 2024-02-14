@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +46,7 @@ public class DAOBox {
     private final String FOTOS = "box_photos";
     private final String DOCS = "box_documents";
     private final String MUSICA = "box_music";
+    private final String CORREO = "correo";
 
 
 
@@ -100,9 +102,25 @@ public class DAOBox {
                                         return usersCollection.document(user.getUid()).update(CAJAS_PROPIAS, FieldValue.arrayUnion(newBoxId));
                                     }
                                     else{
-                                        for(String id: b.getColaborators()){ //COLABORADORES
-                                            usersCollection.document(id).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(newBoxId));
+                                        try{
+                                            for(String correo: b.getColaborators()){ //COLABORADORES
+                                                //TODO
+                                                //usersCollection.document(id).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(newBoxId));
+                                                usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task2 -> {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot d : task2.getResult()) {
+                                                            String userId = d.getId();
+                                                            usersCollection.document(userId).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(newBoxId));
+                                                        }
+                                                    }
+                                                });
+
+                                            }
+                                            cb.onCallbackExito(true);
+                                        }catch (Exception e){
+                                            cb.onCallbackExito(false);
                                         }
+
                                         return null;
                                     }
 

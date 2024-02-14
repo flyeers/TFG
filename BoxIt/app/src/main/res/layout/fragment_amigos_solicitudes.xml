@@ -20,7 +20,7 @@
                 android:id="@+id/text_amigos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NO AMIGOS" />
+                android:text="@string/noSolicitudes" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_solicitudes"

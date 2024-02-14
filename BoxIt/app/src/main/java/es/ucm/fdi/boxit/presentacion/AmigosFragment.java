@@ -42,46 +42,24 @@ public class AmigosFragment extends Fragment {
 
         amigos = new ArrayList<>();
 
-        /*saUser.getAmigos(currentUser.getEmail(), new Callbacks() {
+        saUser.getAmigos(currentUser.getEmail(), new Callbacks() {
             @Override
             public void onCallbackUsers(ArrayList<UserInfo> users) {
                 amigos = users;
+
+                if(!amigos.isEmpty()){
+                    text_amigo = view.findViewById(R.id.text_amigos);
+                    text_amigo.setVisibility(View.GONE);
+
+                    adapter = new AmigosAdapter();
+                    adapter.setUsersData(amigos, 1);
+                    RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_amigos);
+                    recyclerView.setAdapter(adapter);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                }
             }
         });
-
-        text_amigo = view.findViewById(R.id.text_amigos);
-
-        if(!amigos.isEmpty()){
-            text_amigo.setVisibility(View.GONE);
-
-            adapter = new AmigosAdapter();
-            adapter.setUsersData(amigos, 1);
-            RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_amigos);
-            recyclerView.setAdapter(adapter);
-             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-        }*/
-
-        UserInfo user = new UserInfo();
-        user.setCorreo("prueba@ucm.es");
-        user.setNombreUsuario("TestUser");
-        amigos.add(user);
-        amigos.add(user);
-        amigos.add(user);
-        adapter = new AmigosAdapter();
-        adapter.setUsersData(amigos, 1);
-        RecyclerView recyclerView  = view.findViewById(R.id.recycler_view_amigos);
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        text_amigo = view.findViewById(R.id.text_amigos);
-
-        if(!amigos.isEmpty()){
-            text_amigo.setVisibility(View.GONE);
-
-
-        }
 
         return view;
     }
