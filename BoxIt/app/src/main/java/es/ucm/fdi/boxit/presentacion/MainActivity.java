@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -59,27 +60,8 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-
             plus = findViewById(R.id.button2);
             plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
-        /*
-        Intent intent = new Intent(this, LogIn.class);
-        startActivity(intent);*/
-
-        /*
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("AHHH", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("AHHH", "Error getting documents.", task.getException());
-                        }
-                    }
-                });*/
 
             android.net.Uri img = null;
             BoxInfo boxAdd = new BoxInfo("","ADD", img);
@@ -93,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             a.add(box3);
 
             /////////////////////////// CAPSULAS ///////////////////////////////
+            //TODO
             BoxAdapter b = new BoxAdapter();
             b.setBoxData(a, false, true);
             RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
@@ -102,12 +85,6 @@ public class MainActivity extends AppCompatActivity {
             /////////////////////////// CAJAS ///////////////////////////////
             BoxAdapter b2 = new BoxAdapter();
             ArrayList<BoxInfo> boxes = new ArrayList<>();
-
-
-            //card para la card de añadir caja
-           // b2.setBoxData(a, true,true);
-            //android.net.Uri selectedImage=null;
-           // BoxInfo boxAdd = new BoxInfo("", selectedImage);
 
             boxes.add(boxAdd);
 
@@ -121,26 +98,66 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
-            /*BoxAdapter b2 = new BoxAdapter();
-            b2.setBoxData(a, true,true);
-            RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
-            recyclerView.setAdapter(b2);*/
-
-
-            /////////////////////////// COMPARTIDO ///////////////////////////////
+            /////////////////////////// CAJAS COMPARTIDAS ///////////////////////////////
             BoxAdapter b3 = new BoxAdapter();
-            b3.setBoxData(a, true,true);
-            RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
-            recyclerView3.setAdapter(b3);
+            ArrayList<BoxInfo> boxesShared = new ArrayList<>();
+            boxesShared.add(boxAdd);
 
-            //Este Layout no se vera si no hay ninguna caja compartida
-        /*LinearLayout lShare = findViewById(R.id.layoutShare);
-        lShare.setVisibility(View.GONE);
-        recyclerView3.setVisibility(View.GONE);*/
+            LinearLayout lShare = findViewById(R.id.layoutShare);
+            RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
+
+            saUser.getBoxesCompartidas(currentUser.getEmail(), new Callbacks() {
+                @Override
+                public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
+                    if(!bs.isEmpty()){
+                        lShare.setVisibility(View.VISIBLE);
+                        recyclerView3.setVisibility(View.VISIBLE);
+
+                        boxesShared.addAll(bs);
+                        b3.setBoxData(bs, true,true);
+                        recyclerView3.setAdapter(b3);
+                    }
+                    else{
+                        //Este Layout no se vera si no hay ninguna caja compartida
+                        lShare.setVisibility(View.GONE);
+                        recyclerView3.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+            /////////////////////////// CAPSAULAS COMPARTIDAS ///////////////////////////////
+            //TODO
+            BoxAdapter b4 = new BoxAdapter();
+            ArrayList<BoxInfo> capShared = new ArrayList<>();
+            boxesShared.add(boxAdd);
+
+            LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
+            RecyclerView recyclerView4 = findViewById(R.id.recycler_view_share_cap);
+            lShareCap.setVisibility(View.GONE);
+            recyclerView4.setVisibility(View.GONE);
+
+            /*saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
+                @Override
+                public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
+                    if(!bs.isEmpty()){
+                        lShareCap.setVisibility(View.VISIBLE);
+                        recyclerView4.setVisibility(View.VISIBLE);
+
+                        boxesShared.addAll(bs);
+                        b3.setBoxData(bs, true,true);
+                        RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
+                        recyclerView3.setAdapter(b3);
+                    }
+                    else{
+                        //Este Layout no se vera si no hay ninguna caja compartida
+                        lShare.setVisibility(View.GONE);
+                        recyclerView4.setVisibility(View.GONE);
+                    }
+                }
+            });*/
 
             //VER ALL
-
+            //TODO
             Button verTodoCaja = findViewById(R.id.verTodoCaja);
             verTodoCaja.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,13 +176,10 @@ public class MainActivity extends AppCompatActivity {
                     Context ctx = v.getContext();
                     Intent intent = new Intent(ctx, VerTodo.class);
                     ctx.startActivity(intent);
-
                 }
             });
 
             perfil = findViewById(R.id.perfil1);
-
-            //CIERRA SESION POR AHORA !!!!! ES TEMPORAL *****************************
             perfil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -156,13 +157,6 @@ public class BoxAdapter extends RecyclerView.Adapter{
 
                 BoxInfo box = boxesData.get(position);
                 h1.titulo.setText(box.getTitle());
-
-               /* Glide.with(h1.cardView)
-                        .load(box.getImg())
-                        .placeholder(R.drawable.default_image)
-                        .into(h1.imagen);*/
-
-
                 Glide.with(h1.cardView)
                         .load(box.getImg())
                         .transform(new CenterCrop(), new RoundedCorners(20))
@@ -198,9 +192,12 @@ public class BoxAdapter extends RecyclerView.Adapter{
 
                     }
                 });
+
+                if(!box.getColaborators().isEmpty()) //hay colaboradores cambio color
+                    h1.cardView.setCardBackgroundColor(ContextCompat.getColor( h1.cardView.getContext(), R.color.amarilloColab));
+
+
                 break;
-
-
         }
     }
 

@@ -2,6 +2,7 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,8 @@ import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
+import es.ucm.fdi.boxit.negocio.SAUser;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class CrearCajaForm extends AppCompatActivity {
 
@@ -45,6 +51,9 @@ public class CrearCajaForm extends AppCompatActivity {
     private ImageView ellipse, home;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private ArrayList<UserInfo> amigos;
+    private ArrayList<String> colaboradores = new ArrayList<>();
+    private UsersAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,38 +104,53 @@ public class CrearCajaForm extends AppCompatActivity {
             }
         });
 
-        //COLABORADORES //TODO
+        //COLABORADORES
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
+        recyclerView.setVisibility(View.GONE);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        SAUser saUser = new SAUser();
+
+        //cogemos la lista de amigos
+        amigos = new ArrayList<>();
+        saUser.getAmigos(currentUser.getEmail(), new Callbacks() {
+            @Override
+            public void onCallbackUsers(ArrayList<UserInfo> users) {
+                amigos = users;
+            }
+        });
+
+        /*ArrayList<UserInfo> users = new ArrayList<>();
+        UserInfo usu = new UserInfo();
+        usu.setCorreo("correo");
+        usu.setNombreUsuario("nombre");
+        users.add(usu);
+        UserInfo usu2 = new UserInfo();
+        usu2.setCorreo("correo2");
+        usu2.setNombreUsuario("nombre2");
+        users.add(usu2);*/
+        adapter = new UsersAdapter();
+        //adapter.setUserData(users);
+        adapter.setUserData(amigos);//TODO CAMBIAR
+        recyclerView.setAdapter(adapter);
+
         btnAddColaborator = findViewById(R.id.btnAddCol);
         btnAddColaborator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CrearCajaForm.this);
-                builder.setTitle("AÑADIR COLABORADOR");
-                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //AÑADIR A UN ARRAY
-                    }
-                });
-                builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-
+                adapter.setUserData(amigos);
+                adapter.notifyDataSetChanged();
+                if(amigos.isEmpty()){ //TODO CAMBIAR
+                    Toast.makeText(CrearCajaForm.this, R.string.noAmigos , Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if(recyclerView.getVisibility() == View.GONE)
+                        recyclerView.setVisibility(View.VISIBLE);
+                    else
+                        recyclerView.setVisibility(View.GONE);
+                }
             }
         });
-        //lista de colaboradores
-
-        //TODO CAMBIAR - lo q hay q coger (y en el modal no aqui), es la lista amigos del usuario
-        ArrayList<Pair<String, String>> users = new ArrayList<Pair<String, String>>();
-        users.add(new Pair<>("Pepe03", ""));
-        UsersAdapter u = new UsersAdapter();
-        u.setUserData(users);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
-        recyclerView.setAdapter(u);
 
 
         //CREAR
@@ -139,16 +163,23 @@ public class CrearCajaForm extends AppCompatActivity {
                     nombreCajaInput.setError(getString(R.string.requerido));
                 }
                 else{
-                    //TODO coger colaboradores
-
-
 
                     SABox saBox = new SABox();
                     if(selectedImage == null){
                         String packageName = getApplicationContext().getPackageName();
                         selectedImage = Uri.parse("android.resource://" + packageName + "/drawable/default_image");
                     }
+
+
                     BoxInfo box = new BoxInfo("a",nombreCajaInput.getText().toString(), selectedImage);
+
+                    //cogemos los colaboradores si los hay
+                    colaboradores = adapter.getData();
+                    if(!colaboradores.isEmpty()) {
+                        colaboradores.add(currentUser.getEmail());//TODO ver si lo queremos hacer asi
+                        box.setCollaborators(colaboradores);
+                    }
+
                     saBox.createBox(box, new Callbacks() {
                         @Override
                         public void onCallbackExito(Boolean exito) {
@@ -168,8 +199,8 @@ public class CrearCajaForm extends AppCompatActivity {
         });
 
 
-    }
 
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

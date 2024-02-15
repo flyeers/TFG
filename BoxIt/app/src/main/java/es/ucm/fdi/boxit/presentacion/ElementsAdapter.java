@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
-import es.ucm.fdi.boxit.negocio.BoxInfo;
 
 public class ElementsAdapter extends RecyclerView.Adapter {
 
@@ -62,7 +60,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
 
             imagen = view.findViewById(R.id.photoBox);
-            cardView=  view.findViewById(R.id.cardViewPhoto);
+            cardView=  view.findViewById(R.id.card_amigo);
             fileName = view.findViewById(R.id.nombreDoc);
 
         }

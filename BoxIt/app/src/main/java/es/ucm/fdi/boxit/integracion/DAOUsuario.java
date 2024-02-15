@@ -127,7 +127,7 @@ public class DAOUsuario {
 
     public void getUsuario(String email, Callbacks cb){
         UserInfo userInfo = new UserInfo();
-        FirebaseUser user = mAuth.getCurrentUser();
+        //FirebaseUser user = mAuth.getCurrentUser();
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(CORREO,
                 email).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -135,6 +135,8 @@ public class DAOUsuario {
 
                     userInfo.setNombre(d.get(NOMBRE).toString());
                     userInfo.setNombreUsuario(d.get(NOMBRE_USU).toString());
+                    userInfo.setCorreo(email);
+                    //userInfo.setImgPerfil(d.get()); TODO poner imagen
 
                 }
 
@@ -148,9 +150,9 @@ public class DAOUsuario {
         UserInfo userInfo = new UserInfo();
         FirebaseUser user = mAuth.getCurrentUser();
 
-        username = username.toLowerCase();
+        String finalUsername = username.toLowerCase();
         SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo(NOMBRE_USU,
-                username).get().addOnCompleteListener(task -> {
+                finalUsername).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
                 if(!task.getResult().isEmpty()){
@@ -159,7 +161,8 @@ public class DAOUsuario {
 
                         userInfo.setNombre(d.get(NOMBRE).toString());
                         userInfo.setCorreo(d.get(CORREO).toString());
-
+                        userInfo.setNombreUsuario(finalUsername);
+                        //userInfo.setImgPerfil(d.get()); TODO poner imagen
                     }
 
                     cb.onCallback(userInfo);
@@ -229,7 +232,7 @@ public class DAOUsuario {
         });
     }*/
 
-
+    //CAJAS
     public void getUserBoxes(String correo, Callbacks cb){
         ArrayList<BoxInfo> boxes = new ArrayList<>();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
@@ -265,6 +268,45 @@ public class DAOUsuario {
         });
     }
 
+    public void getUserBoxesCompartidas(String correo, Callbacks cb){
+        ArrayList<BoxInfo> boxes = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        DAOBox daoBox = new DAOBox();
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array el documento del usuario
+                    List<String> idCajas = (List<String>) d.get(CAJAS_COMPARTIDAS);
+                    AtomicInteger count = new AtomicInteger(idCajas.size());
+                    for(String caja: idCajas){
+
+                        daoBox.getBoxById(caja, new Callbacks() {
+                            @Override
+                            public void onCallbackBox(BoxInfo b) {
+                                if( b != null){
+                                    boxes.add(b);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    // Todas lñas cajas se han cargado, llamar al callback
+                                    cb.onCallbackBoxes(boxes);
+                                }
+                            }
+                        });
+
+                    }
+                    //ninguna caja
+                    cb.onCallbackBoxes(boxes);
+
+                }
+            }
+        });
+    }
+
+
+
+
+    //AMIGOS
     public void getAmigos(String correo, Callbacks cb) {
         ArrayList<UserInfo> users = new ArrayList<>();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
@@ -327,6 +369,7 @@ public class DAOUsuario {
         });
     }
 
+
     //Se llama al aceptar la solicitud
     public void addAmigo(String correo, Callbacks cb) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -344,6 +387,29 @@ public class DAOUsuario {
                     for (QueryDocumentSnapshot d : task.getResult()) {
                         String userId = d.getId();
                         usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayUnion(currentUser.getEmail()));
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+
+    }
+
+    public void removeAmigo(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        try {
+            //Quitar a la lista de amigos del usuario activo
+            usersCollection.document(currentUser.getUid()).update(LISTA_AMIGOS, FieldValue.arrayRemove(correo));
+            //Quitar a la lista de amigos del otro usuario
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayRemove(currentUser.getEmail()));
                     }
                 }
             });
@@ -374,7 +440,23 @@ public class DAOUsuario {
         }
     }
 
+    public void removeSolicitud(String correo, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        try {
+            //Quitamos de la lista de solicitudes
+            usersCollection.document(currentUser.getUid()).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(correo));
+            cb.onCallbackExito(true);
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+
+    /* TODO quitar
     public void searchUsuario(String username, Callbacks cb) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         ArrayList<UserInfo> users = new ArrayList<>();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
@@ -387,7 +469,8 @@ public class DAOUsuario {
                         @Override
                         public void onCallback(UserInfo u) {
                             if( u != null){
-                                users.add(u);
+                                if(u.getCorreo() != currentUser.getEmail())//que no sea el propio usuario
+                                    users.add(u);
                             }
                             if (count.decrementAndGet() == 0) {
                                 //cargadas los usuarios que coinciden con la busqueda
@@ -400,9 +483,42 @@ public class DAOUsuario {
                 cb.onCallbackUsers(users);
             }
         });
+    }*/
 
+    public void searchUsuario(String fragmentoUsername, Callbacks cb) {
+        ArrayList<UserInfo> usuarios = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
+        String fragmentoMin = fragmentoUsername.toLowerCase();
+        String fragmentoMax = fragmentoMin + "\uf8ff"; // "\uf8ff" es un carácter Unicode que representa el final del conjunto Unicode
+
+        usersCollection.orderBy(NOMBRE_USU).startAt(fragmentoMin).endAt(fragmentoMax).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for(QueryDocumentSnapshot document : task.getResult()) {
+                    String nombreUsuario = document.getString(NOMBRE_USU);
+                    // Si el nombre de usuario contiene el fragmento buscado
+                    if(nombreUsuario.toLowerCase().contains(fragmentoUsername.toLowerCase())) {
+                        // Obtener el usuario completo y agregarlo a la lista
+                        getUsuarioByUserName(nombreUsuario, new Callbacks() {
+                            @Override
+                            public void onCallback(UserInfo u) {
+                                if(u != null) {
+                                        usuarios.add(u);
+                                }
+                                // Si todos los documentos han sido procesados, llamar al callback
+                                if(usuarios.size() == task.getResult().size()) {
+                                    cb.onCallbackUsers(usuarios);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+            cb.onCallbackUsers(usuarios);
+        });
     }
+
+
 
     //TODO ver si se quiere usar -> puede suponer muchas llamadas
     /*

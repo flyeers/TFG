@@ -38,6 +38,11 @@ public class SAUser {
         dao.getUserBoxes(correo, cb);
     }
 
+    public void getBoxesCompartidas(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getUserBoxesCompartidas(correo, cb);
+    }
+
     public void getAmigos(String correo, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.getAmigos(correo, cb);
@@ -48,6 +53,11 @@ public class SAUser {
         dao.addAmigo(correo, cb);
     }
 
+    public void removeAmigo(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.removeAmigo(correo, cb);
+    }
+
     public void getSolicitudes(String correo, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.getSolicitudes(correo, cb);
@@ -56,6 +66,11 @@ public class SAUser {
     public void sendSolicitud(String correo, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.sendSolicitud(correo, cb);
+    }
+
+    public void removeSolicitud(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.removeSolicitud(correo, cb);
     }
 
     public void searchUsuario(String username, Callbacks cb){
