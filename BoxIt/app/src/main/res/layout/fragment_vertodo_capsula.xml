@@ -18,20 +18,12 @@
             android:orientation="horizontal">
 
             <SearchView
-                android:layout_width="301dp"
+                android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginRight="5dp"
                 android:background="@color/fondoCards"
                 android:backgroundTint="@color/fondoCards" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@color/fondoCards"
-                android:text="..."
-                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout

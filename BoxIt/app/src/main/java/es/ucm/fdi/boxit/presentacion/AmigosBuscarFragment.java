@@ -58,6 +58,7 @@ public class AmigosBuscarFragment extends Fragment {
                             text_buscar.setVisibility(View.GONE);
                         }
                         else {
+                            adapter.setUsersData(users, 3);
                             text_buscar.setVisibility(View.VISIBLE);
                         }
                         adapter.notifyData();

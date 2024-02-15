@@ -166,7 +166,9 @@ public class DAOBox {
                         DocumentSnapshot ds = task.getResult();
                         if(ds.exists()){
                             boxInfo = new BoxInfo(id, ds.getData().get(NOMBRE).toString(), Uri.parse(ds.getData().get(PORTADA).toString()));
-
+                            ArrayList<String> colab = new ArrayList<>();
+                            colab = (ArrayList<String>) ds.getData().get(COLABORADORES);
+                            boxInfo.setCollaborators(colab);
                         }
                     }
                     callBacks.onCallbackBox(boxInfo);

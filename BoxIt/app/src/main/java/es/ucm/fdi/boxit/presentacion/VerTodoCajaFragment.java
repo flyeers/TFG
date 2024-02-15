@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class VerTodoCajaFragment extends Fragment {
         Intrinsics.checkNotNullParameter(inflater, "inflater"); //comprobamos que lo que llega no es ulo
         View view = inflater.inflate(R.layout.fragment_vertodo_caja, container, false);
 
-
         android.net.Uri img = null;
         BoxInfo boxAdd = new BoxInfo("","ADD", img);
         BoxInfo box1 = new BoxInfo("","prueba", img);
@@ -43,11 +43,15 @@ public class VerTodoCajaFragment extends Fragment {
 
         BoxAdapter b = new BoxAdapter();
         b.setBoxData(a, true, false);
-        RecyclerView recyclerView2 = view.findViewById(R.id.reclyclerViewBox);
+        RecyclerView recyclerView2 = (RecyclerView) view.findViewById(R.id.reclyclerViewBox);
+
+        //RecyclerView recyclerView2 = view.findViewById(R.id.reclyclerViewBox);
         recyclerView2.setAdapter(b);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView2.setHasFixedSize(true);
+
 
         return view;
-
     }
 
 

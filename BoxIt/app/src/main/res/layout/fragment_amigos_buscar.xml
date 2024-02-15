@@ -29,7 +29,7 @@
                 android:id="@+id/text_buscar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/errCrearCaja" />
+                android:text="@string/noBusqueda" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_buscar_amigos"

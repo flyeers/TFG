@@ -38,6 +38,11 @@ public class SAUser {
         dao.getUserBoxes(correo, cb);
     }
 
+    public void getBoxesCompartidas(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getUserBoxesCompartidas(correo, cb);
+    }
+
     public void getAmigos(String correo, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.getAmigos(correo, cb);
