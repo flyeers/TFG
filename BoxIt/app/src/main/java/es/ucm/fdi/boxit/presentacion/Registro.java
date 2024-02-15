@@ -61,7 +61,7 @@ public class Registro extends AppCompatActivity {
                         if(exito1){
                             //Registro valido
                             SAUser saUser = new SAUser();
-                            UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString());
+                            UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString(), fotoPerfil);
 
                             saUser.crearUsuario(userInfo, new Callbacks() {
                                 @Override
@@ -181,7 +181,7 @@ public class Registro extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
             fotoPerfil = data.getData();
-          //  imagen.setImageURI(fotoPerfil);
+
 
 
             try {
