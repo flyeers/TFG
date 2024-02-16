@@ -52,5 +52,10 @@ public class SABox {
 
     }
 
+    public void deletePhoto(String id, String foto){
+        DAOBox daoBox = new DAOBox();
+        daoBox.borrarFoto(id,foto);
+    }
+
 
 }

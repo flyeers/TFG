@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,11 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.negocio.SABox;
 
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
     private boolean photo, doc;
+    private String boxId;
 
 
     private static final int IMAGE_WIDTH_KEY = 1;
@@ -40,11 +44,12 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx){
+    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx, String boxId){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
         this.ctx = ctx;
+        this.boxId = boxId;
 
     }
 
@@ -166,6 +171,39 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.photo_preview);
 
+        Button borrarFoto = dialog.findViewById(R.id.eliminarFoto);
+
+        borrarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialogConfirm = new Dialog(ctx);
+                dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogConfirm.dismiss();
+                        dialog.dismiss();
+                    }
+                });
+
+                confirmar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SABox saBox = new SABox();
+                        saBox.deletePhoto(boxId, i);
+                        dialogConfirm.dismiss();
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialogConfirm.show();
+            }
+        });
 
         ImageView dialogImageView = dialog.findViewById(R.id.modalImageView);
 
@@ -180,7 +218,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     public void addElem(String newElem, String filename) {
 
         itemsData.add(newElem);
-
 
         notifyDataSetChanged();
     }

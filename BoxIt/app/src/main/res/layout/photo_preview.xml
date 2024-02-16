@@ -1,18 +1,31 @@
 <!-- res/layout/modal_imagen.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
-    android:layout_height="400dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:backgroundTint="@color/fondoAdd"
-    android:gravity="center">
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:background="@color/fondoAdd">
 
     <ImageView
         android:id="@+id/modalImageView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:layout_gravity="center"
         android:scaleType="fitCenter"
         android:backgroundTint="@color/fondoAdd"
         android:src="@drawable/default_image"/>
+
+    <Button
+        android:id="@+id/eliminarFoto"
+        android:layout_width="170dp"
+        android:backgroundTint="@color/rosaBoton"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/fondoAdd"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Eliminar" />
 
 </LinearLayout>

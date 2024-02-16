@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.telecom.Call;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -350,6 +351,50 @@ public class DAOBox {
         });
 
     }
+
+
+    public void borrarFoto(String id, String imagenB){
+
+
+        //TODO NO SE BORRA DEL STORAGE!!!
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        boxDocument.update(FOTOS, FieldValue.arrayRemove(imagenB))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Referencia de imagen en la colección eliminada exitosamente
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error al eliminar la referencia de imagen en la colección
+                    }
+                });
+
+        /*
+
+        FirebaseStorage imageStorage = new FirebaseStorage();
+        StorageReference reference = imageStorage.getStorageRef().child(imagenB);
+
+        // Eliminar el archivo
+        reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // El archivo se eliminó exitosamente
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Error al intentar eliminar el archivo
+
+            }
+        });*/
+    }
+
 
 
 }

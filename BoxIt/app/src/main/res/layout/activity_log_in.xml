@@ -59,52 +59,9 @@
             android:clickable="true"
             android:text="@string/botonLogin" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:orientation="horizontal">
 
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="170dp"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/rosaBoton" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="9dp"
-                android:textColor="@color/rosaBoton"
-                android:fontFamily="@font/interregular"
-                android:text="@string/o" />
 
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="185dp"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/rosaBoton" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/registrarse_google"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:backgroundTint="@color/rosaCards"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/interregular"
-            android:textColor="@color/textoOscuro"
-            android:text="@string/logingoogle" />
 
         <View
             android:id="@+id/divider3"

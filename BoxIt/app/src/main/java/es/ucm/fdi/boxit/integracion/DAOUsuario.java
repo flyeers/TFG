@@ -1,11 +1,15 @@
 package es.ucm.fdi.boxit.integracion;
 
+import android.net.Uri;
 import android.telecom.Call;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,10 +20,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
@@ -39,6 +46,7 @@ public class DAOUsuario {
     private final String CAPSULAS_COMPARTIDAS = "capsules_shared";
     private final String LISTA_AMIGOS = "amigos";
     private final String LISTA_SOLICITUDES = "solicitudes";
+    private final String FOTO_PERFIL = "foto_perfil";
 
 
 
@@ -98,8 +106,6 @@ public class DAOUsuario {
 
 
 
-
-
                                         //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
                                         SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
                                         cb.onCallbackExito(true);
@@ -120,6 +126,8 @@ public class DAOUsuario {
 
 
     }
+
+
 
     public void logOut(){
         FirebaseAuth.getInstance().signOut();

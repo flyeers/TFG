@@ -1,0 +1,48 @@
+<!-- res/layout/modal_imagen.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:backgroundTint="@color/fondoAdd"
+
+    android:background="@color/fondoAdd">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        style="@style/titulosVista"
+        android:text="@string/eliminar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelar"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="@color/rosaBoton"
+            android:backgroundTint="@color/rosaBotonClaro"
+            android:text="@string/cancelar" />
+
+        <Button
+            android:id="@+id/buttonEliminar"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/rosaBoton"
+            android:textColor="@color/fondoAdd"
+            android:text="@string/eliminar2" />
+    </LinearLayout>
+</LinearLayout>

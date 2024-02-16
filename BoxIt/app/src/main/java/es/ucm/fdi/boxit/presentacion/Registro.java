@@ -61,6 +61,11 @@ public class Registro extends AppCompatActivity {
                         if(exito1){
                             //Registro valido
                             SAUser saUser = new SAUser();
+
+                            if (fotoPerfil == null){
+                                fotoPerfil =  Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.user_pordefecto);
+                            }
+
                             UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString(), fotoPerfil);
 
                             saUser.crearUsuario(userInfo, new Callbacks() {
@@ -181,7 +186,6 @@ public class Registro extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
             fotoPerfil = data.getData();
-
 
 
             try {

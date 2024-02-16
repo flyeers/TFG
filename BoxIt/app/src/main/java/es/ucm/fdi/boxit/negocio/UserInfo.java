@@ -9,12 +9,12 @@ public class UserInfo {
     private android.net.Uri imgPerfil;
     private ArrayList<String> boxPropias = new ArrayList<>(), boxCompartidas = new ArrayList<>(), capPropias = new ArrayList<>(), capCompartidas = new ArrayList<>();
 
-    public UserInfo(String nombreUsuario, String correo, String contraseña, String nombre){
+    public UserInfo(String nombreUsuario, String correo, String contraseña, String nombre, Uri foto){
         this.contraseña = contraseña;
         this.nombreUsuario = nombreUsuario;
         this.correo = correo;
         this.nombre = nombre;
-        //this.imgPerfil = foto;
+        this.imgPerfil = foto;
     }
 
     //constructor para usuario ya creado

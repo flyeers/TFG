@@ -40,7 +40,7 @@ import es.ucm.fdi.boxit.negocio.SABox;
 
 public class Caja extends AppCompatActivity {
 
-    private Button add;
+    private Button add, borrarFoto;
     private TextView nombre, fotos, musica, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST_CODE = 1001;
@@ -89,6 +89,7 @@ public class Caja extends AppCompatActivity {
         textoFotos1 = findViewById(R.id.fotosdelacaja);
         textoInicio = findViewById(R.id.todoElContenidoCaja);
         verTodo = findViewById(R.id.vertodo);
+
 
         musica = findViewById(R.id.musicaCaja);
         textoFotos2 = findViewById(R.id.fdelacaja);
@@ -167,7 +168,7 @@ public class Caja extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
-                    photoAdapter.setElementsData(photos_b, true, false, ctx);
+                    photoAdapter.setElementsData(photos_b, true, false, ctx, boxInfo.getId());
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
                 }
@@ -217,7 +218,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    docAdapter.setElementsData(documents_b, false, true, ctx);
+                    docAdapter.setElementsData(documents_b, false, true, ctx, boxInfo.getId());
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -347,7 +348,7 @@ public class Caja extends AppCompatActivity {
                             saBox.getPhotos(boxInfo.getId(), new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, ctx);
+                                    photoAdapter.setElementsData(photos, true, false, ctx, boxInfo.getId());
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
 
@@ -381,7 +382,7 @@ public class Caja extends AppCompatActivity {
                         saBox.getDocs(boxInfo.getId(), new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, true, false, ctx);
+                                docAdapter.setElementsData(items, true, false, ctx, boxInfo.getId());
                                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -407,7 +408,7 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, ctx);
+                docAdapter.setElementsData(documents_b, false, true, ctx, boxInfo.getId());
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -417,7 +418,7 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, ctx);
+                photoAdapter.setElementsData(photos_b, true, false, ctx, boxInfo.getId());
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
 
