@@ -57,7 +57,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         if(typeCard == 1) { //lista amigos
 
             holder.btn1.setVisibility(View.GONE);
-            //TODO CAMBIAR BOTON 2
+            holder.btn2.setImageResource(R.drawable.cross);
             holder.btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,7 +132,6 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                         @Override
                         public void onCallbackExito(Boolean exito) {
                             if(exito){
-                                //TODO ver si puedo sacar toast
                                 holder.btn2.setVisibility(View.GONE);
                             }
                         }

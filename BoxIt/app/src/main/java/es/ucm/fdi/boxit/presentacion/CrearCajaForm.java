@@ -117,40 +117,28 @@ public class CrearCajaForm extends AppCompatActivity {
             @Override
             public void onCallbackUsers(ArrayList<UserInfo> users) {
                 amigos = users;
-            }
-        });
-
-        /*ArrayList<UserInfo> users = new ArrayList<>();
-        UserInfo usu = new UserInfo();
-        usu.setCorreo("correo");
-        usu.setNombreUsuario("nombre");
-        users.add(usu);
-        UserInfo usu2 = new UserInfo();
-        usu2.setCorreo("correo2");
-        usu2.setNombreUsuario("nombre2");
-        users.add(usu2);*/
-        adapter = new UsersAdapter();
-        //adapter.setUserData(users);
-        adapter.setUserData(amigos);//TODO CAMBIAR
-        recyclerView.setAdapter(adapter);
-
-        btnAddColaborator = findViewById(R.id.btnAddCol);
-        btnAddColaborator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                adapter = new UsersAdapter();
                 adapter.setUserData(amigos);
-                adapter.notifyDataSetChanged();
-                if(amigos.isEmpty()){ //TODO CAMBIAR
-                    Toast.makeText(CrearCajaForm.this, R.string.noAmigos , Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    if(recyclerView.getVisibility() == View.GONE)
-                        recyclerView.setVisibility(View.VISIBLE);
-                    else
-                        recyclerView.setVisibility(View.GONE);
-                }
+                recyclerView.setAdapter(adapter);
+
+                btnAddColaborator = findViewById(R.id.btnAddCol);
+                btnAddColaborator.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(amigos.isEmpty()){
+                            Toast.makeText(CrearCajaForm.this, R.string.noAmigos , Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            if(recyclerView.getVisibility() == View.GONE)
+                                recyclerView.setVisibility(View.VISIBLE);
+                            else
+                                recyclerView.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
         });
+
 
 
         //CREAR
@@ -176,7 +164,7 @@ public class CrearCajaForm extends AppCompatActivity {
                     //cogemos los colaboradores si los hay
                     colaboradores = adapter.getData();
                     if(!colaboradores.isEmpty()) {
-                        colaboradores.add(currentUser.getEmail());//TODO ver si lo queremos hacer asi
+                        colaboradores.add(currentUser.getEmail());
                         box.setCollaborators(colaboradores);
                     }
 
@@ -208,10 +196,6 @@ public class CrearCajaForm extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
             ellipse = findViewById(R.id.ellipse_13);
             Uri selectedImageUri = data.getData();
-            /*Glide.with(this)
-                    .load(selectedImageUri)
-                    .centerCrop()
-                    .into(elipse);*/
             Glide.with(this)
                     .load(selectedImageUri)
                     .transform(new CenterCrop(), new RoundedCorners(5000))
