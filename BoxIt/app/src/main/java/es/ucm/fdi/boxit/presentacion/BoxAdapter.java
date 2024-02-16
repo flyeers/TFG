@@ -131,7 +131,7 @@ public class BoxAdapter extends RecyclerView.Adapter{
                       h2.addCard.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View v) {
-                              isBox = false;
+                              isBox = true;
                               Context ctx = v.getContext();
                               Intent intent = new Intent(ctx, Crear.class);
                               intent.putExtra("TIPO", isBox);

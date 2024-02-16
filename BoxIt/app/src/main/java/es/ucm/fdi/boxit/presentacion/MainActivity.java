@@ -19,11 +19,17 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
@@ -63,23 +69,30 @@ public class MainActivity extends AppCompatActivity {
             plus = findViewById(R.id.button2);
             plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
 
-            android.net.Uri img = null;
-            BoxInfo boxAdd = new BoxInfo("","ADD", img);
-            BoxInfo box1 = new BoxInfo("","prueba", img);
-            BoxInfo box2 = new BoxInfo("","ahhhhhhhhhhhh", img);
-            BoxInfo box3 = new BoxInfo("","help", img);
-            ArrayList<BoxInfo> a = new ArrayList<>();
-            a.add(boxAdd);
-            a.add(box1);
-            a.add(box2);
-            a.add(box3);
+            //caja especial para el añadir
+            BoxInfo boxAdd = new BoxInfo("","ADD", null);
 
             /////////////////////////// CAPSULAS ///////////////////////////////
             //TODO
-            BoxAdapter b = new BoxAdapter();
-            b.setBoxData(a, false, true);
+            Calendar calendar = new GregorianCalendar(2024, Calendar.JANUARY, 16, 12, 30, 0);
+            Date date1 = calendar.getTime();
+
+            Calendar calendar2 = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
+            Date date2 = calendar2.getTime();
+
+            ArrayList<CapsuleInfo> c = new ArrayList<>();
+
+            CapsuleInfo cap1 = new CapsuleInfo("","prueba", null);
+            c.add(cap1);//add
+            cap1.setApertura(date2); //cerrada
+            cap1.setCierre(date1);
+            c.add(cap1);
+
+
+            CapAdapter c1 = new CapAdapter();
+            c1.setCapData(c, false, true);
             RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
-            recyclerView2.setAdapter(b);
+            recyclerView2.setAdapter(c1);
 
 
             /////////////////////////// CAJAS ///////////////////////////////
@@ -127,14 +140,23 @@ public class MainActivity extends AppCompatActivity {
 
             /////////////////////////// CAPSAULAS COMPARTIDAS ///////////////////////////////
             //TODO
-            BoxAdapter b4 = new BoxAdapter();
-            ArrayList<BoxInfo> capShared = new ArrayList<>();
-            boxesShared.add(boxAdd);
+            ArrayList<CapsuleInfo> ca = new ArrayList<>();
+            CapsuleInfo cap2 = new CapsuleInfo("","prueba", null);
+            ca.add(cap2);//add
+            cap2.setApertura(date2); //cerrada
+            cap2.setCierre(date1);
+            ArrayList<String> col = new ArrayList<>();
+            col.add("colab");
+            cap2.setCollaborators(col);
+            ca.add(cap2);
 
-            LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
+            CapAdapter c2 = new CapAdapter();
+            c2.setCapData(ca, true, true);
             RecyclerView recyclerView4 = findViewById(R.id.recycler_view_share_cap);
-            lShareCap.setVisibility(View.GONE);
-            recyclerView4.setVisibility(View.GONE);
+            recyclerView4.setAdapter(c2);
+            //LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
+            //lShareCap.setVisibility(View.GONE);
+            //recyclerView4.setVisibility(View.GONE);
 
             /*saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
                 @Override

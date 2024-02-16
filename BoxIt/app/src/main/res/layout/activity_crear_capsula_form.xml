@@ -234,10 +234,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btnAddImgCap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -250,20 +251,22 @@
 
             <TextView
                 android:id="@+id/fotoPortadaCaja"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
+                android:text="@string/selectImg"
                 android:textAppearance="@style/Logo"
-                android:textSize="17dp"
                 android:textColor="@color/rosaBoton"
-                android:text="@string/selectImg" />
+                android:textSize="17dp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/btnAddColCap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -276,14 +279,14 @@
 
             <TextView
                 android:id="@+id/addColCaja"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
+                android:text="@string/addCol"
                 android:textAppearance="@style/Logo"
-                android:textSize="17dp"
                 android:textColor="@color/rosaBoton"
-                android:text="@string/addCol" />
+                android:textSize="17dp" />
 
         </LinearLayout>
 
@@ -310,19 +313,19 @@
             android:text="The capsule remains closed for .." />
 
         <Button
-            android:id="@+id/CrearCajaBTN"
+            android:id="@+id/CrearCapBTN"
             android:layout_width="match_parent"
-            android:background="@drawable/button_shape"
             android:layout_height="53dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/interbold"
-            android:elevation="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/rosaFormulario"
+            android:backgroundTint="@color/rosaBoton"
             android:clickable="true"
-            android:text="@string/crearCapsula" />
+            android:elevation="5dp"
+            android:fontFamily="@font/interbold"
+            android:text="@string/crearCapsula"
+            android:textColor="@color/rosaFormulario"
+            android:textSize="20dp" />
 
 
     </LinearLayout>
