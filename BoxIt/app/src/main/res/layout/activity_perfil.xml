@@ -21,12 +21,12 @@
                 android:id="@+id/ellipse_13"
                 style="@style/FondoPerfilView" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/perfilfoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="-200dp"
+                android:layout_marginTop="-180dp"
                 android:backgroundTint="#00FFFFFF"
                 app:srcCompat="@drawable/user_pordefecto" />
 

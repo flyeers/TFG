@@ -107,25 +107,33 @@ public class DAOUsuario {
 
 
 
-
                                         //añadir la foto de perfil:
 
-                                        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-                                        String idImg = String.format("%s-%s-%s", usuarioInsertar.getNombreUsuario(), random, "fotoPerfil").replace("", "");
-                                        FirebaseStorage imageStorage = new FirebaseStorage();
-                                        StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+                                        if(usuarioInsertar.getImgPerfil() != null){
 
-                                        fileReference.putFile(usuarioInsertar.getImgPerfil())
-                                                .addOnSuccessListener(taskSnapshot -> {
+                                            int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+                                            String idImg = String.format("%s-%s-%s", usuarioInsertar.getNombreUsuario(), random, "fotoPerfil").replace("", "");
+                                            FirebaseStorage imageStorage = new FirebaseStorage();
+                                            StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
 
-                                                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                            fileReference.putFile(usuarioInsertar.getImgPerfil())
+                                                    .addOnSuccessListener(taskSnapshot -> {
 
-                                                        //guardamos la de la img ruta en la propia caja
+                                                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
 
-                                                        data.put(FOTO_PERFIL, uri.toString());
-                                                        SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
-                                                        cb.onCallbackExito(true);
+                                                            //guardamos la de la img ruta en la propia caja
 
+                                                            data.put(FOTO_PERFIL, uri.toString());
+                                                            SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
+                                                            cb.onCallbackExito(true);
+
+
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                cb.onCallbackExito(false);
+                                                            }
+                                                        });
 
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
@@ -133,13 +141,13 @@ public class DAOUsuario {
                                                             cb.onCallbackExito(false);
                                                         }
                                                     });
+                                        }
+                                        else{
+                                            data.put(FOTO_PERFIL, "");
+                                            SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
+                                            cb.onCallbackExito(true);
+                                        }
 
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        cb.onCallbackExito(false);
-                                                    }
-                                                });
 
 
 
@@ -181,7 +189,10 @@ public class DAOUsuario {
                     userInfo.setNombre(d.get(NOMBRE).toString());
                     userInfo.setNombreUsuario(d.get(NOMBRE_USU).toString());
                     userInfo.setCorreo(email);
-                    //userInfo.setImgPerfil(d.get()); TODO poner imagen
+
+                    userInfo.setImgPerfil(Uri.parse(d.get(FOTO_PERFIL).toString()));
+
+
 
                 }
 
@@ -273,7 +284,6 @@ public class DAOUsuario {
                     if (document.exists()) {
                         Object photo = document.get(FOTO_PERFIL);
                         if (photo != null) {
-
                             cb.onCallbackUserPhoto(photo.toString());
                         }
                     } else {

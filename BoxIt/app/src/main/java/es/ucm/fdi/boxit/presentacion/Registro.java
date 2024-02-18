@@ -35,7 +35,7 @@ public class Registro extends AppCompatActivity {
     boolean ok;
     private static final int PICK_IMAGE_REQUEST = 1;
     ImageView imagen;
-    Uri fotoPerfil;
+    Uri fotoPerfil = null;
     TextView loginBack;
 
     @Override
@@ -65,9 +65,6 @@ public class Registro extends AppCompatActivity {
                             //Registro valido
                             SAUser saUser = new SAUser();
 
-                            if (fotoPerfil == null){
-                                fotoPerfil =  Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.user_pordefecto);
-                            }
 
                             UserInfo userInfo = new UserInfo(username.getText().toString(), email.getText().toString(), password.getText().toString() , name.getText().toString(), fotoPerfil);
 

@@ -2,23 +2,32 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -29,6 +38,7 @@ public class Perfil extends AppCompatActivity {
 
     private TextView nombreUsuario, correo;
     private ImageButton opt, notificaciones;
+    private ImageView foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,9 @@ public class Perfil extends AppCompatActivity {
         correo = findViewById(R.id.correoUsuarioPerfil);
         notificaciones = findViewById(R.id.buttonNotification);
         opt = findViewById(R.id.perfilOpciones);
+        foto = findViewById(R.id.perfilfoto);
+
+        Context ctx = this;
 
         SAUser saUser = new SAUser();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -48,6 +61,35 @@ public class Perfil extends AppCompatActivity {
             public void onCallback(UserInfo u) {
                 nombreUsuario.setText(u.getNombreUsuario());
                 correo.setText(currentUser.getEmail().toString());
+
+                String f = u.getImgPerfil().toString();
+                if (f != ""){
+
+
+                   // foto.setImageURI(u.getImgPerfil());
+                    Glide.with(ctx)
+                            .load(u.getImgPerfil())
+                            .into(foto);
+
+                    /*
+                    try {
+
+                        Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(u.getImgPerfil().toString()));
+                        Bitmap squareBitmap = getCroppedBitmap(originalBitmap);
+                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), squareBitmap);
+
+                        roundedDrawable.setCornerRadius(Math.max(originalBitmap.getWidth(), originalBitmap.getHeight()) / 1.5f);
+
+
+                        foto.setImageDrawable(roundedDrawable);
+                        foto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
+
+                }
+
             }
         });
 
@@ -111,5 +153,16 @@ public class Perfil extends AppCompatActivity {
         }));
 
 
+    }
+
+    private Bitmap getCroppedBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int newSize = Math.min(width, height);
+
+        int startX = (width - newSize) / 2;
+        int startY = (height - newSize) / 2;
+
+        return Bitmap.createBitmap(bitmap, startX, startY, newSize, newSize);
     }
 }

@@ -163,8 +163,7 @@
                 android:id="@+id/divider3"
                 android:layout_width="380dp"
                 android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@color/rosaBoton" />
 

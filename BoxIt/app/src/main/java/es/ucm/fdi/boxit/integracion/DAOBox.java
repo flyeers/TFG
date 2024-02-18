@@ -376,10 +376,11 @@ public class DAOBox {
                         int startIndex = imagenB.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
                         int endIndex = imagenB.indexOf(".png");
                         String res = imagenB.substring(startIndex, endIndex);
+
                         //String idImagen = res.replace("%40", "@");
 
 
-                        StorageReference fileReference = imageStorage.getStorageRef().child(res);
+                        StorageReference fileReference = imageStorage.getStorageRef().child(res + ".png");
 
                         // Delete the file
                         fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -443,7 +444,7 @@ public class DAOBox {
                                     if (photos != null) {
 
                                         for (String f : photos) {
-                                            // TODO Para cada foto de la caja hay que eliminarla del storage
+
                                             Log.d("CLAU", "Foto");
 
                                         }
