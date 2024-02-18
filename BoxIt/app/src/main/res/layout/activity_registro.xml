@@ -152,12 +152,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="40dp"
                 android:backgroundTint="@color/rosaBoton"
                 android:fontFamily="@font/interregular"
                 android:text="@string/registrarte"
                 android:textColor="@color/rosaFormulario" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="380dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/rosaBoton" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/tienesCuenta"
+                    android:textColor="@color/textoOscuro" />
+
+                <TextView
+                    android:id="@+id/loginBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/interbold"
+                    android:text="@string/entra"
+                    android:textColor="@color/textoOscuro"
+                    android:clickable="true"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

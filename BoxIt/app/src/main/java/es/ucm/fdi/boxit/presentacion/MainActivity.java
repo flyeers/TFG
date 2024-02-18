@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -215,6 +216,13 @@ public class MainActivity extends AppCompatActivity {
             });
 
             perfil = findViewById(R.id.perfil1);
+
+
+
+
+
+
+
             perfil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

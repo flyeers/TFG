@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,6 +36,7 @@ public class Registro extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     ImageView imagen;
     Uri fotoPerfil;
+    TextView loginBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class Registro extends AppCompatActivity {
         passwordConfirm = findViewById(R.id.reg_confirmar_contrasenya);
         name = findViewById(R.id.reg_nombrePers);
         imagen = findViewById(R.id.addfotoperfil);
+        loginBack = findViewById(R.id.loginBtn);
 
         r.setOnClickListener(new View.OnClickListener() {
 
@@ -93,6 +96,15 @@ public class Registro extends AppCompatActivity {
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
                 startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+            }
+        });
+
+
+        loginBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Registro.this, LogIn.class);
+                startActivity(intent);
             }
         });
     }

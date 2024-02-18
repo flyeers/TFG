@@ -17,8 +17,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.StorageReference;
 
@@ -103,13 +106,46 @@ public class DAOUsuario {
 
 
 
+
+
                                         //añadir la foto de perfil:
+
+                                        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+                                        String idImg = String.format("%s-%s-%s", usuarioInsertar.getNombreUsuario(), random, "fotoPerfil").replace("", "");
+                                        FirebaseStorage imageStorage = new FirebaseStorage();
+                                        StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+
+                                        fileReference.putFile(usuarioInsertar.getImgPerfil())
+                                                .addOnSuccessListener(taskSnapshot -> {
+
+                                                    fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                                        //guardamos la de la img ruta en la propia caja
+
+                                                        data.put(FOTO_PERFIL, uri.toString());
+                                                        SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
+                                                        cb.onCallbackExito(true);
+
+
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            cb.onCallbackExito(false);
+                                                        }
+                                                    });
+
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        cb.onCallbackExito(false);
+                                                    }
+                                                });
 
 
 
                                         //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
-                                        SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(user.getUid()).set(data);
-                                        cb.onCallbackExito(true);
+
+                                        //cb.onCallbackExito(true);
 
 
                                     } else {
@@ -221,6 +257,35 @@ public class DAOUsuario {
                 }
             }
         });
+    }
+
+
+
+
+    public void getFotoPerfil(Callbacks cb){
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(mAuth.getCurrentUser().getUid());
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Object photo = document.get(FOTO_PERFIL);
+                        if (photo != null) {
+
+                            cb.onCallbackUserPhoto(photo.toString());
+                        }
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
+
+
     }
 
     /*

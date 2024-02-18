@@ -6,6 +6,8 @@
     <string name="botonLogin">Log in</string>
     <string name="logingoogle">Entra con Google</string>
     <string name="noTienesCuenta">¿No tienes cuenta?</string>
+    <string name="tienesCuenta">¿Ya tienes cuenta?</string>
+    <string name="entra">Accede</string>
     <string name="regis">Registrate</string>
     <string name="email">Email</string>
     <string name="nombre">Nombre</string>

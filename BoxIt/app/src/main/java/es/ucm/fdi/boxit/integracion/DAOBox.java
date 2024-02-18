@@ -52,7 +52,7 @@ public class DAOBox {
     private final String DOCS = "box_documents";
     private final String MUSICA = "box_music";
     private final String CORREO = "correo";
-    private final String FOTO_PERFIL = "correo";
+
 
 
 

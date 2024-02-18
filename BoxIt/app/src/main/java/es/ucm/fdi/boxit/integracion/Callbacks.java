@@ -16,8 +16,9 @@ public interface Callbacks {
     default void onCallbackItems(ArrayList<String> items){}
 
     default void onCallbackUsers(ArrayList<UserInfo> users){}
-
     default void onCallbackCapsule(CapsuleInfo c){}
     default void onCallbackCapsules(ArrayList<CapsuleInfo> capsules){}
+
+    default void onCallbackUserPhoto(String photo){}
 
 }

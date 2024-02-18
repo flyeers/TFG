@@ -6,7 +6,9 @@
     <string name="contrasenya">Password</string>
     <string name="botonLogin">Log in</string>
     <string name="logingoogle">Sign in with Google</string>
-    <string name="noTienesCuenta">¿Do not have an account?</string>
+    <string name="noTienesCuenta">Do not have an account?</string>
+    <string name="tienesCuenta">Have an account?</string>
+    <string name="entra">Log in</string>
     <string name="regis">Sign up</string>
     <string name="email">Email</string>
     <string name="nombre">Name</string>
