@@ -16,6 +16,9 @@
             android:name=".presentacion.Caja"
             android:exported="false" />
         <activity
+            android:name=".presentacion.Capsula"
+            android:exported="false" />
+        <activity
             android:name=".presentacion.Perfil"
             android:exported="false" />
         <activity

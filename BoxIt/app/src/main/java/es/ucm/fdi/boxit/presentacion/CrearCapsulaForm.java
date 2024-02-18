@@ -1,6 +1,8 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -11,6 +13,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,12 +31,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
-import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
-import es.ucm.fdi.boxit.negocio.SABox;
+import es.ucm.fdi.boxit.negocio.SACapsule;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
@@ -219,7 +225,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //el unico parametro a "validar" sera el nombre que no puede ser vacio"
-                if(nombreCapsulaInput.getText().toString().equals("")){
+                if(nombreCapsulaInput.getText().toString().equals("")){ //TODO añadir q es obligatoria la fecha
                     nombreCapsulaInput.setError(getString(R.string.requerido));
                 }
                 else{
@@ -229,7 +235,15 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     }
                     CapsuleInfo cap = new CapsuleInfo("a",nombreCapsulaInput.getText().toString(), selectedImage);
 
-                    //TODO coger y poner fechas
+                    //TODO coger y poner fechas - de momento lo fuerzo ara probar
+                    Calendar calendar = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
+                    Date date1 = calendar.getTime();
+
+                    Calendar calendar2 = new GregorianCalendar(2024, Calendar.JUNE, 16, 12, 30, 0);
+                    Date date2 = calendar2.getTime();
+
+                    cap.setApertura(date2);
+                    cap.setCierre(date1);
 
                     //cogemos los colaboradores si los hay
                     colaboradores = adapter.getData();
@@ -238,21 +252,21 @@ public class CrearCapsulaForm extends AppCompatActivity {
                         cap.setCollaborators(colaboradores);
                     }
 
-                    /*SACapsule saCapsule = new SACapsule();
+                    SACapsule saCapsule = new SACapsule();
                     saCapsule.createCapsule(cap, new Callbacks() {
                         @Override
                         public void onCallbackExito(Boolean exito) {
                             if(exito){
                                 Context ctx = v.getContext();
-                                //Intent intent = new Intent(ctx, Caja.class);
-                                //intent.putExtra("boxInfo", box);
-                                //ctx.startActivity(intent);
+                                Intent intent = new Intent(ctx, Capsula.class);
+                                intent.putExtra("capsuleInfo", cap);
+                                ctx.startActivity(intent);
                             }
                             else{
                                 Toast.makeText(CrearCapsulaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });*/
+                    });
                 }
             }
         });
