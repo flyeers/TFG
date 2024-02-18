@@ -90,9 +90,11 @@
 
     <!--mensajes varios -->
     <string name="noPDFViewer">Error al abrir el archivo</string>
-    <string name="eliminar">¿Desea eliminar la imagen?</string>
+    <string name="eliminar">¿Desea eliminar el elemento?</string>
     <string name="cancelar">Cancelar</string>
     <string name="eliminar2">Eliminar</string>
+    <string name="deleteBien">Elemento eliminado</string>
+    <string name="deleteMal">Error al eliminar elemento</string>
 
 
 

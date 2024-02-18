@@ -93,7 +93,9 @@
 
     <!--mensajes varios -->
     <string name="noPDFViewer">Error while opening file</string>
-    <string name="eliminar">Do you want to delete the image?</string>
+    <string name="eliminar">Do you want to delete the item?</string>
     <string name="cancelar">Cancel</string>
     <string name="eliminar2">Delete</string>
+    <string name="deleteBien">Element deleted</string>
+    <string name="deleteMal">Error while deleting element</string>
 </resources>

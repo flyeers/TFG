@@ -52,9 +52,14 @@ public class SABox {
 
     }
 
-    public void deletePhoto(String id, String foto){
+    public void deletePhoto(String id, String foto, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.borrarFoto(id,foto);
+        daoBox.borrarFoto(id,foto, cb);
+    }
+
+    public void deleteBox(String id, Callbacks cb){
+        DAOBox daoBox = new DAOBox();
+        daoBox.deleteBox(id, cb);
     }
 
 

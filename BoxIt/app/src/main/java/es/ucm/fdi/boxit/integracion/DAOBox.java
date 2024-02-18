@@ -19,12 +19,16 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.internal.StorageReferenceUri;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -48,6 +52,8 @@ public class DAOBox {
     private final String DOCS = "box_documents";
     private final String MUSICA = "box_music";
     private final String CORREO = "correo";
+    private final String FOTO_PERFIL = "correo";
+
 
 
 
@@ -230,8 +236,9 @@ public class DAOBox {
         //TODO GENERAR UN ID SIMILAR AL RESTO
 
 
+
         FirebaseUser user = mAuth.getCurrentUser();
-        String idImg = String.format("%s-%s-%s", b.getTitle(), random, user.getEmail().toString()).replace("", "");
+        String idImg = String.format("%s-%s-%s", b.getTitle(), random, "foto").replace("", "");
 
 
         FirebaseStorage imageStorage = new FirebaseStorage();
@@ -275,7 +282,7 @@ public class DAOBox {
 
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
         FirebaseUser user = mAuth.getCurrentUser();
-        String idImg = String.format("%s-%s-%s", b.getTitle(), random, user.getEmail().toString()).replace("", "");
+        String idImg = String.format("%s-%s-%s", b.getTitle(), random, "foto").replace("", "");
 
 
         FirebaseStorage imageStorage = new FirebaseStorage();
@@ -353,10 +360,8 @@ public class DAOBox {
     }
 
 
-    public void borrarFoto(String id, String imagenB){
+    public void borrarFoto(String id, String imagenB, Callbacks cb){
 
-
-        //TODO NO SE BORRA DEL STORAGE!!!
 
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
         boxDocument.update(FOTOS, FieldValue.arrayRemove(imagenB))
@@ -364,37 +369,152 @@ public class DAOBox {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Referencia de imagen en la colección eliminada exitosamente
+                        Log.d("CLAU", "Borrado de lista");
+                        FirebaseStorage imageStorage = new FirebaseStorage();
+
+                        //manipuilamos la referencia de la imagen para quedarnos con el id para borrarlo del storage:
+                        int startIndex = imagenB.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                        int endIndex = imagenB.indexOf(".png");
+                        String res = imagenB.substring(startIndex, endIndex);
+                        //String idImagen = res.replace("%40", "@");
+
+
+                        StorageReference fileReference = imageStorage.getStorageRef().child(res);
+
+                        // Delete the file
+                        fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("CLAU", "Borrado del storage");
+                                cb.onCallbackExito(true);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Uh-oh, an error occurred!
+                                Log.d("CLAU", "Borrado del storage MAL");
+                                cb.onCallbackExito(false);
+                            }
+                        });
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Error al eliminar la referencia de imagen en la colección
+                        cb.onCallbackExito(false);
                     }
                 });
 
-        /*
-
-        FirebaseStorage imageStorage = new FirebaseStorage();
-        StorageReference reference = imageStorage.getStorageRef().child(imagenB);
-
-        // Eliminar el archivo
-        reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // El archivo se eliminó exitosamente
 
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Error al intentar eliminar el archivo
 
-            }
-        });*/
+
     }
 
+
+    public void deleteBox(String id, Callbacks cb){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference boxDoc = db.collection(COL_BOX).document(id);
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        //acceder a las boxes de mi user actual y eliminar del array el id de la caja
+
+        usersCollection.whereEqualTo(CORREO, mAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+
+
+                    //recorremos los elementos de la caja para borrarlos del storage
+
+                    boxDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    List<String> photos = (List<String>) document.get(FOTOS);
+                                    if (photos != null) {
+
+                                        for (String f : photos) {
+                                            // TODO Para cada foto de la caja hay que eliminarla del storage
+                                            Log.d("CLAU", "Foto");
+
+                                        }
+                                    }
+                                    List<String> docs = (List<String>) document.get(DOCS);
+                                    if (docs != null) {
+                                        // TODO Para cada foto de la caja hay que eliminarla del storage
+                                        for (String doc : docs) {
+                                            // TODO Para cada docuemnto de la caja hay que eliminarla del storage
+                                            Log.d("CLAU", "Doc");
+
+                                        }
+                                    }
+
+                                } else {
+                                    cb.onCallbackExito(false);
+                                }
+                            } else {
+                                cb.onCallbackExito(false);
+                            }
+                        }
+                    });
+
+
+                    String userID = d.getId();
+                    DocumentReference userRef = usersCollection.document(userID);
+                    List<String> boxes = (List<String>) d.get(CAJAS_PROPIAS);
+                    if (boxes != null) {
+                        boxes.remove(id);
+                        //actualizamos la coleccion de cajas propias del usuario
+
+                        userRef.update(CAJAS_PROPIAS, boxes)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        //eliminado del array de cajas del usuario
+
+                                        // Ahora se elimina la caja en si
+                                        boxDoc.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("CLAU", "caja borrada");
+                                                cb.onCallbackExito(true);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                cb.onCallbackExito(false);
+                                            }
+                                        });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //error al eliminar del array de cajas del usuario
+                                        cb.onCallbackExito(false);
+                                    }
+                                });
+
+
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+
+                }
+            }
+
+        });
+
+    }
 
 
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.SABox;
 
 public class ElementsAdapter extends RecyclerView.Adapter {
@@ -194,9 +196,22 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         SABox saBox = new SABox();
-                        saBox.deletePhoto(boxId, i);
-                        dialogConfirm.dismiss();
-                        dialog.dismiss();
+                        saBox.deletePhoto(boxId, i, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                    dialogConfirm.dismiss();
+                                    dialog.dismiss();
+                                }
+                                else{
+                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                    dialogConfirm.dismiss();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
 
                     }
                 });

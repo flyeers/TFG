@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -59,7 +60,7 @@ public class Caja extends AppCompatActivity {
     private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado;
-    private ImageView home;
+    private ImageView home, delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class Caja extends AppCompatActivity {
 
         documentos = findViewById(R.id.documentosCaja);
         home = findViewById(R.id.homeBtn);
+        delete = findViewById(R.id.deleteBox);
 
 
         SABox saBox = new SABox();
@@ -118,8 +120,49 @@ public class Caja extends AppCompatActivity {
                 Intent intent1 = new Intent(ctx, MainActivity.class);
                 ctx.startActivity(intent1);
 
-                //TODO revisar si cuando viene de la main deberia de ser un onBackPressed() en lugar de crear un intent nuevo
 
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialogConfirm = new Dialog(ctx);
+                dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogConfirm.dismiss();
+
+                    }
+                });
+
+                confirmar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SABox saBox = new SABox();
+                        saBox.deleteBox(boxInfo.getId(), new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Intent intent1 = new Intent(ctx, MainActivity.class);
+                                    ctx.startActivity(intent1);
+                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    dialogConfirm.dismiss();
+                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+                dialogConfirm.show();
             }
         });
 
