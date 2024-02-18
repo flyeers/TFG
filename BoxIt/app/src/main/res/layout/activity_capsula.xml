@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentacion.Caja">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/ellipse_13"
+                style="@style/FondoBase" />
+
+            <ImageView
+                android:id="@+id/homeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-140dp"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/home" />
+
+            <TextView
+                android:id="@+id/nombre_caja"
+                style="@style/TituloFondo"
+                android:text="@string/CapsulaTitulo" />
+
+            <TextView
+                android:id="@+id/textTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="TextView" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="90dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/vertodo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Ver todo"
+                    android:textColor="@color/rosaBoton"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/rectangle">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/fotosCaja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-380dp"
+                        android:fontFamily="@font/interbold"
+                        android:text="@string/galeria"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
+
+
+                    <TextView
+                        android:id="@+id/musicaCaja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/interbold"
+                        android:text="@string/musica"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
+                    <TextView
+                        android:id="@+id/documentosCaja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/interbold"
+                        android:text="@string/docs"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
+                    <TextView
+                        android:id="@+id/audiosCaja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/interbold"
+                        android:text="@string/audio"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/todoElContenidoCaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/titulosVista"
+                        android:text="" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/fotosdelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text=""
+                            android:textColor="@color/textoOscuro" />
+
+                        <TextView
+                            android:id="@+id/fdelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="left"
+                            android:text=""
+                             />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerfotosCaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/musicadelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text=""
+                            android:textColor="@color/textoOscuro" />
+
+                        <TextView
+                            android:id="@+id/mdelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="left"
+                            android:text=""
+                            />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclermusicaCaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/docsdelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text=""
+                            android:textColor="@color/textoOscuro" />
+
+                        <TextView
+                            android:id="@+id/ddelacaja"
+                            style="@style/titulosVista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="left"
+                            android:text=""
+                            />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerdocsCaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/buttonAdd2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            tools:background="@drawable/shape_circle"
+            android:text="+"
+            android:textColor="#000000"
+            android:textSize="30dp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

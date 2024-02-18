@@ -215,10 +215,9 @@ public class CapAdapter extends RecyclerView.Adapter{
                         public void onClick(View v) {
                             CapsuleInfo selectedCap = capsData.get(holder.getAdapterPosition());
                             Context ctx = v.getContext();
-                            //TODO
-                            //Intent intent = new Intent(ctx, Capsula.class);
-                            //intent.putExtra("capInfo", selectedCap);
-                            //ctx.startActivity(intent);
+                            Intent intent = new Intent(ctx, Capsula.class);
+                            intent.putExtra("capsuleInfo", selectedCap);
+                            ctx.startActivity(intent);
 
                         }
                     });

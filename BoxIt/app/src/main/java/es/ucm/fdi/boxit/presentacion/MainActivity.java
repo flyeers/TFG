@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
             //caja especial para el añadir
             BoxInfo boxAdd = new BoxInfo("","ADD", null);
+            CapsuleInfo capAdd = new CapsuleInfo("","ADD", null);
 
             /////////////////////////// CAPSULAS ///////////////////////////////
             //TODO
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar2 = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
             Date date2 = calendar2.getTime();
 
-            ArrayList<CapsuleInfo> c = new ArrayList<>();
+           /* ArrayList<CapsuleInfo> c = new ArrayList<>();
 
             CapsuleInfo cap1 = new CapsuleInfo("","prueba", null);
             c.add(cap1);//add
@@ -92,8 +93,20 @@ public class MainActivity extends AppCompatActivity {
             CapAdapter c1 = new CapAdapter();
             c1.setCapData(c, false, true);
             RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
-            recyclerView2.setAdapter(c1);
+            recyclerView2.setAdapter(c1);*/
+            CapAdapter c1 = new CapAdapter();
+            ArrayList<CapsuleInfo> capsules = new ArrayList<>();
 
+            capsules.add(capAdd);
+            saUser.getCapsules(currentUser.getEmail(), new Callbacks() {
+                @Override
+                public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
+                    capsules.addAll(cs);
+                    c1.setCapData(capsules, true, true);
+                    RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
+                    recyclerView.setAdapter(c1);
+                }
+            });
 
             /////////////////////////// CAJAS ///////////////////////////////
             BoxAdapter b2 = new BoxAdapter();

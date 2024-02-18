@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class CapsuleInfo extends BoxInfo{
@@ -16,6 +18,18 @@ public class CapsuleInfo extends BoxInfo{
     protected CapsuleInfo(Parcel in) {
         super(in);
     }
+
+    public static final Creator<CapsuleInfo> CREATOR = new Creator<CapsuleInfo>() {
+        @Override
+        public CapsuleInfo createFromParcel(Parcel in) {
+            return new CapsuleInfo(in);
+        }
+
+        @Override
+        public CapsuleInfo[] newArray(int size) {
+            return new CapsuleInfo[size];
+        }
+    };
 
     public Date getApertura() {
         return apertura;
@@ -31,6 +45,11 @@ public class CapsuleInfo extends BoxInfo{
 
     public void setCierre(Date cierre) {
         this.cierre = cierre;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
 }

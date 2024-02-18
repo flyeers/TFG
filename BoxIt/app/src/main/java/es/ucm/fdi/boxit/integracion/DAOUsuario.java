@@ -30,6 +30,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class DAOUsuario {
@@ -305,6 +306,77 @@ public class DAOUsuario {
                     }
                     //ninguna caja
                     cb.onCallbackBoxes(boxes);
+
+                }
+            }
+        });
+    }
+
+    //CAPSULAS
+    public void getUserCapsules(String correo, Callbacks cb){
+        ArrayList<CapsuleInfo> capsules = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        DAOCapsule daoCapsule = new DAOCapsule();
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array el documento del usuario
+                    List<String> idCapsulas = (List<String>) d.get(CAPSULAS_PROPIAS);
+                    AtomicInteger count = new AtomicInteger(idCapsulas.size());
+                    for(String capsula: idCapsulas){
+
+                        daoCapsule.getCapsuleById(capsula, new Callbacks() {
+                            @Override
+                            public void onCallbackCapsule(CapsuleInfo c) {
+                                if( c != null){
+                                    capsules.add(c);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    // Todas las capsulas se han cargado, llamar al callback
+                                    cb.onCallbackCapsules(capsules);
+                                }
+                            }
+                        });
+
+                    }
+                    //ninguna capsula
+                    cb.onCallbackCapsules(capsules);
+
+                }
+            }
+        });
+    }
+
+    public void getUserCapsulesCompartidas(String correo, Callbacks cb){
+        ArrayList<CapsuleInfo> capsules = new ArrayList<>();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        DAOCapsule daoCapsule = new DAOCapsule();
+        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot d : task.getResult()) {
+                    // Obtenesmos el array el documento del usuario
+                    List<String> idCapsulas = (List<String>) d.get(CAPSULAS_COMPARTIDAS);
+                    AtomicInteger count = new AtomicInteger(idCapsulas.size());
+                    for(String capsula: idCapsulas){
+
+                        daoCapsule.getCapsuleById(capsula, new Callbacks() {
+                            @Override
+                            public void onCallbackCapsule(CapsuleInfo c) {
+                                if( c != null){
+                                    capsules.add(c);
+                                }
+                                if (count.decrementAndGet() == 0) {
+                                    // Todas las capsulas se han cargado, llamar al callback
+                                    cb.onCallbackCapsules(capsules);
+                                }
+                            }
+                        });
+
+                    }
+                    //ninguna capsulas
+                    cb.onCallbackCapsules(capsules);
 
                 }
             }
