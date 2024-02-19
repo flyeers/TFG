@@ -219,7 +219,10 @@ public class DAOUsuario {
                         userInfo.setNombre(d.get(NOMBRE).toString());
                         userInfo.setCorreo(d.get(CORREO).toString());
                         userInfo.setNombreUsuario(finalUsername);
-                        //userInfo.setImgPerfil(d.get()); TODO poner imagen
+
+                        if(d.get(FOTO_PERFIL) != null)
+                            userInfo.setImgPerfil(Uri.parse(d.get(FOTO_PERFIL).toString()));
+                        else userInfo.setImgPerfil(Uri.parse(""));
                     }
 
                     cb.onCallback(userInfo);

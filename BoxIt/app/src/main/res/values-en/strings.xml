@@ -100,4 +100,5 @@
     <string name="eliminar2">Delete</string>
     <string name="deleteBien">Element deleted</string>
     <string name="deleteMal">Error while deleting element</string>
+    <string name="editar">Edit</string>
 </resources>

@@ -1,5 +1,7 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
@@ -49,10 +56,31 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         //En cualquier caso ponemos foto y nombre de usuario
         UserInfo u_current = users.get(position);
         holder.nombre.setText(u_current.getNombreUsuario());
+
+        /*
         Glide.with(holder.card)
                 .load(u_current.getImgPerfil())
                 .placeholder(R.drawable.user)
-                .into(holder.perfil);
+                .into(holder.perfil);*/
+        Glide.with(holder.card)
+                .asBitmap()
+                .load(u_current.getImgPerfil())
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.perfil.getResources(), resource);
+                        roundedDrawable.setCircular(true);
+
+                        holder.perfil.setImageDrawable(roundedDrawable);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+
+
+                });
 
         if(typeCard == 1) { //lista amigos
 

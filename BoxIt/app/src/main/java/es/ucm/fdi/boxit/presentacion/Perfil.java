@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,10 +22,13 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -39,6 +43,7 @@ import java.io.InputStream;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
+import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
@@ -47,12 +52,16 @@ public class Perfil extends AppCompatActivity {
     private TextView nombreUsuario, correo;
     private ImageButton opt, home;
     private ImageView foto;
+    private Context ctx;
+    private String nom;
+    private Uri fPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        ctx = this;
         nombreUsuario = findViewById(R.id.nombreUsuarioPerfil);
         correo = findViewById(R.id.correoUsuarioPerfil);
         home = findViewById(R.id.buttonHome);
@@ -68,12 +77,14 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onCallback(UserInfo u) {
                 nombreUsuario.setText(u.getNombreUsuario());
+                nom = u.getNombre();
                 correo.setText(currentUser.getEmail().toString());
 
                 String f = u.getImgPerfil().toString();
                 if (f != ""){
 
 
+                    fPerfil = u.getImgPerfil();
                     Glide.with(ctx)
                             .asBitmap()
                             .load(u.getImgPerfil())
@@ -121,7 +132,7 @@ public class Perfil extends AppCompatActivity {
 
                         int id = item.getItemId();
                         if(id == R.id.editarPerfilMenu){
-                            //mostrarDialog();
+                            mostrarDialog();
                             return true;
                         }
                         else if(id == R.id.cerrarSesionMenu){
@@ -169,6 +180,64 @@ public class Perfil extends AppCompatActivity {
     }
 
 
+    private void mostrarDialog(){
+        Dialog dialog = new Dialog(ctx);
+        dialog.setContentView(R.layout.edit_profile_dialog);
+        EditText nuevoNombre = dialog.findViewById(R.id.nuevoNombre);
+        nuevoNombre.setText(nom);
+        Button cancelar = dialog.findViewById(R.id.buttonCancelar);
+        Button editar = dialog.findViewById(R.id.buttonEditar);
+
+
+        ImageView nuevaFoto = dialog.findViewById(R.id.nuevaFoto);
+
+        Glide.with(ctx)
+                .asBitmap()
+                .load(fPerfil)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        roundedDrawable.setCircular(true);
+
+                        nuevaFoto.setImageDrawable(roundedDrawable);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+
+
+                });
+
+        nuevaFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SABox saBox = new SABox();
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
+    }
 
 
 
