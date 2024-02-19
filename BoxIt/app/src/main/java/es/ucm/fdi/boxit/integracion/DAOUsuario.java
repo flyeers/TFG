@@ -190,8 +190,9 @@ public class DAOUsuario {
                     userInfo.setNombreUsuario(d.get(NOMBRE_USU).toString());
                     userInfo.setCorreo(email);
 
-                    userInfo.setImgPerfil(Uri.parse(d.get(FOTO_PERFIL).toString()));
-
+                    if(d.get(FOTO_PERFIL) != null)
+                        userInfo.setImgPerfil(Uri.parse(d.get(FOTO_PERFIL).toString()));
+                    else userInfo.setImgPerfil(Uri.parse(""));
 
 
                 }

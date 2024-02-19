@@ -102,11 +102,10 @@ public class Capsula extends AppCompatActivity {
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
         getAll();
-        /* TODO no va bn el parcel
         Date cd = Calendar.getInstance().getTime();
         if(cd.before(capsuleInfo.getCierre())){//antes del cierre
 
-            Long d = cd.getTime() - capsuleInfo.getApertura().getTime();
+            Long d = capsuleInfo.getApertura().getTime() - cd.getTime();
             long dias = TimeUnit.MILLISECONDS.toDays(d);
             long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;
             long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;
@@ -118,7 +117,7 @@ public class Capsula extends AppCompatActivity {
             long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;
             long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;
             tiempo.setText(dias+"D. "+horas+"H. "+minutos+"M. ");
-        }*/
+        }
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override

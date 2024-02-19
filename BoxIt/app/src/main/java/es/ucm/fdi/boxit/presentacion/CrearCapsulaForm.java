@@ -1,8 +1,6 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -13,8 +11,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,7 +46,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
     private EditText nombreCapsulaInput;
     private TextView nombreCapsulaTitulo, fechaCierre, fechaApertura;
     private NumberPicker diaCierre, mesCierre, añoCierre, diaApertura, mesApertura, añoApertura;
-    private LinearLayout btnAddImg, btnAddColaborator;
+    private LinearLayout btnAddImg, btnAddColaborator, pikerCierre, pikerApertura;
     private Button btnCrear;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -100,7 +98,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
         añoApertura = findViewById(R.id.numberPickerYearOpen);
 
         fechaApertura = findViewById(R.id.fechaApertura);
-        fechaCierre = findViewById(R.id.fechaCierre);
+        fechaCierre = findViewById(R.id.fechaCierre_text);
 
         String [] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept","Oct", "Nov", "Dec"};
 
@@ -110,8 +108,10 @@ public class CrearCapsulaForm extends AppCompatActivity {
         diaCierre.setWrapSelectorWheel(true);
         diaCierre.setValue(1);
 
+        Date cd = Calendar.getInstance().getTime();
+
         añoCierre.setMaxValue(2050);
-        añoCierre.setMinValue(2023); //TODO no puede haber fechas pasadas, controlar esto en la logica
+        añoCierre.setMinValue( cd.getYear()); //TODO no puede haber fechas pasadas, controlar esto en la logica
         añoCierre.setWrapSelectorWheel(true);
         añoCierre.setValue(2023);
 
@@ -141,6 +141,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Log.d("JULIA", "CIERRE");
                 if(diaCierre.getVisibility() != View.VISIBLE && diaApertura.getVisibility() != View.VISIBLE){
                     diaCierre.setVisibility(View.VISIBLE);
                     mesCierre.setVisibility(View.VISIBLE);
@@ -158,7 +159,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
         fechaApertura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("JULIA", "APERTURA");
                 if(diaApertura.getVisibility() != View.VISIBLE && diaCierre.getVisibility() != View.VISIBLE){
                     diaApertura.setVisibility(View.VISIBLE);
                     mesApertura.setVisibility(View.VISIBLE);

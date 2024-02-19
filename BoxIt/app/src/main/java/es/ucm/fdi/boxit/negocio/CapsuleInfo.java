@@ -17,8 +17,11 @@ public class CapsuleInfo extends BoxInfo{
 
     protected CapsuleInfo(Parcel in) {
         super(in);
+        long tmpApertura = in.readLong();
+        apertura = tmpApertura == -1 ? null : new Date(tmpApertura);
+        long tmpCierre = in.readLong();
+        cierre = tmpCierre == -1 ? null : new Date(tmpCierre);
     }
-
     public static final Creator<CapsuleInfo> CREATOR = new Creator<CapsuleInfo>() {
         @Override
         public CapsuleInfo createFromParcel(Parcel in) {
@@ -50,6 +53,13 @@ public class CapsuleInfo extends BoxInfo{
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeLong(apertura != null ? apertura.getTime() : -1);
+        dest.writeLong(cierre != null ? cierre.getTime() : -1);
     }
 
 }

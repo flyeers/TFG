@@ -37,7 +37,7 @@ import es.ucm.fdi.boxit.negocio.UserInfo;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button verTodoCapsula, plus;
+    Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus;
     ImageButton perfil;
     TextView nombre;
 
@@ -76,25 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
             /////////////////////////// CAPSULAS ///////////////////////////////
             //TODO
-            Calendar calendar = new GregorianCalendar(2024, Calendar.JANUARY, 16, 12, 30, 0);
-            Date date1 = calendar.getTime();
-
-            Calendar calendar2 = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
-            Date date2 = calendar2.getTime();
-
-           /* ArrayList<CapsuleInfo> c = new ArrayList<>();
-
-            CapsuleInfo cap1 = new CapsuleInfo("","prueba", null);
-            c.add(cap1);//add
-            cap1.setApertura(date2); //cerrada
-            cap1.setCierre(date1);
-            c.add(cap1);
-
-
-            CapAdapter c1 = new CapAdapter();
-            c1.setCapData(c, false, true);
-            RecyclerView recyclerView2 = findViewById(R.id.recycler_view_capsule);
-            recyclerView2.setAdapter(c1);*/
             CapAdapter c1 = new CapAdapter();
             ArrayList<CapsuleInfo> capsules = new ArrayList<>();
 
@@ -153,76 +134,62 @@ public class MainActivity extends AppCompatActivity {
             });
 
             /////////////////////////// CAPSAULAS COMPARTIDAS ///////////////////////////////
-            //TODO
-            ArrayList<CapsuleInfo> ca = new ArrayList<>();
-            CapsuleInfo cap2 = new CapsuleInfo("","prueba", null);
-            ca.add(cap2);//add
-            cap2.setApertura(date2); //cerrada
-            cap2.setCierre(date1);
-            ArrayList<String> col = new ArrayList<>();
-            col.add("colab");
-            cap2.setCollaborators(col);
-            ca.add(cap2);
-
             CapAdapter c2 = new CapAdapter();
-            c2.setCapData(ca, true, true);
-            RecyclerView recyclerView4 = findViewById(R.id.recycler_view_share_cap);
-            recyclerView4.setAdapter(c2);
-            //LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
-            //lShareCap.setVisibility(View.GONE);
-            //recyclerView4.setVisibility(View.GONE);
+            ArrayList<CapsuleInfo> capsulesShared = new ArrayList<>();
+            capsulesShared.add(capAdd);
 
-            /*saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
+            LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
+            RecyclerView recyclerView4 = findViewById(R.id.recycler_view_share_cap);
+
+            saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
                 @Override
-                public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
-                    if(!bs.isEmpty()){
+                public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
+                    if(!cs.isEmpty()){
                         lShareCap.setVisibility(View.VISIBLE);
                         recyclerView4.setVisibility(View.VISIBLE);
 
-                        boxesShared.addAll(bs);
-                        b3.setBoxData(bs, true,true);
-                        RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
-                        recyclerView3.setAdapter(b3);
+                        capsulesShared.addAll(cs);
+                        c2.setCapData(cs, true,true);
+                        recyclerView4.setAdapter(b3);
                     }
                     else{
                         //Este Layout no se vera si no hay ninguna caja compartida
-                        lShare.setVisibility(View.GONE);
+                        lShareCap.setVisibility(View.GONE);
                         recyclerView4.setVisibility(View.GONE);
                     }
                 }
-            });*/
-
-            //VER ALL
-            //TODO
-            Button verTodoCaja = findViewById(R.id.verTodoCaja);
-            verTodoCaja.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context ctx = v.getContext();
-                    Intent intent = new Intent(ctx, VerTodo.class);
-                    ctx.startActivity(intent);
-
-                }
             });
 
+            //Ver tod botones
+            verTodoCaja = findViewById(R.id.verTodoCaja);
             verTodoCapsula = findViewById(R.id.verTodoCapsula);
-            verTodoCapsula.setOnClickListener(new View.OnClickListener() {
+            verTodoCapsulaComp = findViewById(R.id.verTodoCompartidoCap);
+            verTodoCajaComp = findViewById(R.id.verTodoCompartido);
+            View.OnClickListener onClickListener1 = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context ctx = v.getContext();
                     Intent intent = new Intent(ctx, VerTodo.class);
+                    intent.putExtra("isBox", true);
                     ctx.startActivity(intent);
                 }
-            });
+            };
+            verTodoCaja.setOnClickListener(onClickListener1);
+            verTodoCajaComp.setOnClickListener(onClickListener1);
+
+            View.OnClickListener onClickListener2 = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
+                    Intent intent = new Intent(ctx, VerTodo.class);
+                    intent.putExtra("isBox", false);
+                    ctx.startActivity(intent);
+                }
+            };
+            verTodoCapsula.setOnClickListener(onClickListener2);
+            verTodoCapsulaComp.setOnClickListener(onClickListener2);
 
             perfil = findViewById(R.id.perfil1);
-
-
-
-
-
-
-
             perfil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
