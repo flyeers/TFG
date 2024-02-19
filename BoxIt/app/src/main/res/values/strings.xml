@@ -45,12 +45,17 @@
     <string name="CajaTitulo">Nombre de la caja</string>
     <string name="selectImg">Elegir foto de Portada</string>
     <string name="addCol">Añadir Colaboradores</string>
-    <string name="abrirse">abrirse</string>
-    <string name="cerrarse">cerrarse</string>
+    <string name="abrirse">dias para abrirse</string>
+    <string name="cerrarse">dias para cerrarse</string>
     <string name="fechaApertura">Fecha de apertura</string>
     <string name="fechaCierre">Fecha de cierre</string>
     <string name="requerido">Campo obligatorio</string>
     <string name="errCrearCaja">No se ha podido crear la caja</string>
+    <string name="set">Establecer</string>
+    <string name="dateObligatoria">Fechas oblogatorias</string>
+    <string name="CierrePreApertura">El cierre debe ser previo a la apertura</string>
+    <string name="tiempoCerrado">La capsula estará cerrada durante </string>
+    <string name="dias">dias</string>
 
     <!--Ver all-->
     <string name="cajas">Cajas</string>

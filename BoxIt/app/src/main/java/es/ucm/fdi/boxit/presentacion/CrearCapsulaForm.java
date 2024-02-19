@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -44,15 +46,17 @@ public class CrearCapsulaForm extends AppCompatActivity {
 
     private ImageView ellipse, home;
     private EditText nombreCapsulaInput;
-    private TextView nombreCapsulaTitulo, fechaCierre, fechaApertura;
+    private TextView nombreCapsulaTitulo, textApertura, textCierre, daysApertura, daysCierre, daysCerrado;
     private NumberPicker diaCierre, mesCierre, añoCierre, diaApertura, mesApertura, añoApertura;
-    private LinearLayout btnAddImg, btnAddColaborator, pikerCierre, pikerApertura;
-    private Button btnCrear;
+    private LinearLayout btnAddImg, btnAddColaborator, layCierre, layApertura, layTextCierre, layTextApertura;
+    private Button btnCrear, btnSetCierre, btnSetApertura;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ArrayList<UserInfo> amigos;
     private ArrayList<String> colaboradores = new ArrayList<>();
     private UsersAdapter adapter;
+
+    private Date apertura, cierre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +93,8 @@ public class CrearCapsulaForm extends AppCompatActivity {
             }
         });
 
-        //FECHAS
+        /////////////////FECHAS
+        //fechas valores
         diaCierre = findViewById(R.id.numberPickerDayClose);
         diaApertura = findViewById(R.id.numberPickerDayOpen);
         mesCierre = findViewById(R.id.numberPickerMonthClose);
@@ -97,81 +102,134 @@ public class CrearCapsulaForm extends AppCompatActivity {
         añoCierre = findViewById(R.id.numberPickerYearClose);
         añoApertura = findViewById(R.id.numberPickerYearOpen);
 
-        fechaApertura = findViewById(R.id.fechaApertura);
-        fechaCierre = findViewById(R.id.fechaCierre_text);
+        //testos
+        textApertura = findViewById(R.id.fechaApertura_text);
+        textCierre = findViewById(R.id.fechaCierre_text);
+        daysApertura = findViewById(R.id.daysToOpen);
+        daysCierre = findViewById(R.id.daysToClose);
+        daysCerrado = findViewById(R.id.daysClose);
+
+        //btn set
+        btnSetApertura = findViewById(R.id.buttonSetApertura);
+        btnSetCierre = findViewById(R.id.buttonSetCierre);
+
+        //layouts
+        layCierre = findViewById(R.id.numberPickerClose);
+        layApertura = findViewById(R.id.numberPickerApertura);
+        layTextCierre = findViewById(R.id.layTextCierre);
+        layTextApertura = findViewById(R.id.layTextApertura);
+
 
         String [] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept","Oct", "Nov", "Dec"};
 
-        //Configuración del picker de fecha de cierre
+        //Date date = new Date();
+        GregorianCalendar cm = new GregorianCalendar(); //calendario mañana
+        cm.add(Calendar.DATE, 1);
+        GregorianCalendar cp = new GregorianCalendar();//calendario pasado mañana
+        cp.add(Calendar.DATE, 2);
+
+
+        //Configuración del picker de fecha de cierre - inicializado a hoy
         diaCierre.setMaxValue(31);
         diaCierre.setMinValue(1);
         diaCierre.setWrapSelectorWheel(true);
-        diaCierre.setValue(1);
-
-        Date cd = Calendar.getInstance().getTime();
+        diaCierre.setValue(cm.get(Calendar.DAY_OF_MONTH));
 
         añoCierre.setMaxValue(2050);
-        añoCierre.setMinValue( cd.getYear()); //TODO no puede haber fechas pasadas, controlar esto en la logica
+        añoCierre.setMinValue(cm.get(Calendar.YEAR));
         añoCierre.setWrapSelectorWheel(true);
-        añoCierre.setValue(2023);
+        añoCierre.setValue(cm.get(Calendar.YEAR));
 
         mesCierre.setMaxValue(meses.length - 1);
         mesCierre.setMinValue(0);
         mesCierre.setWrapSelectorWheel(true);
         mesCierre.setDisplayedValues(meses);
+        mesCierre.setValue(cm.get(Calendar.MONTH));
 
-        //Configuración del picker de fecha de apertura
+        //Configuración del picker de fecha de apertura - inicializado a mañana
         diaApertura.setMaxValue(31);
         diaApertura.setMinValue(1);
         diaApertura.setWrapSelectorWheel(true);
-        diaApertura.setValue(1);
+        diaApertura.setValue(cp.get(Calendar.DAY_OF_MONTH));
 
         añoApertura.setMaxValue(2050);
-        añoApertura.setMinValue(2023); //TODO no puede haber fechas pasadas, controlar esto en la logica
+        añoApertura.setMinValue(cp.get(Calendar.YEAR));
         añoApertura.setWrapSelectorWheel(true);
-        añoApertura.setValue(2023);
+        añoApertura.setValue(cp.get(Calendar.YEAR));
 
         mesApertura.setMaxValue(meses.length - 1);
         mesApertura.setMinValue(0);
         mesApertura.setWrapSelectorWheel(true);
         mesApertura.setDisplayedValues(meses);
+        mesApertura.setValue(cp.get(Calendar.MONTH));
 
-
-        fechaCierre.setOnClickListener(new View.OnClickListener() {
+        layTextCierre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.d("JULIA", "CIERRE");
-                if(diaCierre.getVisibility() != View.VISIBLE && diaApertura.getVisibility() != View.VISIBLE){
-                    diaCierre.setVisibility(View.VISIBLE);
-                    mesCierre.setVisibility(View.VISIBLE);
-                    añoCierre.setVisibility(View.VISIBLE);
+                if(layCierre.getVisibility() == View.VISIBLE){
+                    layCierre.setVisibility(View.GONE);
+                    layTextCierre.setBackgroundColor(Color.TRANSPARENT);
                 }
                 else{
-                    diaCierre.setVisibility(View.GONE);
-                    mesCierre.setVisibility(View.GONE);
-                    añoCierre.setVisibility(View.GONE);
+                    layCierre.setVisibility(View.VISIBLE);
+                    layApertura.setVisibility(View.GONE);
+                    layTextCierre.setBackgroundColor(getResources().getColor(R.color.rosaBotonClaro));
+                    layTextApertura.setBackgroundColor(Color.TRANSPARENT);
                 }
-
             }
         });
-
-        fechaApertura.setOnClickListener(new View.OnClickListener() {
+        layTextApertura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("JULIA", "APERTURA");
-                if(diaApertura.getVisibility() != View.VISIBLE && diaCierre.getVisibility() != View.VISIBLE){
-                    diaApertura.setVisibility(View.VISIBLE);
-                    mesApertura.setVisibility(View.VISIBLE);
-                    añoApertura.setVisibility(View.VISIBLE);
+                if(layApertura.getVisibility() == View.VISIBLE){
+                    layApertura.setVisibility(View.GONE);
+                    layTextApertura.setBackgroundColor(Color.TRANSPARENT);
                 }
                 else{
-                    diaApertura.setVisibility(View.GONE);
-                    mesApertura.setVisibility(View.GONE);
-                    añoApertura.setVisibility(View.GONE);
+                    layCierre.setVisibility(View.GONE);
+                    layApertura.setVisibility(View.VISIBLE);
+                    layTextApertura.setBackgroundColor(getResources().getColor(R.color.rosaBotonClaro));
+                    layTextCierre.setBackgroundColor(Color.TRANSPARENT);
+                }
+
+            }
+        });
+
+        Date cd = Calendar.getInstance().getTime();
+        btnSetCierre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = new GregorianCalendar(añoCierre.getValue(), mesCierre.getValue(), diaCierre.getValue(), 0, 0);
+                cierre = calendar.getTime();
+                textCierre.setText(añoCierre.getValue()+"/"+ meses[mesCierre.getValue()]+"/"+diaCierre.getValue());
+                Long d = cierre.getTime() - cd.getTime();
+                daysCierre.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
+                if(apertura != null){
+                    d = apertura.getTime() -  cierre.getTime();
+                    daysCerrado.setText(getString(R.string.tiempoCerrado)+" "+ TimeUnit.MILLISECONDS.toDays(d)+" "+ getString(R.string.dias));
                 }
             }
         });
+
+        btnSetApertura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = new GregorianCalendar(añoApertura.getValue(), mesApertura.getValue(), diaApertura.getValue(), 0, 0);
+                apertura = calendar.getTime();
+                textApertura.setText(añoApertura.getValue()+"/"+ meses[mesApertura.getValue()]+"/"+diaApertura.getValue());
+                Long d = apertura.getTime() - cd.getTime();
+                daysApertura.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
+                if(cierre != null){
+                    d = apertura.getTime() -  cierre.getTime();
+                    daysCerrado.setText(getString(R.string.tiempoCerrado)+" "+ TimeUnit.MILLISECONDS.toDays(d) +" "+ getString(R.string.dias));
+                }
+            }
+        });
+
+
 
         //IMG
         btnAddImg = findViewById(R.id.btnAddImgCap);
@@ -226,8 +284,14 @@ public class CrearCapsulaForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //el unico parametro a "validar" sera el nombre que no puede ser vacio"
-                if(nombreCapsulaInput.getText().toString().equals("")){ //TODO añadir q es obligatoria la fecha
+                if(nombreCapsulaInput.getText().toString().equals("")){
                     nombreCapsulaInput.setError(getString(R.string.requerido));
+                }
+                else if(apertura == null || cierre == null){
+                    Toast.makeText(CrearCapsulaForm.this, R.string.dateObligatoria, Toast.LENGTH_SHORT).show();
+                }
+                else if(apertura.before(cierre)){//El cierre debe ser previo
+                    Toast.makeText(CrearCapsulaForm.this, R.string.CierrePreApertura, Toast.LENGTH_LONG).show();;
                 }
                 else{
                     if(selectedImage == null){
@@ -236,15 +300,9 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     }
                     CapsuleInfo cap = new CapsuleInfo("a",nombreCapsulaInput.getText().toString(), selectedImage);
 
-                    //TODO coger y poner fechas - de momento lo fuerzo ara probar
-                    Calendar calendar = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
-                    Date date1 = calendar.getTime();
-
-                    Calendar calendar2 = new GregorianCalendar(2024, Calendar.JUNE, 16, 12, 30, 0);
-                    Date date2 = calendar2.getTime();
-
-                    cap.setApertura(date2);
-                    cap.setCierre(date1);
+                    //cogemos las fechas
+                    cap.setCierre(cierre);
+                    cap.setApertura(apertura);
 
                     //cogemos los colaboradores si los hay
                     colaboradores = adapter.getData();

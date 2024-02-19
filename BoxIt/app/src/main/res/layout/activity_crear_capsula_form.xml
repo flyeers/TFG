@@ -19,8 +19,8 @@
             android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-140dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="-140dp"
             android:src="@drawable/home" />
 
         <TextView
@@ -41,8 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginTop="8dp"
-                android:text="12 dias para"
-                />
+                android:text="0" />
 
             <TextView
                 android:id="@+id/close"
@@ -69,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:fontFamily="@font/inter_medium"
-                android:text="12 dias para"
+                android:text="0"
                 android:textColor="@color/rosaBoton" />
 
             <TextView
@@ -108,6 +107,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/layTextCierre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -137,6 +137,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layTextApertura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -159,7 +160,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/interregular"
                 android:gravity="end"
-                android:text="fechadelpicker"
                 android:textColor="@color/rosaBoton"
                 android:textSize="17dp" />
 
@@ -168,72 +168,95 @@
 
         <LinearLayout
             android:id="@+id/numberPickerClose"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <NumberPicker
-                android:id="@+id/numberPickerDayClose"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                >
-
-            </NumberPicker>
-            <NumberPicker
-                android:id="@+id/numberPickerMonthClose"
                 android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-            </NumberPicker>
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <NumberPicker
-                android:id="@+id/numberPickerYearClose"
-                android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+                <NumberPicker
+                    android:id="@+id/numberPickerDayClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            </NumberPicker>
+                </NumberPicker>
+
+                <NumberPicker
+                    android:id="@+id/numberPickerMonthClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"></NumberPicker>
+
+                <NumberPicker
+                    android:id="@+id/numberPickerYearClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp">
+
+                </NumberPicker>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSetCierre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/rosaBotonClaro"
+                android:text="@string/set" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/numberPickerApertura"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <NumberPicker
-                android:id="@+id/numberPickerDayOpen"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                >
-
-            </NumberPicker>
-            <NumberPicker
-                android:id="@+id/numberPickerMonthOpen"
                 android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-            </NumberPicker>
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <NumberPicker
-                android:id="@+id/numberPickerYearOpen"
-                android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+                <NumberPicker
+                    android:id="@+id/numberPickerDayOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            </NumberPicker>
+                </NumberPicker>
+
+                <NumberPicker
+                    android:id="@+id/numberPickerMonthOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"></NumberPicker>
+
+                <NumberPicker
+                    android:id="@+id/numberPickerYearOpen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp">
+
+                </NumberPicker>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSetApertura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/rosaBotonClaro"
+                android:text="@string/set" />
         </LinearLayout>
 
         <LinearLayout
@@ -307,13 +330,13 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/daysClose"
+            style="@style/textCapsuleForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            style="@style/textCapsuleForm"
             android:gravity="center"
-            android:text="The capsule remains closed for .." />
+            android:text="@string/tiempoCerrado" />
 
         <Button
             android:id="@+id/CrearCapBTN"
