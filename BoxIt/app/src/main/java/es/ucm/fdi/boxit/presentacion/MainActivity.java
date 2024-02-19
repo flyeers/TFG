@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
             //TODO
             CapAdapter c1 = new CapAdapter();
             ArrayList<CapsuleInfo> capsules = new ArrayList<>();
-
             capsules.add(capAdd);
+
             saUser.getCapsules(currentUser.getEmail(), new Callbacks() {
                 @Override
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             /////////////////////////// CAJAS ///////////////////////////////
             BoxAdapter b2 = new BoxAdapter();
             ArrayList<BoxInfo> boxes = new ArrayList<>();
-
             boxes.add(boxAdd);
 
             saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
@@ -146,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
             /////////////////////////// CAJAS COMPARTIDAS ///////////////////////////////
             BoxAdapter b3 = new BoxAdapter();
             ArrayList<BoxInfo> boxesShared = new ArrayList<>();
-            boxesShared.add(boxAdd);
 
             LinearLayout lShare = findViewById(R.id.layoutShare);
             RecyclerView recyclerView3 = findViewById(R.id.recycler_view_share);
@@ -155,11 +153,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
                     if(!bs.isEmpty()){
+                        boxesShared.add(boxAdd);
+
                         lShare.setVisibility(View.VISIBLE);
                         recyclerView3.setVisibility(View.VISIBLE);
 
                         boxesShared.addAll(bs);
-                        b3.setBoxData(bs, true,true);
+                        b3.setBoxData(boxesShared, true,true);
                         recyclerView3.setAdapter(b3);
                     }
                     else{
@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
             /////////////////////////// CAPSAULAS COMPARTIDAS ///////////////////////////////
             CapAdapter c2 = new CapAdapter();
             ArrayList<CapsuleInfo> capsulesShared = new ArrayList<>();
-            capsulesShared.add(capAdd);
 
             LinearLayout lShareCap = findViewById(R.id.layoutShareCap);
             RecyclerView recyclerView4 = findViewById(R.id.recycler_view_share_cap);
@@ -182,12 +181,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
                     if(!cs.isEmpty()){
+                        capsulesShared.add(capAdd);
+
                         lShareCap.setVisibility(View.VISIBLE);
                         recyclerView4.setVisibility(View.VISIBLE);
 
                         capsulesShared.addAll(cs);
-                        c2.setCapData(cs, true,true);
-                        recyclerView4.setAdapter(b3);
+                        c2.setCapData(capsulesShared, true,true);
+                        recyclerView4.setAdapter(c2);
                     }
                     else{
                         //Este Layout no se vera si no hay ninguna caja compartida

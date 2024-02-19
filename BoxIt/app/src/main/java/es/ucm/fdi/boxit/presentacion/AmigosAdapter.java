@@ -57,29 +57,21 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         UserInfo u_current = users.get(position);
         holder.nombre.setText(u_current.getNombreUsuario());
 
-        /*
-        Glide.with(holder.card)
-                .load(u_current.getImgPerfil())
-                .placeholder(R.drawable.user)
-                .into(holder.perfil);*/
         Glide.with(holder.card)
                 .asBitmap()
                 .load(u_current.getImgPerfil())
+                .placeholder(R.drawable.user)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.perfil.getResources(), resource);
                         roundedDrawable.setCircular(true);
-
                         holder.perfil.setImageDrawable(roundedDrawable);
                     }
-
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
 
                     }
-
-
                 });
 
         if(typeCard == 1) { //lista amigos
