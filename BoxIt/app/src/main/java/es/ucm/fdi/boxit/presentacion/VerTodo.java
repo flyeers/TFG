@@ -3,10 +3,14 @@ package es.ucm.fdi.boxit.presentacion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +41,7 @@ public class VerTodo extends AppCompatActivity {
 
     private RecyclerView recyclerBox, recyclerCap;
     private TextView cap, box;
+    Button plus;
     private ArrayList<BoxInfo> allBoxes;
     private ArrayList<CapsuleInfo> allCapsules;
 
@@ -109,7 +114,47 @@ public class VerTodo extends AppCompatActivity {
             }
         });
 
-        /*
+        plus = findViewById(R.id.button2);
+        plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context ctx = v.getContext();
+                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(ctx, R.style.EstiloMenu);
+                PopupMenu popup = new PopupMenu(contextThemeWrapper, v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.add_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        int id = item.getItemId();
+                        if(id == R.id.nuevaCajaMenu){
+
+                            boolean isBox = true;
+                            Intent intent = new Intent(ctx, Crear.class);
+                            intent.putExtra("TIPO", isBox);
+                            ctx.startActivity(intent);
+                            return true;
+                        }
+                        else if(id == R.id.nuevaCapsulaMenu){
+                            boolean isBox = false;
+                            Intent intent = new Intent(ctx, Crear.class);
+                            intent.putExtra("TIPO", isBox);
+                            ctx.startActivity(intent);
+
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
         //Carga info
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         SAUser saUser = new SAUser();
@@ -147,7 +192,7 @@ public class VerTodo extends AppCompatActivity {
                     }
                 });
             }
-        });*/
+        });
 
     }
 }

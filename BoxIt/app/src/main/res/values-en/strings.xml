@@ -46,12 +46,17 @@
     <string name="CajaTitulo">Box name</string>
     <string name="selectImg">Choose Cover photo</string>
     <string name="addCol">Add Collaborators</string>
-    <string name="abrirse">open</string>
-    <string name="cerrarse">close</string>
+    <string name="abrirse">days to open</string>
+    <string name="cerrarse">days to close</string>
     <string name="fechaApertura">Open date</string>
     <string name="fechaCierre">Close date</string>
     <string name="requerido">Required field</string>
     <string name="errCrearCaja">The box could not be created</string>
+    <string name="set">Set</string>
+    <string name="dateObligatoria">Dates are mandatory</string>
+    <string name="CierrePreApertura">Closing must be prior to opening</string>
+    <string name="tiempoCerrado">The capsule remains closed for </string>
+    <string name="dias">days</string>
 
     <!--Ver all-->
     <string name="cajas">Boxes</string>
