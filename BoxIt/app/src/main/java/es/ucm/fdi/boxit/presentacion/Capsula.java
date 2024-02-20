@@ -1,6 +1,7 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -53,7 +54,7 @@ public class Capsula extends AppCompatActivity {
     private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado;
-    private ImageView home;
+    private ImageView home, delete, exit;
 
 
     @Override
@@ -93,14 +94,14 @@ public class Capsula extends AppCompatActivity {
 
         documentos = findViewById(R.id.documentosCaja);
         home = findViewById(R.id.homeBtn);
+        delete = findViewById(R.id.delete);
+        exit = findViewById(R.id.exit);
 
-
-        SACapsule saCapsule = new SACapsule();
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
 
 
-        textoInicio.setText(getResources().getString(R.string.tododelacaja));
+        textoInicio.setText(getResources().getString(R.string.tododelacapsula));
         getAll();
         Date cd = Calendar.getInstance().getTime();
         if(cd.before(capsuleInfo.getCierre())){//antes del cierre
@@ -111,12 +112,8 @@ public class Capsula extends AppCompatActivity {
             long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;
             tiempo.setText(dias+"D. "+horas+"H. "+minutos+"M. ");
 
-        }else{//tras apertura
-            Long d = capsuleInfo.getApertura().getTime() - cd.getTime();
-            long dias = TimeUnit.MILLISECONDS.toDays(d);
-            long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;
-            long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;
-            tiempo.setText(dias+"D. "+horas+"H. "+minutos+"M. ");
+        }else{
+            tiempo.setText(getResources().getString(R.string.abiertaPermanente));
         }
 
         home.setOnClickListener(new View.OnClickListener() {
@@ -126,10 +123,97 @@ public class Capsula extends AppCompatActivity {
                 Intent intent1 = new Intent(ctx, MainActivity.class);
                 ctx.startActivity(intent1);
 
-                //TODO revisar si cuando viene de la main deberia de ser un onBackPressed() en lugar de crear un intent nuevo
-
             }
         });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialogConfirm = new Dialog(ctx);
+                dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogConfirm.dismiss();
+
+                    }
+                });
+
+                confirmar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SACapsule saCapsule = new SACapsule();
+                        saCapsule.deleteCapsule(capsuleInfo.getId(), new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Intent intent1 = new Intent(ctx, MainActivity.class);
+                                    ctx.startActivity(intent1);
+                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    dialogConfirm.dismiss();
+                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+                dialogConfirm.show();
+            }
+        });
+
+        if(!capsuleInfo.getColaborators().isEmpty()){
+            exit.setVisibility(View.VISIBLE);
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog dialogConfirm = new Dialog(ctx);
+                    dialogConfirm.setContentView(R.layout.exit_confirm);
+                    TextView text = dialogConfirm.findViewById(R.id.textAbandono);
+                    text.setText(getResources().getString(R.string.abandonarCap));
+                    Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                    Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogConfirm.dismiss();
+                        }
+                    });
+
+                    confirmar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SACapsule saCapsule = new SACapsule();
+                            saCapsule.exitCapsule(capsuleInfo.getId(), new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        Intent intent1 = new Intent(ctx, MainActivity.class);
+                                        ctx.startActivity(intent1);
+                                        Toast.makeText(ctx,R.string.abandonoBien , Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        dialogConfirm.dismiss();
+                                        Toast.makeText(ctx,R.string.abandonoMal , Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+
+                    dialogConfirm.show();
+                }
+            });
+        }
+
 
         verTodo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +259,9 @@ public class Capsula extends AppCompatActivity {
                     fotos.setTextColor(getResources().getColor(R.color.fondoClaro));
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
-                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+                    textoFotos2.setText(getResources().getString(R.string.delacapsula));
                     photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo.getId());
+                    photoAdapter.setType(false);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
                 }
@@ -224,7 +309,7 @@ public class Capsula extends AppCompatActivity {
                     documentos.setTextColor(getResources().getColor(R.color.fondoClaro));
 
                     textoFotos1.setText(getResources().getString(R.string.docs));
-                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+                    textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
                     docAdapter.setElementsData(documents_b, false, true, ctx, capsuleInfo.getId());
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
@@ -332,7 +417,7 @@ public class Capsula extends AppCompatActivity {
 
                             photoAdapter.addElem(selectedItem.toString(), null);
                             photoAdapter.notifyDataSetChanged();
-                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx,R.string.addBienCap , Toast.LENGTH_SHORT).show();
 
                         }
                         else{
@@ -357,13 +442,14 @@ public class Capsula extends AppCompatActivity {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
                                     photoAdapter.setElementsData(photos, true, false, ctx, capsuleInfo.getId());
+                                    photoAdapter.setType(false);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
 
                                 }
                             });
 
-                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx,R.string.addBienCap , Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
@@ -395,7 +481,7 @@ public class Capsula extends AppCompatActivity {
                                 recyclerView.setAdapter(docAdapter);
                             }
                         });
-                        Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx,R.string.addBienCap , Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
@@ -427,6 +513,7 @@ public class Capsula extends AppCompatActivity {
 
                 photos_b = photos;
                 photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo.getId());
+                photoAdapter.setType(false);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
 

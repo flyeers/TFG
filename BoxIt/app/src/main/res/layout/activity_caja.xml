@@ -32,11 +32,18 @@
                     android:src="@drawable/home" />
 
                 <ImageView
+                    android:id="@+id/exit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="255dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/exit"
+                    android:visibility="invisible"/>
+
+                <ImageView
                     android:id="@+id/deleteBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginLeft="300dp"
                     android:src="@drawable/delete" />
             </LinearLayout>
 

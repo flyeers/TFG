@@ -166,8 +166,6 @@ public class CrearCapsulaForm extends AppCompatActivity {
         layTextCierre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.d("JULIA", "CIERRE");
                 if(layCierre.getVisibility() == View.VISIBLE){
                     layCierre.setVisibility(View.GONE);
                     layTextCierre.setBackgroundColor(Color.TRANSPARENT);
@@ -183,7 +181,6 @@ public class CrearCapsulaForm extends AppCompatActivity {
         layTextApertura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("JULIA", "APERTURA");
                 if(layApertura.getVisibility() == View.VISIBLE){
                     layApertura.setVisibility(View.GONE);
                     layTextApertura.setBackgroundColor(Color.TRANSPARENT);
@@ -204,7 +201,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar calendar = new GregorianCalendar(añoCierre.getValue(), mesCierre.getValue(), diaCierre.getValue(), 0, 0);
                 cierre = calendar.getTime();
-                textCierre.setText(añoCierre.getValue()+"/"+ meses[mesCierre.getValue()]+"/"+diaCierre.getValue());
+                textCierre.setText(diaCierre.getValue()+"/"+ meses[mesCierre.getValue()]+"/"+añoCierre.getValue());
                 Long d = cierre.getTime() - cd.getTime();
                 daysCierre.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
                 if(apertura != null){
@@ -219,7 +216,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar calendar = new GregorianCalendar(añoApertura.getValue(), mesApertura.getValue(), diaApertura.getValue(), 0, 0);
                 apertura = calendar.getTime();
-                textApertura.setText(añoApertura.getValue()+"/"+ meses[mesApertura.getValue()]+"/"+diaApertura.getValue());
+                textApertura.setText(diaApertura.getValue()+"/"+ meses[mesApertura.getValue()]+"/"+añoApertura.getValue());
                 Long d = apertura.getTime() - cd.getTime();
                 daysApertura.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
                 if(cierre != null){

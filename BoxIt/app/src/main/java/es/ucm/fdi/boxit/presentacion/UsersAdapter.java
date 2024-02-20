@@ -1,5 +1,7 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +55,24 @@ public class UsersAdapter extends RecyclerView.Adapter{
         UserInfo u = usersData.get(position);
         UsersAdapter.ViewHolder h = (UsersAdapter.ViewHolder) holder;
         h.nombre.setText(u.getNombreUsuario());
+
         Glide.with(h.cardView)
+                .asBitmap()
                 .load(u.getImgPerfil())
                 .placeholder(R.drawable.user)
-                .into(h.imagen);
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(h.imagen.getResources(), resource);
+                        roundedDrawable.setCircular(true);
+                        h.imagen.setImageDrawable(roundedDrawable);
+                    }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
 
         h.imgOver.setVisibility(View.GONE);
         h.cardView.setOnClickListener(new View.OnClickListener() {

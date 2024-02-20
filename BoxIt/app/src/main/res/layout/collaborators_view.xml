@@ -16,7 +16,8 @@
             android:id="@+id/imgPerfil"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/shape_collaborator"></ImageView>
+            android:background="@drawable/shape_collaborator"
+            app:srcCompat="@drawable/user"></ImageView>
 
         <TextView
             android:id="@+id/nombreColaborador"

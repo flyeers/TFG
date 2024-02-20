@@ -2,6 +2,7 @@ package es.ucm.fdi.boxit.integracion;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -342,5 +343,60 @@ public class DAOCapsule {
             }
         });
 
+    }
+
+    public void borrarFoto(String id, String foto, Callbacks cb) {
+        cb.onCallbackExito(false);
+    }
+
+    public void deleteCapsule(String id, Callbacks cb) {
+        cb.onCallbackExito(false);
+    }
+
+
+    public void exitCapsule(String id, Callbacks cb){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+        CollectionReference capsuleCollection = SingletonDataBase.getInstance().getDB().collection(COL_CAP);
+
+        try {
+            //Quitamos de la lista de cajas compartidas del usuario
+            usersCollection.document(currentUser.getUid()).update(CAPSULAS_COMPARTIDAS, FieldValue.arrayRemove(id));
+            //Quitamos de la lista de colaboradores al usuario
+            capsuleCollection.document(id).update(COLABORADORES, FieldValue.arrayRemove(currentUser.getEmail()));
+            //vemos si quedan colaboradoes
+            capsuleCollection.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        // Document found in the offline cache
+                        DocumentSnapshot ds = task.getResult();
+
+                        ArrayList<String> colab = new ArrayList<>();
+                        colab = (ArrayList<String>) ds.getData().get(COLABORADORES);
+                        if(colab.size() > 1) cb.onCallbackExito(true); //quedan colaboradores
+                        else{//si queda un colaborador -> pasa a ser capsula propia
+
+                            //Quitamos ese ultimo colaborador
+                            capsuleCollection.document(id).update(COLABORADORES, FieldValue.arrayRemove(colab.get(0)));
+
+                            //Gestionamos la caja en el usuario
+                            DAOUsuario daoUsuario = new DAOUsuario();
+                            daoUsuario.capsuleComToProp(colab.get(0), id, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito) cb.onCallbackExito(true);
+                                    else cb.onCallbackExito(false);
+                                }
+                            });
+                        }
+                    }
+                    else cb.onCallbackExito(false);
+                }
+            });
+
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
     }
 }
