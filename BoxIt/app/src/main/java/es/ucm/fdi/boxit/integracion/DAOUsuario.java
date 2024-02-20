@@ -111,8 +111,8 @@ public class DAOUsuario {
 
                                         if(usuarioInsertar.getImgPerfil() != null){
 
-                                            int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-                                            String idImg = String.format("%s-%s-%s", usuarioInsertar.getNombreUsuario(), random, "fotoPerfil").replace("", "");
+
+                                            String idImg = String.format("%s-%s", usuarioInsertar.getNombreUsuario(), "fotoPerfil").replace("", "");
                                             FirebaseStorage imageStorage = new FirebaseStorage();
                                             StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
 
@@ -275,32 +275,112 @@ public class DAOUsuario {
     }
 
 
+    public void updateperfil(String nuevoNombre, Uri nuevaFoto, String username, Boolean hayFoto, Callbacks cb){
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put(NOMBRE, nuevoNombre);
 
 
-    public void getFotoPerfil(Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_USERS).document(mAuth.getCurrentUser().getUid());
-        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Object photo = document.get(FOTO_PERFIL);
-                        if (photo != null) {
-                            cb.onCallbackUserPhoto(photo.toString());
-                        }
-                    } else {
+        if (nuevaFoto != null){
+            //eliminar foto anterior del storage si la hubiese
+
+            FirebaseStorage imageStorage = new FirebaseStorage();
+            String idImg = String.format("%s-%s", username, "fotoPerfil").replace("", "");
+            if(hayFoto){
+
+
+                StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+                fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("CLAU", "Borrado del storage");
+
+                        //ahora hay que subir la nueva imagen
+
+                        StorageReference fileReference2 = imageStorage.getStorageRef().child(idImg + ".png");
+
+                        fileReference2.putFile(nuevaFoto)
+                                .addOnSuccessListener(taskSnapshot -> {
+
+                                    fileReference2.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                        //guardamos la de la img ruta en la propia caja
+
+                                        data.put(FOTO_PERFIL, uri.toString());
+                                        usersCollection.document(currentUser.getUid()).update(data);
+                                        cb.onCallbackExito(true);
+
+
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            cb.onCallbackExito(false);
+                                        }
+                                    });
+
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        cb.onCallbackExito(false);
+                                    }
+                                });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Uh-oh, an error occurred!
+                        Log.d("CLAU", "Borrado del storage MAL");
                         cb.onCallbackExito(false);
                     }
-                } else {
-                    cb.onCallbackExito(false);
-                }
+                });
             }
-        });
+            else{
+
+                //si no habia foto de perfil, subir la nueva
+                StorageReference fileReference2 = imageStorage.getStorageRef().child(idImg + ".png");
+
+                fileReference2.putFile(nuevaFoto)
+                        .addOnSuccessListener(taskSnapshot -> {
+
+                            fileReference2.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                //guardamos la de la img ruta en la propia caja
+
+                                data.put(FOTO_PERFIL, uri.toString());
+                                usersCollection.document(currentUser.getUid()).update(data);
+                                cb.onCallbackExito(true);
+
+
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    cb.onCallbackExito(false);
+                                }
+                            });
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                cb.onCallbackExito(false);
+                            }
+                        });
+            }
+
+        }
+        else{
+            usersCollection.document(currentUser.getUid()).update(data);
+            cb.onCallbackExito(true);
+        }
+
 
 
     }
+
+
 
     /*
     public void insertBox(String correo, String idBox, boolean propia){

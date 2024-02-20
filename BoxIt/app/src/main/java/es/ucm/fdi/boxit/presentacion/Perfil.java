@@ -52,7 +52,7 @@ public class Perfil extends AppCompatActivity {
 
     private TextView nombreUsuario, correo;
     private ImageButton opt, home;
-    private ImageView foto;
+    private ImageView foto, nuevaFoto;
     private Context ctx;
     private String nom, userN;
     private Uri fPerfil = null;
@@ -194,7 +194,30 @@ public class Perfil extends AppCompatActivity {
         Button editar = dialog.findViewById(R.id.buttonEditar);
 
 
-        ImageView nuevaFoto = dialog.findViewById(R.id.nuevaFoto);
+        nuevaFoto = dialog.findViewById(R.id.nuevaFoto);
+        
+        if (hayFoto){
+            Glide.with(ctx)
+                    .asBitmap()
+                    .load(fPerfil)
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                            roundedDrawable.setCircular(true);
+
+                            nuevaFoto.setImageDrawable(roundedDrawable);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+
+
+                    });
+        }
+
 
         nuevaFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,25 +228,7 @@ public class Perfil extends AppCompatActivity {
             }
         });
 
-        Glide.with(ctx)
-                .asBitmap()
-                .load(nuevafPerfil)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
-                        roundedDrawable.setCircular(true);
 
-                        nuevaFoto.setImageDrawable(roundedDrawable);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-
-
-                });
 
 
 
@@ -276,6 +281,26 @@ public class Perfil extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
             nuevafPerfil = data.getData();
+
+            Glide.with(ctx)
+                    .asBitmap()
+                    .load(nuevafPerfil)
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                            roundedDrawable.setCircular(true);
+
+                            nuevaFoto.setImageDrawable(roundedDrawable);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+
+
+                    });
 
 
         }

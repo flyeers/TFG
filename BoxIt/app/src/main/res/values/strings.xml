@@ -110,6 +110,8 @@
     <string name="abandonar">Abandonar</string>
     <string name="abandonoBien">Abandono realizado</string>
     <string name="abandonoMal">Error al abandonar</string>
+    <string name="editarBien">Los datos han sido actualizados</string>
+    <string name="editarMal">Error al actualizar los datos</string>
 
 
 
