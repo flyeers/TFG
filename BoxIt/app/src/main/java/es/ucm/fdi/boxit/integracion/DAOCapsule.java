@@ -376,6 +376,11 @@ public class DAOCapsule {
                         colab = (ArrayList<String>) ds.getData().get(COLABORADORES);
                         if(colab.size() > 1) cb.onCallbackExito(true); //quedan colaboradores
                         else{//si queda un colaborador -> pasa a ser capsula propia
+
+                            //Quitamos ese ultimo colaborador
+                            capsuleCollection.document(id).update(COLABORADORES, FieldValue.arrayRemove(colab.get(0)));
+
+                            //Gestionamos la caja en el usuario
                             DAOUsuario daoUsuario = new DAOUsuario();
                             daoUsuario.capsuleComToProp(colab.get(0), id, new Callbacks() {
                                 @Override

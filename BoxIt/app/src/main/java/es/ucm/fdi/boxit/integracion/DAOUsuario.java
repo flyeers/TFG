@@ -520,7 +520,6 @@ public class DAOUsuario {
                         usersCollection.document(userId).update(CAPSULAS_COMPARTIDAS, FieldValue.arrayRemove(capId));
                         //Añadimos a lista propia
                         usersCollection.document(userId).update(CAPSULAS_PROPIAS, FieldValue.arrayUnion(capId));
-
                     }
                 }
             });
@@ -541,7 +540,6 @@ public class DAOUsuario {
                         usersCollection.document(userId).update(CAPSULAS_PROPIAS, FieldValue.arrayRemove(capId));
                         //Añadimos a lista compartida
                         usersCollection.document(userId).update(CAPSULAS_COMPARTIDAS, FieldValue.arrayUnion(capId));
-
                     }
                 }
             });

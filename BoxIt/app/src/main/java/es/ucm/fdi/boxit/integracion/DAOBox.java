@@ -517,5 +517,51 @@ public class DAOBox {
 
     }
 
+    public void exitBox(String id, Callbacks cb){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+        CollectionReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX);
+
+        try {
+            //Quitamos de la lista de cajas compartidas del usuario
+            usersCollection.document(currentUser.getUid()).update(CAJAS_COMPARTIDAS, FieldValue.arrayRemove(id));
+            //Quitamos de la lista de colaboradores al usuario
+            boxDocument.document(id).update(COLABORADORES, FieldValue.arrayRemove(currentUser.getEmail()));
+            //vemos si quedan colaboradoes
+            boxDocument.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        // Document found in the offline cache
+                        DocumentSnapshot ds = task.getResult();
+
+                        ArrayList<String> colab = new ArrayList<>();
+                        colab = (ArrayList<String>) ds.getData().get(COLABORADORES);
+                        if(colab.size() > 1) cb.onCallbackExito(true); //quedan colaboradores
+                        else{//si queda un colaborador -> pasa a ser caja propia
+
+                            //Quitamos ese ultimo colaborador
+                            boxDocument.document(id).update(COLABORADORES, FieldValue.arrayRemove(colab.get(0)));
+
+                            //Gestionamos la caja en el usuario
+                            DAOUsuario daoUsuario = new DAOUsuario();
+                            daoUsuario.boxComToProp(colab.get(0), id, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito) cb.onCallbackExito(true);
+                                    else cb.onCallbackExito(false);
+                                }
+                            });
+                        }
+                    }
+                    else cb.onCallbackExito(false);
+                }
+            });
+
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+
 
 }

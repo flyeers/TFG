@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.integracion.DAOBox;
+import es.ucm.fdi.boxit.integracion.DAOCapsule;
 import es.ucm.fdi.boxit.integracion.DAOUsuario;
 
 public class SABox {
@@ -62,5 +63,9 @@ public class SABox {
         daoBox.deleteBox(id, cb);
     }
 
+    public void exitBox(String id, Callbacks cb) {
+        DAOBox dao = new DAOBox();
+        dao.exitBox(id, cb);
+    }
 
 }

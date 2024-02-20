@@ -60,7 +60,7 @@ public class Caja extends AppCompatActivity {
     private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado;
-    private ImageView home, delete;
+    private ImageView home, delete, exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +99,7 @@ public class Caja extends AppCompatActivity {
         documentos = findViewById(R.id.documentosCaja);
         home = findViewById(R.id.homeBtn);
         delete = findViewById(R.id.deleteBox);
+        exit = findViewById(R.id.exit);
 
 
         SABox saBox = new SABox();
@@ -108,9 +109,6 @@ public class Caja extends AppCompatActivity {
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
         getAll();
-
-
-
 
 
         home.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +163,52 @@ public class Caja extends AppCompatActivity {
                 dialogConfirm.show();
             }
         });
+
+        if(!boxInfo.getColaborators().isEmpty()){
+            exit.setVisibility(View.VISIBLE);
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog dialogConfirm = new Dialog(ctx);
+                    dialogConfirm.setContentView(R.layout.exit_confirm);
+                    TextView text = dialogConfirm.findViewById(R.id.textAbandono);
+                    text.setText(getResources().getString(R.string.abandonarBox));
+                    Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                    Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogConfirm.dismiss();
+                        }
+                    });
+
+                    confirmar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SABox saBox = new SABox();
+                            saBox.exitBox(boxInfo.getId(), new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        Intent intent1 = new Intent(ctx, MainActivity.class);
+                                        ctx.startActivity(intent1);
+                                        Toast.makeText(ctx,R.string.abandonoBien , Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        dialogConfirm.dismiss();
+                                        Toast.makeText(ctx,R.string.abandonoMal , Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+
+                    dialogConfirm.show();
+                }
+            });
+        }
 
         verTodo.setOnClickListener(new View.OnClickListener() {
             @Override

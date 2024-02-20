@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
-import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
 public class Capsula extends AppCompatActivity {

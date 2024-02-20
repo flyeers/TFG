@@ -199,9 +199,9 @@ public class CrearCapsulaForm extends AppCompatActivity {
         btnSetCierre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = new GregorianCalendar(diaCierre.getValue(), mesCierre.getValue(), añoCierre.getValue(), 0, 0);
+                Calendar calendar = new GregorianCalendar(añoCierre.getValue(), mesCierre.getValue(), diaCierre.getValue(), 0, 0);
                 cierre = calendar.getTime();
-                textCierre.setText(añoCierre.getValue()+"/"+ meses[mesCierre.getValue()]+"/"+diaCierre.getValue());
+                textCierre.setText(diaCierre.getValue()+"/"+ meses[mesCierre.getValue()]+"/"+añoCierre.getValue());
                 Long d = cierre.getTime() - cd.getTime();
                 daysCierre.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
                 if(apertura != null){
