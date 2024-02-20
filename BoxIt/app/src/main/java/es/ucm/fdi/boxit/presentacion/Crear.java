@@ -1,16 +1,23 @@
 package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import es.ucm.fdi.boxit.R;
+import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 
 public class Crear extends AppCompatActivity {
 
@@ -51,6 +58,32 @@ public class Crear extends AppCompatActivity {
             }
         });
 
+        //TODO cambiar
+        Calendar calendar = new GregorianCalendar(2024, Calendar.JANUARY, 16, 12, 30, 0);
+        Date date1 = calendar.getTime();
+
+        Calendar calendar2 = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
+        Date date2 = calendar2.getTime();
+
+        ArrayList<CapsuleInfo> c = new ArrayList<>();
+
+        CapsuleInfo cap1 = new CapsuleInfo("","prueba", null);
+        cap1.setApertura(date2); //cerrada
+        cap1.setCierre(date1);
+        c.add(cap1);
+
+        Uri img = Uri.parse("https://books.google.com/books/content?id=e8DwuncELaoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
+        CapsuleInfo cap2 = new CapsuleInfo("","AHHHHHHHHHH", img);
+        cap2.setApertura(date2); //cerrada
+        cap2.setCierre(date1);
+        c.add(cap2);
+
+        PredesignAdapter p = new PredesignAdapter();
+        p.setData(c, box);
+        RecyclerView recyclerView2 = findViewById(R.id.reclyclerViewPred);
+        recyclerView2.setAdapter(p);
+
+        
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

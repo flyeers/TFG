@@ -186,6 +186,9 @@ public class CrearCajaForm extends AppCompatActivity {
             }
         });
 
+        //Si viene con datos
+        BoxInfo boxDising = getIntent().getParcelableExtra("DisingData");
+        if(boxDising != null) setData(boxDising);
 
 
     }
@@ -204,4 +207,18 @@ public class CrearCajaForm extends AppCompatActivity {
         }
     }
 
+    private void setData(BoxInfo boxDising) {
+        nombreCajaTitulo.setText(boxDising.getTitle());
+        nombreCajaInput.setText(boxDising.getTitle());
+
+        if (boxDising.getImg() != null) {
+            ellipse = findViewById(R.id.ellipse_13);
+            Glide.with(this)
+                    .load(boxDising.getImg())
+                    .transform(new CenterCrop(), new RoundedCorners(5000))
+                    .into(ellipse);
+            selectedImage = boxDising.getImg();
+
+        }
+    }
 }

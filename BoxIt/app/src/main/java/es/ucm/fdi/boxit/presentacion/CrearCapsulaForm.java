@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
+import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 import es.ucm.fdi.boxit.negocio.SAUser;
@@ -55,8 +56,9 @@ public class CrearCapsulaForm extends AppCompatActivity {
     private ArrayList<UserInfo> amigos;
     private ArrayList<String> colaboradores = new ArrayList<>();
     private UsersAdapter adapter;
-
     private Date apertura, cierre;
+    private String [] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept","Oct", "Nov", "Dec"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,9 +120,6 @@ public class CrearCapsulaForm extends AppCompatActivity {
         layApertura = findViewById(R.id.numberPickerApertura);
         layTextCierre = findViewById(R.id.layTextCierre);
         layTextApertura = findViewById(R.id.layTextApertura);
-
-
-        String [] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept","Oct", "Nov", "Dec"};
 
         //Date date = new Date();
         GregorianCalendar cm = new GregorianCalendar(); //calendario mañana
@@ -327,6 +326,10 @@ public class CrearCapsulaForm extends AppCompatActivity {
             }
         });
 
+        //Si viene con datos
+        CapsuleInfo capDising = getIntent().getParcelableExtra("DisingData");
+        if(capDising != null) setData(capDising);
+
     }
 
     @Override
@@ -342,5 +345,41 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     .into(ellipse);
             selectedImage = data.getData();
         }
+    }
+
+    private void setData(CapsuleInfo capDising) {
+        nombreCapsulaInput.setText(capDising.getTitle());
+        nombreCapsulaTitulo.setText(capDising.getTitle());
+
+        if (capDising.getImg() != null) {
+            ellipse = findViewById(R.id.ellipse_13);
+            Glide.with(this)
+                    .load(capDising.getImg())
+                    .transform(new CenterCrop(), new RoundedCorners(5000))
+                    .into(ellipse);
+            selectedImage = capDising.getImg();
+        }
+
+        Date cd = Calendar.getInstance().getTime();
+        //Aperura
+        apertura =capDising.getApertura();
+        Calendar a = new GregorianCalendar();
+        a.setTime(apertura);
+
+        textApertura.setText(a.get(Calendar.DAY_OF_MONTH)+"/"+ meses[a.get(Calendar.MONTH)]+"/"+a.get(Calendar.YEAR));
+        Long d = apertura.getTime() - cd.getTime();
+        daysApertura.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
+
+        //Cierre
+        cierre = capDising.getCierre();
+        Calendar c = new GregorianCalendar();
+        c.setTime(cierre);
+
+        textCierre.setText(c.get(Calendar.DAY_OF_MONTH)+"/"+ meses[c.get(Calendar.MONTH)]+"/"+c.get(Calendar.YEAR));
+        d = cierre.getTime() - cd.getTime();
+        daysCierre.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
+
+        d = apertura.getTime() -  cierre.getTime();
+        daysCerrado.setText(getString(R.string.tiempoCerrado)+" "+ TimeUnit.MILLISECONDS.toDays(d) +" "+ getString(R.string.dias));
     }
 }

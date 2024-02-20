@@ -14,21 +14,42 @@
     android:layout_marginBottom="12dp"
     android:layout_marginLeft="10dp">
 
-    <ImageView
-        android:id="@+id/imgBoxPred"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="4dp"
-        tools:srcCompat="@android:drawable/divider_horizontal_bright" />
+        android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/imgPred"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="4dp"
+            tools:srcCompat="@drawable/default_image" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/nameBoxPred"
-        style="@style/TituloPrediseñado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Caja prediseñada" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|clip_vertical|center_vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#C8E1B8B8"
+            android:backgroundTint="@color/rosaCards"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/namePred"
+                style="@style/TituloPrediseñado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="prueba" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
 
 </androidx.cardview.widget.CardView>
