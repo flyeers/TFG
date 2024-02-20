@@ -118,8 +118,11 @@ public class Perfil extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //no puede ir a la activity anterior porque si se ha modificado la foto de perfil aparece mal cargada, hay que invocar un intent nuevo
+                Intent intent = new Intent(ctx, MainActivity.class);
+                startActivity(intent);
             }
+
         });
 
         opt.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +198,7 @@ public class Perfil extends AppCompatActivity {
 
 
         nuevaFoto = dialog.findViewById(R.id.nuevaFoto);
-        
+
         if (hayFoto){
             Glide.with(ctx)
                     .asBitmap()

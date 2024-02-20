@@ -260,7 +260,7 @@ public class Capsula extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
-                    photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo.getId());
+                    photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo);
                     photoAdapter.setType(false);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
@@ -311,7 +311,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    docAdapter.setElementsData(documents_b, false, true, ctx, capsuleInfo.getId());
+                    docAdapter.setElementsData(documents_b, false, true, ctx, capsuleInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -441,7 +441,7 @@ public class Capsula extends AppCompatActivity {
                             saCapsule.getPhotos(capsuleInfo.getId(), new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, ctx, capsuleInfo.getId());
+                                    photoAdapter.setElementsData(photos, true, false, ctx, capsuleInfo);
                                     photoAdapter.setType(false);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
@@ -476,7 +476,7 @@ public class Capsula extends AppCompatActivity {
                         saCapsule.getDocs(capsuleInfo.getId(), new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, true, false, ctx, capsuleInfo.getId());
+                                docAdapter.setElementsData(items, true, false, ctx, capsuleInfo);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -502,7 +502,7 @@ public class Capsula extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, ctx, capsuleInfo.getId());
+                docAdapter.setElementsData(documents_b, false, true, ctx, capsuleInfo);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -512,7 +512,7 @@ public class Capsula extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo.getId());
+                photoAdapter.setElementsData(photos_b, true, false, ctx, capsuleInfo);
                 photoAdapter.setType(false);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);

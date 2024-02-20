@@ -58,9 +58,9 @@ public class SABox {
         daoBox.borrarFoto(id,foto, cb);
     }
 
-    public void deleteBox(String id, Callbacks cb){
+    public void deleteBox(String id, String boxName, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.deleteBox(id, cb);
+        daoBox.deleteBox(id,boxName, cb);
     }
 
     public void exitBox(String id, Callbacks cb) {

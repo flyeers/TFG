@@ -81,8 +81,8 @@ public class DAOBox {
             data.put(DOCS, docs);
 
             //IMG
-            int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-            String idImg = String.format("%s-%s-%s", b.getTitle(), random, user.getEmail().toString()).replace("", "");
+
+            String idImg = String.format("%s-%s-%s", b.getTitle(), user.getEmail().toString(), "cover").replace("", "");
 
             FirebaseStorage imageStorage = new FirebaseStorage();
             StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
@@ -416,7 +416,7 @@ public class DAOBox {
     }
 
 
-    public void deleteBox(String id, Callbacks cb){
+    public void deleteBox(String id, String boxName, Callbacks cb){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference boxDoc = db.collection(COL_BOX).document(id);
@@ -446,6 +446,29 @@ public class DAOBox {
                                         for (String f : photos) {
 
                                             Log.d("CLAU", "Foto");
+                                            FirebaseStorage imageStorage = new FirebaseStorage();
+                                            //manipuilamos la referencia de la imagen para quedarnos con el id para borrarlo del storage:
+                                            int startIndex = f.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                                            int endIndex = f.indexOf(".png");
+                                            String res = f.substring(startIndex, endIndex);
+
+
+                                            StorageReference fileReference = imageStorage.getStorageRef().child(res + ".png");
+
+                                            // Delete the file
+                                            fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("CLAU", "Borrado del storage");
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Uh-oh, an error occurred!
+                                                    Log.d("CLAU", "Borrado del storage MAL");
+                                                    cb.onCallbackExito(false);
+                                                }
+                                            });
 
                                         }
                                     }
@@ -459,6 +482,26 @@ public class DAOBox {
                                         }
                                     }
 
+
+                                    //BORRAMOS LA IMAGEN DE PORTADA:
+                                    String idCover = String.format("%s-%s-%s", boxName, mAuth.getCurrentUser().getEmail(), "cover").replace("", "");
+                                    FirebaseStorage imageStorage2 = new FirebaseStorage();
+                                    StorageReference fileReference2 = imageStorage2.getStorageRef().child(idCover + ".png");
+
+                                    // Delete the file
+                                    fileReference2.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("CLAU", "Portada borrada del storage");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Uh-oh, an error occurred!
+                                            Log.d("CLAU", "Error portada borrada del storage MAL");
+                                            cb.onCallbackExito(false);
+                                        }
+                                    });
                                 } else {
                                     cb.onCallbackExito(false);
                                 }

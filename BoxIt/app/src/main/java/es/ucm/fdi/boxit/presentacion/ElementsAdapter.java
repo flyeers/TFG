@@ -2,6 +2,7 @@ package es.ucm.fdi.boxit.presentacion;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
+import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
@@ -39,6 +41,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private ArrayList<String> itemsData;
     private boolean photo, doc, isBox;
     private String boxId;
+    private BoxInfo box;
 
 
     private static final int IMAGE_WIDTH_KEY = 1;
@@ -47,12 +50,13 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx, String boxId){
+    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx, BoxInfo box){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
         this.ctx = ctx;
-        this.boxId = boxId;
+        this.boxId = box.getId();
+        this.box = box;
         isBox = true;
     }
 
@@ -206,9 +210,12 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
+                                       /* Intent intent1 = new Intent(ctx, Caja.class);
+                                        ctx.startActivity(intent1);
+                                        intent1.putExtra("boxInfo", box);*/
                                         Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-                                        dialogConfirm.dismiss();
-                                        dialog.dismiss();
+
+
                                     }
                                     else{
                                         Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
@@ -255,9 +262,10 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     public void addElem(String newElem, String filename) {
 
         itemsData.add(newElem);
-
         notifyDataSetChanged();
     }
+
+
 
 
 }
