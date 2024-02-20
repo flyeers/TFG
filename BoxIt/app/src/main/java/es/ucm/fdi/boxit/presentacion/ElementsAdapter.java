@@ -32,11 +32,12 @@ import java.util.List;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.SABox;
+import es.ucm.fdi.boxit.negocio.SACapsule;
 
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
-    private boolean photo, doc;
+    private boolean photo, doc, isBox;
     private String boxId;
 
 
@@ -52,7 +53,11 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         this.doc = doc;
         this.ctx = ctx;
         this.boxId = boxId;
+        isBox = true;
+    }
 
+    public void setType(boolean notBox){
+        this.isBox = notBox;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -195,24 +200,41 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 confirmar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SABox saBox = new SABox();
-                        saBox.deletePhoto(boxId, i, new Callbacks() {
-                            @Override
-                            public void onCallbackExito(Boolean exito) {
-                                if(exito){
-                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-                                    dialogConfirm.dismiss();
-                                    dialog.dismiss();
+                        if(isBox){
+                            SABox saBox = new SABox();
+                            saBox.deletePhoto(boxId, i, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                        dialog.dismiss();
+                                    }
+                                    else{
+                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                        dialog.dismiss();
+                                    }
                                 }
-                                else{
-                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                    dialogConfirm.dismiss();
-                                    dialog.dismiss();
+                            });
+                        }else{
+                            SACapsule saCapsule = new SACapsule();
+                            saCapsule.deletePhoto(boxId, i, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                        dialog.dismiss();
+                                    }
+                                    else{
+                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                        dialog.dismiss();
+                                    }
                                 }
-                            }
-                        });
-
-
+                            });
+                        }
                     }
                 });
 

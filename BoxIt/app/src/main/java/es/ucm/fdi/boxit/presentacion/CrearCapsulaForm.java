@@ -166,8 +166,6 @@ public class CrearCapsulaForm extends AppCompatActivity {
         layTextCierre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.d("JULIA", "CIERRE");
                 if(layCierre.getVisibility() == View.VISIBLE){
                     layCierre.setVisibility(View.GONE);
                     layTextCierre.setBackgroundColor(Color.TRANSPARENT);
@@ -183,7 +181,6 @@ public class CrearCapsulaForm extends AppCompatActivity {
         layTextApertura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("JULIA", "APERTURA");
                 if(layApertura.getVisibility() == View.VISIBLE){
                     layApertura.setVisibility(View.GONE);
                     layTextApertura.setBackgroundColor(Color.TRANSPARENT);

@@ -3,6 +3,7 @@ package es.ucm.fdi.boxit.negocio;
 import android.graphics.Bitmap;
 
 import es.ucm.fdi.boxit.integracion.Callbacks;
+import es.ucm.fdi.boxit.integracion.DAOBox;
 import es.ucm.fdi.boxit.integracion.DAOCapsule;
 
 public class SACapsule {
@@ -51,9 +52,18 @@ public class SACapsule {
 
     }
 
-    public void deletePhoto(String id, String foto){
+    public void deletePhoto(String id, String foto, Callbacks cb){
         DAOCapsule dao = new DAOCapsule();
-        //TODO
+        dao.borrarFoto(id,foto, cb);
     }
 
+    public void deleteCapsule(String id, Callbacks cb){
+        DAOCapsule dao = new DAOCapsule();
+        dao.deleteCapsule(id, cb);
+    }
+
+    public void exitCapsule(String id, Callbacks cb) {
+        DAOCapsule dao = new DAOCapsule();
+        dao.exitCapsule(id, cb);
+    }
 }

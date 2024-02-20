@@ -57,6 +57,8 @@
     <string name="CierrePreApertura">Closing must be prior to opening</string>
     <string name="tiempoCerrado">The capsule remains closed for </string>
     <string name="dias">days</string>
+    <string name="abiertaPermanente">Permanently open</string>
+
 
     <!--Ver all-->
     <string name="cajas">Boxes</string>
@@ -88,6 +90,7 @@
     <string name="vid">Video</string>
     <string name="audio">Audio</string>
     <string name="addBien">Item added to box</string>
+    <string name="addBienCap">Item added to capsule</string>
     <string name="addMal">Error while inserting item</string>
 
 
@@ -106,4 +109,10 @@
     <string name="deleteBien">Element deleted</string>
     <string name="deleteMal">Error while deleting element</string>
     <string name="editar">Edit</string>
+    <string name="abandonarCap">Do you want to exit this capsule?</string>
+    <string name="abandonarBox">Do you want to exit this box?</string>
+    <string name="abandonar">Exit</string>
+    <string name="abandonoBien">Exit made</string>
+    <string name="abandonoMal">Error exiting</string>
+
 </resources>

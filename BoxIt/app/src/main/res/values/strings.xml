@@ -56,6 +56,7 @@
     <string name="CierrePreApertura">El cierre debe ser previo a la apertura</string>
     <string name="tiempoCerrado">La capsula estará cerrada durante </string>
     <string name="dias">dias</string>
+    <string name="abiertaPermanente">Permanentemente abierta </string>
 
     <!--Ver all-->
     <string name="cajas">Cajas</string>
@@ -87,6 +88,7 @@
     <string name="vid">Videos</string>
     <string name="audio">Audio</string>
     <string name="addBien">Elemento añadido a la caja</string>
+    <string name="addBienCap">Elemento añadido a la cápsula</string>
     <string name="addMal">Error al insertar elemento</string>
 
     <!--titulos-->
@@ -103,6 +105,11 @@
     <string name="deleteBien">Elemento eliminado</string>
     <string name="deleteMal">Error al eliminar elemento</string>
     <string name="editar">Editar</string>
+    <string name="abandonarCap">¿Desea abandonar esta cápsula?</string>
+    <string name="abandonarBox">¿Desea abandonar esta caja?</string>
+    <string name="abandonar">Abandonar</string>
+    <string name="abandonoBien">Abandono realizado</string>
+    <string name="abandonoMal">Error al abandonar</string>
 
 
 

@@ -391,6 +391,52 @@ public class DAOUsuario {
         });
     }
 
+    //De una caja compartidas a una propia
+    public void boxComToProp(String correo, String boxId, Callbacks cb) {
+        try{
+            CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        //Quitamos de la lista compartida
+                        usersCollection.document(userId).update(CAJAS_COMPARTIDAS, FieldValue.arrayRemove(boxId));
+                        //Añadimos a lista propia
+                        usersCollection.document(userId).update(CAJAS_PROPIAS, FieldValue.arrayUnion(boxId));
+
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        }catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+
+    //De una caja propia a una compartida
+    public void boxPropToComp(String correo, String boxId, Callbacks cb) {
+        try{
+            CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        //Quitamos de la lista propia
+                        usersCollection.document(userId).update(CAJAS_PROPIAS, FieldValue.arrayRemove(boxId));
+                        //Añadimos a lista compartida
+                        usersCollection.document(userId).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(boxId));
+
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        }catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+
+
+
     //CAPSULAS
     public void getUserCapsules(String correo, Callbacks cb){
         ArrayList<CapsuleInfo> capsules = new ArrayList<>();
@@ -462,6 +508,48 @@ public class DAOUsuario {
         });
     }
 
+    //De una capsula compartidas a una propia
+    public void capsuleComToProp(String correo, String capId, Callbacks cb) {
+        try{
+            CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        //Quitamos de la lista compartida
+                        usersCollection.document(userId).update(CAPSULAS_COMPARTIDAS, FieldValue.arrayRemove(capId));
+                        //Añadimos a lista propia
+                        usersCollection.document(userId).update(CAPSULAS_PROPIAS, FieldValue.arrayUnion(capId));
+
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        }catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
+    //De una capsula propia a una compartida
+    public void capsulePropToComp(String correo, String capId, Callbacks cb) {
+        try{
+            CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot d : task.getResult()) {
+                        String userId = d.getId();
+                        //Quitamos de la lista propia
+                        usersCollection.document(userId).update(CAPSULAS_PROPIAS, FieldValue.arrayRemove(capId));
+                        //Añadimos a lista compartida
+                        usersCollection.document(userId).update(CAPSULAS_COMPARTIDAS, FieldValue.arrayUnion(capId));
+
+                    }
+                }
+            });
+            cb.onCallbackExito(true);
+        }catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+    }
 
 
 
