@@ -1,5 +1,6 @@
 package es.ucm.fdi.boxit.negocio;
 
+import android.net.Uri;
 import android.telecom.Call;
 
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -86,6 +87,11 @@ public class SAUser {
     public void searchUsuario(String username, Callbacks cb){
         DAOUsuario dao = new DAOUsuario();
         dao.searchUsuario(username, cb);
+    }
+
+    public void updateUser(String username, String nuevoNom, Uri nuevaFoto, Boolean hayFoto, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.updateperfil(nuevoNom, nuevaFoto, username, hayFoto, cb);
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,8 +54,11 @@ public class Perfil extends AppCompatActivity {
     private ImageButton opt, home;
     private ImageView foto;
     private Context ctx;
-    private String nom;
-    private Uri fPerfil;
+    private String nom, userN;
+    private Uri fPerfil = null;
+    private Uri nuevafPerfil = null;
+    private Boolean hayFoto = false;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +81,14 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onCallback(UserInfo u) {
                 nombreUsuario.setText(u.getNombreUsuario());
+                userN = u.getNombreUsuario();
                 nom = u.getNombre();
                 correo.setText(currentUser.getEmail().toString());
 
                 String f = u.getImgPerfil().toString();
                 if (f != ""){
 
-
+                    hayFoto = true;
                     fPerfil = u.getImgPerfil();
                     Glide.with(ctx)
                             .asBitmap()
@@ -191,9 +196,18 @@ public class Perfil extends AppCompatActivity {
 
         ImageView nuevaFoto = dialog.findViewById(R.id.nuevaFoto);
 
+        nuevaFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+                startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+
+            }
+        });
+
         Glide.with(ctx)
                 .asBitmap()
-                .load(fPerfil)
+                .load(nuevafPerfil)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -211,13 +225,8 @@ public class Perfil extends AppCompatActivity {
 
                 });
 
-        nuevaFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
 
-            }
-        });
+
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +239,23 @@ public class Perfil extends AppCompatActivity {
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SABox saBox = new SABox();
+                SAUser saUser = new SAUser();
+
+                saUser.updateUser(userN, nuevoNombre.getText().toString(), nuevafPerfil, hayFoto, new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+                            Intent intent1 = new Intent(ctx, Perfil.class);
+                            ctx.startActivity(intent1);
+                            Toast.makeText(ctx,R.string.editarBien , Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            dialog.dismiss();
+                            Toast.makeText(ctx,R.string.editarMal , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
                 dialog.dismiss();
 
             }
@@ -242,5 +267,21 @@ public class Perfil extends AppCompatActivity {
 
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
+
+            nuevafPerfil = data.getData();
+
+
+        }
+
+
+
+
+    }
 }
