@@ -289,6 +289,9 @@ public class CrearCapsulaForm extends AppCompatActivity {
                 else if(apertura.before(cierre)){//El cierre debe ser previo
                     Toast.makeText(CrearCapsulaForm.this, R.string.CierrePreApertura, Toast.LENGTH_LONG).show();;
                 }
+                else if(apertura.before(cd) || cierre.before(cd)){//El antes de el dia actual
+                    Toast.makeText(CrearCapsulaForm.this, R.string.CierrePreApertura, Toast.LENGTH_LONG).show();;
+                }
                 else{
                     if(selectedImage == null){
                         String packageName = getApplicationContext().getPackageName();

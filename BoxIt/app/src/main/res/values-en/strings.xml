@@ -55,6 +55,7 @@
     <string name="set">Set</string>
     <string name="dateObligatoria">Dates are mandatory</string>
     <string name="CierrePreApertura">Closing must be prior to opening</string>
+    <string name="datePreActual">None of the dates can be prior to today.</string>
     <string name="tiempoCerrado">The capsule remains closed for </string>
     <string name="dias">days</string>
     <string name="abiertaPermanente">Permanently open</string>
@@ -105,6 +106,8 @@
     <string name="noPDFViewer">Error while opening file</string>
     <string name="eliminar">Do you want to delete the item?</string>
     <string name="cancelar">Cancel</string>
+    <string name="aceptar">Accept</string>
+    <string name="actualizar">Update</string>
     <string name="eliminar2">Delete</string>
     <string name="deleteBien">Element deleted</string>
     <string name="deleteMal">Error while deleting element</string>
@@ -116,5 +119,11 @@
     <string name="abandonoMal">Error exiting</string>
     <string name="editarBien">The userinfo has been updated</string>
     <string name="editarMal">Error while updating userinfo</string>
+
+    <!--Diseños -->
+    <string name="disVerano">Summer</string>
+    <string name="disNavidad">Navidad</string>
+    <string name="disTFG">TFG</string>
+    <string name="disPrimavera">Primavera</string>
 
 </resources>
