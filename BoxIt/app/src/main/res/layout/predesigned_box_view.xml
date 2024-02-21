@@ -35,9 +35,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#C8E1B8B8"
-            android:backgroundTint="@color/rosaCards"
+            android:layout_height="match_parent"
+            android:background="#70FAFAFA"
+            android:backgroundTint="#D7FAFAFA"
             android:gravity="center"
             android:orientation="horizontal">
 
