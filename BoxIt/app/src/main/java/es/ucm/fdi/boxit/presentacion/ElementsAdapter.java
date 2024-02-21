@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ import es.ucm.fdi.boxit.negocio.SACapsule;
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
-    private boolean photo, doc, isBox;
+    private boolean photo, doc, note, isBox;
     private String boxId;
     private BoxInfo box;
 
@@ -50,10 +51,11 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc, Context ctx, BoxInfo box){
+    public void setElementsData(List<String> data, boolean photo, boolean doc, boolean note, Context ctx, BoxInfo box){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
+        this.note = note;
         this.ctx = ctx;
         this.boxId = box.getId();
         this.box = box;
@@ -93,6 +95,8 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             v = inflater.inflate(R.layout.photo_view,parent,false);
         } else if (doc) {
             v = inflater.inflate(R.layout.document_view,parent,false);
+        } else if (note) {
+            v = inflater.inflate(R.layout.note_view,parent,false);
         }
 
         return new ViewHolder(v);
@@ -137,7 +141,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-        else{
+        else if(doc){
 
             String name = itemsData.get(position);
 
@@ -150,7 +154,17 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+        else if (note) {
+            String noteText = itemsData.get(position);
+            h1.fileName.setText(noteText);
 
+            h1.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mostrarNote(noteText);
+                }
+            });
+        }
 
     }
 
@@ -174,6 +188,12 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return itemsData.size();
+    }
+
+    public void addElem(String newElem, String filename) {
+
+        itemsData.add(newElem);
+        notifyDataSetChanged();
     }
 
     private void mostrarImagen(String i) {
@@ -265,13 +285,54 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         dialog.show();
     }
 
-    public void addElem(String newElem, String filename) {
+    private void mostrarNote(String noteTextOld){
 
-        itemsData.add(newElem);
-        notifyDataSetChanged();
+        Dialog dialogNote = new Dialog(ctx);
+        dialogNote.setContentView(R.layout.note_preview);
+        Button cancelar = dialogNote.findViewById(R.id.buttonCancelar);
+        Button confirmar = dialogNote.findViewById(R.id.buttonAceptar);
+        EditText textFile = dialogNote.findViewById(R.id.textNote);
+        textFile.setText(noteTextOld);
+        confirmar.setText(ctx.getString(R.string.actualizar));
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogNote.dismiss();
+            }
+        });
+
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String noteTextNew = String.valueOf(textFile.getText());
+
+                /*SABox saBox = new SABox();
+                saBox.updateNote(boxInfo.getId(), noteTextOld, noteTextNew new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+
+                            //TODO METER EN EL ADAPTER
+
+                            //noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+
+                                noteAdapter.addElem(note, null);
+                                noteAdapter.notifyDataSetChanged();
+                            dialogNote.dismiss();
+                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            dialogNote.dismiss();
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();                                            }
+                    }
+                });*/
+            }
+        });
+        dialogNote.show();
+
     }
-
-
 
 
 }

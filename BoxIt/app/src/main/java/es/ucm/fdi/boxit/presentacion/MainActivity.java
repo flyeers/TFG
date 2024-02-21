@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
                     capsules.addAll(cs);
-                    c1.setCapData(capsules, true, true);
+                    c1.setCapData(capsules, false, true);
                     RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
                     recyclerView.setAdapter(c1);
                 }

@@ -10,7 +10,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <View
@@ -21,8 +25,8 @@
             android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-140dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="-140dp"
             android:src="@drawable/home" />
 
         <TextView
@@ -32,7 +36,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="580dp"
             android:layout_marginTop="100dp"
             android:orientation="vertical">
 

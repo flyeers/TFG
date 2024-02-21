@@ -1,0 +1,50 @@
+<!-- res/layout/modal_imagen.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:layout_gravity="center"
+    android:background="@color/amarilloColab"
+    android:backgroundTint="@color/amarilloColab"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/textNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/notas"
+            android:inputType="textMultiLine" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@color/fondoAdd"
+        android:backgroundTint="@color/fondoAdd"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/rosaBotonClaro"
+            android:text="@string/cancelar"
+            android:textColor="@color/fondoAdd" />
+
+        <Button
+            android:id="@+id/buttonAceptar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/rosaBoton"
+            android:text="@string/aceptar"
+            android:textColor="@color/fondoAdd" />
+    </LinearLayout>
+
+</LinearLayout>

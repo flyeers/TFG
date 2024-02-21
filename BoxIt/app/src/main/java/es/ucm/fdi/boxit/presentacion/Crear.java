@@ -58,37 +58,62 @@ public class Crear extends AppCompatActivity {
             }
         });
 
-        //TODO cambiar
-        Calendar calendar = new GregorianCalendar(2024, Calendar.JANUARY, 16, 12, 30, 0);
-        Date date1 = calendar.getTime();
+        setPremadeDisings();
 
-        Calendar calendar2 = new GregorianCalendar(2024, Calendar.MAY, 16, 12, 30, 0);
-        Date date2 = calendar2.getTime();
-
-        ArrayList<CapsuleInfo> c = new ArrayList<>();
-
-        CapsuleInfo cap1 = new CapsuleInfo("","prueba", null);
-        cap1.setApertura(date2); //cerrada
-        cap1.setCierre(date1);
-        c.add(cap1);
-
-        Uri img = Uri.parse("https://books.google.com/books/content?id=e8DwuncELaoC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api");
-        CapsuleInfo cap2 = new CapsuleInfo("","AHHHHHHHHHH", img);
-        cap2.setApertura(date2); //cerrada
-        cap2.setCierre(date1);
-        c.add(cap2);
-
-        PredesignAdapter p = new PredesignAdapter();
-        p.setData(c, box);
-        RecyclerView recyclerView2 = findViewById(R.id.reclyclerViewPred);
-        recyclerView2.setAdapter(p);
-
-        
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+    }
+
+    private void setPremadeDisings(){
+        //TODO
+        ArrayList<CapsuleInfo> capDisings = new ArrayList<>();
+        String packageName = getApplicationContext().getPackageName();
+
+        GregorianCalendar cd = new GregorianCalendar();
+        int year = cd.get(Calendar.YEAR);
+        cd.add(Calendar.YEAR, 1);
+        int year2 = cd.get(Calendar.YEAR);
+
+        //Verano
+        Calendar calendar = new GregorianCalendar(year, Calendar.AUGUST, 30, 0, 0);
+        Calendar calendar2 = new GregorianCalendar(year2, Calendar.JULY, 1, 0, 0);
+        Uri img = Uri.parse("android.resource://" + packageName + "/drawable/dis_verano");
+        CapsuleInfo cap1 = new CapsuleInfo("", getString(R.string.disVerano), img);
+        cap1.setCierre(calendar.getTime());
+        cap1.setApertura(calendar2.getTime());
+        capDisings.add(cap1);
+
+        //Navidad
+        calendar = new GregorianCalendar(year, Calendar.DECEMBER, 26, 0, 0);
+        calendar2 = new GregorianCalendar(year2, Calendar.DECEMBER, 1, 0, 0);
+        img = Uri.parse("android.resource://" + packageName + "/drawable/dis_navidad");
+        CapsuleInfo cap2 = new CapsuleInfo("", getString(R.string.disNavidad), img);
+        cap2.setCierre(calendar.getTime());
+        cap2.setApertura(calendar2.getTime());
+        capDisings.add(cap2);
+
+        //TFG
+        calendar = new GregorianCalendar(year, Calendar.MAY, 27, 0, 0);
+        calendar2 = new GregorianCalendar(year, Calendar.JUNE, 6, 0, 0);
+        img = Uri.parse("android.resource://" + packageName + "/drawable/dis_tfg");
+        CapsuleInfo cap3 = new CapsuleInfo("", getString(R.string.disTFG), img);
+        cap3.setCierre(calendar.getTime());
+        cap3.setApertura(calendar2.getTime());
+        capDisings.add(cap3);
+
+        //Primaver-otoño
+
+
+
+
+        PredesignAdapter p = new PredesignAdapter();
+        p.setData(capDisings, box);
+        RecyclerView recyclerView2 = findViewById(R.id.reclyclerViewPred);
+        recyclerView2.setAdapter(p);
+
     }
 }

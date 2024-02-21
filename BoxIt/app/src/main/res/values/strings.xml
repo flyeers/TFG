@@ -54,6 +54,7 @@
     <string name="set">Establecer</string>
     <string name="dateObligatoria">Fechas oblogatorias</string>
     <string name="CierrePreApertura">El cierre debe ser previo a la apertura</string>
+    <string name="datePreActual">Ninguna fecha puede ser preivia a hoy</string>
     <string name="tiempoCerrado">La capsula estará cerrada durante </string>
     <string name="dias">dias</string>
     <string name="abiertaPermanente">Permanentemente abierta </string>
@@ -101,6 +102,8 @@
     <string name="noPDFViewer">Error al abrir el archivo</string>
     <string name="eliminar">¿Desea eliminar el elemento?</string>
     <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="actualizar">Actualizar</string>
     <string name="eliminar2">Eliminar</string>
     <string name="deleteBien">Elemento eliminado</string>
     <string name="deleteMal">Error al eliminar elemento</string>
@@ -113,6 +116,10 @@
     <string name="editarBien">Los datos han sido actualizados</string>
     <string name="editarMal">Error al actualizar los datos</string>
 
-
+    <!--Diseños -->
+    <string name="disVerano">Verano</string>
+    <string name="disNavidad">Navidad</string>
+    <string name="disTFG">TFG</string>
+    <string name="disPrimavera">Primavera</string>
 
 </resources>

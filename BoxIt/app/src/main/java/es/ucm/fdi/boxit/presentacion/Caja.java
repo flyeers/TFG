@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ import es.ucm.fdi.boxit.negocio.SABox;
 public class Caja extends AppCompatActivity {
 
     private Button add, borrarFoto;
-    private TextView nombre, fotos, musica, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
+    private TextView nombre, fotos, musica, notas, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int CAMERA_REQUEST_CODE = 1001;
     private static final int PICK_PDF_REQUEST_CODE = 2;
@@ -51,15 +52,15 @@ public class Caja extends AppCompatActivity {
 
     private BoxInfo boxInfo;
     private String imagePath;
-    private ElementsAdapter photoAdapter, docAdapter;
+    private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
 
-    private List<String> documents_b, photos_b;
+    private List<String> documents_b, photos_b, notes_b;
 
     private android.net.Uri selectedItem = null;
 
     private int numfotos = 0;
 
-    private boolean fotoPulsado, docPulsado;
+    private boolean fotoPulsado, docPulsado, notasPulsado;
     private ImageView home, delete, exit;
 
     @Override
@@ -71,40 +72,36 @@ public class Caja extends AppCompatActivity {
         add = findViewById(R.id.buttonAdd2);
         add.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
 
-
         fotoPulsado = false;
         docPulsado = false;
+        notasPulsado = false;
 
         photos_b = new ArrayList<>();
         documents_b = new ArrayList<>();
+        notes_b = new ArrayList<>();
 
         boxInfo = getIntent().getParcelableExtra("boxInfo");
-
 
         nombre = findViewById(R.id.nombre_caja);
         nombre.setText(boxInfo.getTitle());
 
         fotos = findViewById(R.id.fotosCaja);
         musica = findViewById(R.id.musicaCaja);
+        notas = findViewById(R.id.notasCaja);
         textoFotos2 = findViewById(R.id.fdelacaja);
         textoFotos1 = findViewById(R.id.fotosdelacaja);
         textoInicio = findViewById(R.id.todoElContenidoCaja);
         verTodo = findViewById(R.id.vertodo);
-
-
-        musica = findViewById(R.id.musicaCaja);
-        textoFotos2 = findViewById(R.id.fdelacaja);
-        textoFotos1 = findViewById(R.id.fotosdelacaja);
-
         documentos = findViewById(R.id.documentosCaja);
+
         home = findViewById(R.id.homeBtn);
         delete = findViewById(R.id.deleteBox);
         exit = findViewById(R.id.exit);
 
 
-        SABox saBox = new SABox();
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
+        noteAdapter = new ElementsAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
@@ -224,14 +221,20 @@ public class Caja extends AppCompatActivity {
                     docPulsado = false;
                     documentos.setBackgroundResource(android.R.color.transparent);
                     documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
-
-
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+                }
+                if(notasPulsado){
+                    notasPulsado = false;
+                    notas.setBackgroundResource(android.R.color.transparent);
+                    notas.setTextColor(getResources().getColor(R.color.rosaBoton));
                     textoFotos2.setText("");
                     textoFotos1.setText("");
                 }
 
                 findViewById(R.id.recyclerdocsCaja).setVisibility(View.VISIBLE);
                 findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclernotasCaja).setVisibility(View.VISIBLE);
             }
         });
 
@@ -246,7 +249,7 @@ public class Caja extends AppCompatActivity {
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.setShape(GradientDrawable.RECTANGLE);
                     drawable.setCornerRadius(20);
-                    drawable.setColor(getResources().getColor(R.color.rosaBoton)); // Cambia el color según lo desees
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton));
 
                     fotos.setBackground(drawable);
 
@@ -255,7 +258,7 @@ public class Caja extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
-                    photoAdapter.setElementsData(photos_b, true, false, ctx, boxInfo);
+                    photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
                 }
@@ -275,11 +278,15 @@ public class Caja extends AppCompatActivity {
                     documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
 
                 }
+                if(notasPulsado){
+                    notasPulsado = false;
+                    notas.setBackgroundResource(android.R.color.transparent);
+                    notas.setTextColor(getResources().getColor(R.color.rosaBoton));
 
+                }
+
+                findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
                 findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
-
-
-
 
             }
         });
@@ -297,7 +304,7 @@ public class Caja extends AppCompatActivity {
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.setShape(GradientDrawable.RECTANGLE);
                     drawable.setCornerRadius(20);
-                    drawable.setColor(getResources().getColor(R.color.rosaBoton)); // Cambia el color según lo desees
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton));
 
                     documentos.setBackground(drawable);
                     documentos.setTextColor(getResources().getColor(R.color.fondoClaro));
@@ -305,7 +312,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    docAdapter.setElementsData(documents_b, false, true, ctx, boxInfo);
+                    docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -320,7 +327,60 @@ public class Caja extends AppCompatActivity {
 
                 }
 
+                if(fotoPulsado){
+                    fotoPulsado = false;
+                    fotos.setBackgroundResource(android.R.color.transparent);
+                    fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+                if(notasPulsado){
+                    notasPulsado = false;
+                    notas.setBackgroundResource(android.R.color.transparent);
+                    notas.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+
+                findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
                 findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+
+
+            }
+        });
+
+
+        notas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!notasPulsado){
+                    notasPulsado = true;
+                    findViewById(R.id.recyclernotasCaja).setVisibility(View.VISIBLE);
+
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setShape(GradientDrawable.RECTANGLE);
+                    drawable.setCornerRadius(20);
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton));
+
+                    notas.setBackground(drawable);
+                    notas.setTextColor(getResources().getColor(R.color.fondoClaro));
+
+                    textoFotos1.setText(getResources().getString(R.string.notas));
+                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+
+                    //noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                    RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
+                    recyclerView.setAdapter(noteAdapter);
+                }
+                else{
+                    notasPulsado = false;
+                    notas.setBackgroundResource(android.R.color.transparent);
+                    notas.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                    findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+
+                }
 
                 if(fotoPulsado){
                     fotoPulsado = false;
@@ -328,11 +388,19 @@ public class Caja extends AppCompatActivity {
                     fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
 
                 }
+                if(docPulsado){
+                    docPulsado = false;
+                    documentos.setBackgroundResource(android.R.color.transparent);
+                    documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+
+                findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
 
 
             }
         });
-
 
 
 
@@ -379,8 +447,50 @@ public class Caja extends AppCompatActivity {
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
-                        else if(id == R.id.addAudio){
+                        else if(id == R.id.addAudio){ //TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
 
+                            Dialog dialogNote = new Dialog(ctx);
+                            dialogNote.setContentView(R.layout.note_preview);
+                            Button cancelar = dialogNote.findViewById(R.id.buttonCancelar);
+                            Button confirmar = dialogNote.findViewById(R.id.buttonAceptar);
+                            EditText textNote = dialogNote.findViewById(R.id.textNote);
+
+                            cancelar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogNote.dismiss();
+                                }
+                            });
+
+                            confirmar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String note = String.valueOf(textNote.getText());
+
+                                    /*SABox saBox = new SABox();
+                                    saBox.addNote(boxInfo.getId(), new Callbacks() {
+                                        @Override
+                                        public void onCallbackExito(Boolean exito) {
+                                            if(exito){
+
+                                                //TODO METER EN EL ADAPTER
+                                                noteAdapter.addElem(note, null);
+                                                noteAdapter.notifyDataSetChanged();
+                                                dialogNote.dismiss();
+                                                Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+
+                                            }
+                                            else{
+                                                dialogNote.dismiss();
+                                                Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();                                            }
+                                        }
+                                    });*/
+                                    noteAdapter.addElem(note, null);
+                                    noteAdapter.notifyDataSetChanged();
+                                    dialogNote.dismiss();
+                                }
+                            });
+                            dialogNote.show();
 
                             return true;
                         }
@@ -435,7 +545,7 @@ public class Caja extends AppCompatActivity {
                             saBox.getPhotos(boxInfo.getId(), new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, ctx, boxInfo);
+                                    photoAdapter.setElementsData(photos, true, false, false, ctx, boxInfo);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
 
@@ -469,7 +579,7 @@ public class Caja extends AppCompatActivity {
                         saBox.getDocs(boxInfo.getId(), new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, false, true, ctx, boxInfo);
+                                docAdapter.setElementsData(items, false, true, false, ctx, boxInfo);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -489,13 +599,11 @@ public class Caja extends AppCompatActivity {
     public void getAll(){
         SABox saBox = new SABox();
 
-
-
         saBox.getDocs(boxInfo.getId(), new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, ctx, boxInfo);
+                docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -505,13 +613,28 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, ctx, boxInfo);
+                photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
 
             }
         });
 
+       notes_b.add("NOTA 1");
+       notes_b.add("aipsdjfao s9ausdf90uasdf90uaoiusf doiuas auf9ua0s9fu ufa0we uf9oaipufaiohji");
+        noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+        RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
+        recyclerView.setAdapter(noteAdapter);
+
+       /*saBox.getNotes(boxInfo.getId(), new Callbacks() {
+            @Override
+            public void onCallbackItems(ArrayList<String> notes) {
+                notes_b = notes;
+                noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
+                recyclerView.setAdapter(noteAdapter);
+            }
+       });*/
 
     }
 

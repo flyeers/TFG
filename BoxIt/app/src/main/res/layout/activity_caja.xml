@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/ellipse_13"
                 style="@style/FondoBase" />
@@ -38,7 +39,7 @@
                     android:layout_marginLeft="255dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/exit"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/deleteBox"
@@ -87,11 +88,11 @@
                         android:id="@+id/fotosCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="-350dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="-380dp"
+                        android:layout_marginRight="20dp"
                         android:fontFamily="@font/interbold"
                         android:text="@string/galeria"
-                        android:layout_marginRight="40dp"
-                        android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
 
@@ -100,20 +101,32 @@
                         android:id="@+id/musicaCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
                         android:fontFamily="@font/interbold"
                         android:text="@string/musica"
-                        android:layout_marginRight="40dp"
-                        android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
+
                     <TextView
                         android:id="@+id/documentosCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
                         android:fontFamily="@font/interbold"
                         android:text="@string/docs"
-                        android:layout_marginRight="40dp"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/notasCaja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/interbold"
+                        android:text="@string/notas"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
 
@@ -123,16 +136,16 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/todoElContenidoCaja"
+                        style="@style/titulosVista"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/titulosVista"
                         android:text="" />
 
 
@@ -141,8 +154,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
@@ -167,8 +180,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:gravity="left"
-                            android:text=""
-                             />
+                            android:text="" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -176,17 +188,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3"/>
+                        app:spanCount="3" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
-
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -194,17 +205,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3"/>
+                        app:spanCount="3" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
-
 
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -212,7 +222,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3"/>
+                        app:spanCount="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclernotasCaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3" />
                 </LinearLayout>
 
             </LinearLayout>
