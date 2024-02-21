@@ -349,9 +349,55 @@ public class DAOCapsule {
         cb.onCallbackExito(false);
     }
 
+    public void deleteDocument(String id, String file, Callbacks cb){
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_CAP).document(id);
+        boxDocument.update(DOCS, FieldValue.arrayRemove(file))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Referencia de documento en la colección eliminada exitosamente
+                        Log.d("CLAU", "Borrado de lista");
+                        FirebaseStorage imageStorage = new FirebaseStorage();
+
+                        int startIndex = file.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                        int endIndex = file.indexOf(".pdf");
+                        String res = file.substring(startIndex, endIndex);
+
+                        StorageReference fileReference = imageStorage.getStorageRef().child(res + ".pdf");
+
+                        // Delete the file
+                        fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("CLAU", "Borrado del storage");
+                                cb.onCallbackExito(true);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Uh-oh, an error occurred!
+                                Log.d("CLAU", "Borrado del storage MAL");
+                                cb.onCallbackExito(false);
+                            }
+                        });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error al eliminar la referencia de imagen en la colección
+                        cb.onCallbackExito(false);
+                    }
+                });
+    }
+
     public void deleteCapsule(String id, Callbacks cb) {
         cb.onCallbackExito(false);
     }
+
+
 
 
     public void exitCapsule(String id, Callbacks cb){

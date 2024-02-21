@@ -3,6 +3,7 @@ package es.ucm.fdi.boxit.presentacion;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -237,6 +238,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 @Override
                 public boolean onLongClick(View v) {
 
+
                     Dialog dialogConfirm = new Dialog(ctx);
                     dialogConfirm.setContentView(R.layout.eliminar_confirm);
                     Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
@@ -260,9 +262,18 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                     public void onCallbackExito(Boolean exito) {
                                         if(exito){
                                             Log.d("CLAU", "TODO BIEN");
+                                            int pos = itemsData.indexOf(name);
+                                            if(pos != -1){
+                                                itemsData.remove(pos);
+                                                notifyDataSetChanged();
+                                            }
+                                            Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                            dialogConfirm.dismiss();
                                         }
                                         else{
                                             Log.d("CLAU", "TODO MAL");
+                                            Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                            dialogConfirm.dismiss();
                                         }
                                     }
                                 });
@@ -271,6 +282,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                         }
                     });
 
+                    dialogConfirm.show();
                     return false;
                 }
             });
@@ -458,6 +470,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         dialogNote.show();
 
     }
+
 
 
 }

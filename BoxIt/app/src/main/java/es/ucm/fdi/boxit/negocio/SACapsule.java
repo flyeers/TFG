@@ -57,6 +57,10 @@ public class SACapsule {
         dao.borrarFoto(id,foto, cb);
     }
 
+    public void deleteDoc(String id, String doc, Callbacks cb){
+        DAOCapsule dao = new DAOCapsule();
+        dao.deleteDocument(id,doc, cb);
+    }
     public void deleteCapsule(String id, Callbacks cb){
         DAOCapsule dao = new DAOCapsule();
         dao.deleteCapsule(id, cb);

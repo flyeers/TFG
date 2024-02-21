@@ -425,8 +425,11 @@ public class DAOBox {
                         Log.d("CLAU", "Borrado de lista");
                         FirebaseStorage imageStorage = new FirebaseStorage();
 
+                        int startIndex = file.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                        int endIndex = file.indexOf(".pdf");
+                        String res = file.substring(startIndex, endIndex);
 
-                        StorageReference fileReference = imageStorage.getStorageRef().child(file + ".pdf");
+                        StorageReference fileReference = imageStorage.getStorageRef().child(res + ".pdf");
 
                         // Delete the file
                         fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
