@@ -415,6 +415,47 @@ public class DAOBox {
 
     }
 
+    public void deleteDocument(String id, String file, Callbacks cb){
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        boxDocument.update(DOCS, FieldValue.arrayRemove(file))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Referencia de documento en la colección eliminada exitosamente
+                        Log.d("CLAU", "Borrado de lista");
+                        FirebaseStorage imageStorage = new FirebaseStorage();
+
+
+                        StorageReference fileReference = imageStorage.getStorageRef().child(file + ".pdf");
+
+                        // Delete the file
+                        fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("CLAU", "Borrado del storage");
+                                cb.onCallbackExito(true);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Uh-oh, an error occurred!
+                                Log.d("CLAU", "Borrado del storage MAL");
+                                cb.onCallbackExito(false);
+                            }
+                        });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error al eliminar la referencia de imagen en la colección
+                        cb.onCallbackExito(false);
+                    }
+                });
+    }
+
 
     public void deleteBox(String id, String boxName, Callbacks cb){
 
@@ -474,7 +515,7 @@ public class DAOBox {
                                     }
                                     List<String> docs = (List<String>) document.get(DOCS);
                                     if (docs != null) {
-                                        // TODO Para cada foto de la caja hay que eliminarla del storage
+                                        // TODO Para cada doc de la caja hay que eliminarla del storage
                                         for (String doc : docs) {
                                             // TODO Para cada docuemnto de la caja hay que eliminarla del storage
                                             Log.d("CLAU", "Doc");
