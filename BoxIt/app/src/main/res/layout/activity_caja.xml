@@ -87,10 +87,10 @@
                         android:id="@+id/fotosCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="-380dp"
+                        android:layout_marginLeft="-350dp"
                         android:fontFamily="@font/interbold"
                         android:text="@string/galeria"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="40dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
                         android:text="@string/musica"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="40dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -112,17 +112,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/interbold"
                         android:text="@string/docs"
-                        android:layout_marginRight="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
-                    <TextView
-                        android:id="@+id/audiosCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/interbold"
-                        android:text="@string/audio"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:layout_gravity="center"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
@@ -131,7 +121,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
@@ -157,8 +147,8 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
@@ -173,7 +163,7 @@
                         <TextView
                             android:id="@+id/fdelacaja"
                             style="@style/titulosVista"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:gravity="left"
@@ -197,30 +187,7 @@
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/musicadelacaja"
-                            style="@style/titulosVista"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text=""
-                            android:textColor="@color/textoOscuro" />
-
-                        <TextView
-                            android:id="@+id/mdelacaja"
-                            style="@style/titulosVista"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="left"
-                            android:text=""
-                            />
-                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclermusicaCaja"
@@ -238,30 +205,7 @@
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/docsdelacaja"
-                            style="@style/titulosVista"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text=""
-                            android:textColor="@color/textoOscuro" />
-
-                        <TextView
-                            android:id="@+id/ddelacaja"
-                            style="@style/titulosVista"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="left"
-                            android:text=""
-                            />
-                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerdocsCaja"

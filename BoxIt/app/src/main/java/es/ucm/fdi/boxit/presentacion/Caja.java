@@ -469,8 +469,8 @@ public class Caja extends AppCompatActivity {
                         saBox.getDocs(boxInfo.getId(), new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, true, false, ctx, boxInfo);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                                docAdapter.setElementsData(items, false, true, ctx, boxInfo);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
                         });

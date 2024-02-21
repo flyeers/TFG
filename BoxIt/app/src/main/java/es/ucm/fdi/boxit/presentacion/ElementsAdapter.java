@@ -102,7 +102,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-
         ElementsAdapter.ViewHolder h1 = (ElementsAdapter.ViewHolder) holder;
         if(photo){
             Uri img = Uri.parse(itemsData.get(position));
@@ -210,9 +209,16 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
-                                       /* Intent intent1 = new Intent(ctx, Caja.class);
+                                      /* Intent intent1 = new Intent(ctx, Caja.class);
                                         ctx.startActivity(intent1);
                                         intent1.putExtra("boxInfo", box);*/
+                                        int pos = itemsData.indexOf(i);
+                                        if(pos != -1){
+                                            itemsData.remove(pos);
+                                            notifyDataSetChanged();
+                                        }
+                                        dialogConfirm.dismiss();
+                                        dialog.dismiss();
                                         Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
 
 
