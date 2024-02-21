@@ -585,8 +585,8 @@ public class Capsula extends AppCompatActivity {
                         saCapsule.getDocs(capsuleInfo.getId(), new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, true, false, false, ctx, capsuleInfo);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
+                                docAdapter.setElementsData(items, false, true, false, ctx, capsuleInfo);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
                         });

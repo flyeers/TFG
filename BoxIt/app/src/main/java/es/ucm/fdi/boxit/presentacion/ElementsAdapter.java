@@ -140,7 +140,86 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     mostrarImagen(img.toString());
                 }
             });
+
+            h1.imagen.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    Dialog dialogConfirm = new Dialog(ctx);
+                    dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                    Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                    Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogConfirm.dismiss();
+
+                        }
+                    });
+
+                    confirmar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(isBox){
+                                SABox saBox = new SABox();
+                                saBox.deletePhoto(boxId, img.toString(), new Callbacks() {
+                                    @Override
+                                    public void onCallbackExito(Boolean exito) {
+                                        if(exito){
+
+                                            int pos = itemsData.indexOf(img.toString());
+                                            if(pos != -1){
+                                                itemsData.remove(pos);
+                                                notifyDataSetChanged();
+                                            }
+                                            dialogConfirm.dismiss();
+
+                                            Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+
+
+                                        }
+                                        else{
+                                            Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                            dialogConfirm.dismiss();
+
+                                        }
+                                    }
+                                });
+                            }else{
+                                SACapsule saCapsule = new SACapsule();
+                                saCapsule.deletePhoto(boxId, img.toString(), new Callbacks() {
+                                    @Override
+                                    public void onCallbackExito(Boolean exito) {
+                                        if(exito){
+                                            int pos = itemsData.indexOf(img.toString());
+                                            if(pos != -1){
+                                                itemsData.remove(pos);
+                                                notifyDataSetChanged();
+                                            }
+                                            Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                            dialogConfirm.dismiss();
+
+                                        }
+                                        else{
+                                            Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                            dialogConfirm.dismiss();
+
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    dialogConfirm.show();
+
+                    return false;
+                }
+            });
+
         }
+
         else if(doc){
 
             String name = itemsData.get(position);
@@ -151,6 +230,48 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     PDFView.abrirVisorPDF(ctx, name);
+                }
+            });
+
+            h1.fileName.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    Dialog dialogConfirm = new Dialog(ctx);
+                    dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                    Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                    Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogConfirm.dismiss();
+
+                        }
+                    });
+
+                    confirmar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SABox saBox = new SABox();
+                            if(isBox){
+                                saBox.deleteDoc(boxId, name, new Callbacks() {
+                                    @Override
+                                    public void onCallbackExito(Boolean exito) {
+                                        if(exito){
+                                            Log.d("CLAU", "TODO BIEN");
+                                        }
+                                        else{
+                                            Log.d("CLAU", "TODO MAL");
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+
+                    return false;
                 }
             });
         }
@@ -229,9 +350,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
-                                      /* Intent intent1 = new Intent(ctx, Caja.class);
-                                        ctx.startActivity(intent1);
-                                        intent1.putExtra("boxInfo", box);*/
+
                                         int pos = itemsData.indexOf(i);
                                         if(pos != -1){
                                             itemsData.remove(pos);
@@ -256,9 +375,15 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
-                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                        int pos = itemsData.indexOf(i);
+                                        if(pos != -1){
+                                            itemsData.remove(pos);
+                                            notifyDataSetChanged();
+                                        }
                                         dialogConfirm.dismiss();
                                         dialog.dismiss();
+                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+
                                     }
                                     else{
                                         Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
