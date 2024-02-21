@@ -101,8 +101,10 @@
     <!--mensajes varios -->
     <string name="noPDFViewer">Error al abrir el archivo</string>
     <string name="eliminar">¿Desea eliminar el elemento?</string>
+    <string name="delete">Eliminar</string>
     <string name="cancelar">Cancelar</string>
     <string name="aceptar">Aceptar</string>
+    <string name="guardar">Guardar</string>
     <string name="actualizar">Actualizar</string>
     <string name="eliminar2">Eliminar</string>
     <string name="deleteBien">Elemento eliminado</string>

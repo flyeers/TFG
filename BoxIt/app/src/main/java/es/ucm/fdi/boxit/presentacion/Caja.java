@@ -139,7 +139,7 @@ public class Caja extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         SABox saBox = new SABox();
-                        saBox.deleteBox(boxInfo.getId(), boxInfo.getTitle(), new Callbacks() {
+                        saBox.deleteBox(boxInfo.getId(), boxInfo.getTitle(), true, new Callbacks() {
                             @Override
                             public void onCallbackExito(Boolean exito) {
                                 if(exito){
@@ -514,7 +514,7 @@ public class Caja extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
                 selectedItem = data.getData();
-                saBox.addPhotos(boxInfo, selectedItem.toString(), new Callbacks() {
+                saBox.addPhotos(boxInfo, selectedItem.toString(), true, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
@@ -537,12 +537,12 @@ public class Caja extends AppCompatActivity {
 
 
 
-                saBox.addPhotosFromCamera(boxInfo, imageBitmap, new Callbacks() {
+                saBox.addPhotosFromCamera(boxInfo, imageBitmap, true, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
 
-                            saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+                            saBox.getPhotos(boxInfo.getId(), true, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
                                     photoAdapter.setElementsData(photos, true, false, false, ctx, boxInfo);
@@ -571,12 +571,12 @@ public class Caja extends AppCompatActivity {
             selectedItem = data.getData();
             String fileName = getFileName(selectedItem);
 
-            saBox.addDocs(boxInfo, selectedItem.toString(), fileName, new Callbacks() {
+            saBox.addDocs(boxInfo, selectedItem.toString(), fileName, true, new Callbacks() {
                 @Override
                 public void onCallbackExito(Boolean exito) {
                     if(exito){
 
-                        saBox.getDocs(boxInfo.getId(), new Callbacks() {
+                        saBox.getDocs(boxInfo.getId(), true, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
                                 docAdapter.setElementsData(items, false, true, false, ctx, boxInfo);
@@ -599,7 +599,7 @@ public class Caja extends AppCompatActivity {
     public void getAll(){
         SABox saBox = new SABox();
 
-        saBox.getDocs(boxInfo.getId(), new Callbacks() {
+        saBox.getDocs(boxInfo.getId(), true, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
@@ -608,7 +608,7 @@ public class Caja extends AppCompatActivity {
                 recyclerView.setAdapter(docAdapter);
             }
         });
-       saBox.getPhotos(boxInfo.getId(), new Callbacks() {
+       saBox.getPhotos(boxInfo.getId(), true, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> photos) {
 

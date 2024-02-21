@@ -53,8 +53,12 @@ public class DAOBox {
     private final String MUSICA = "box_music";
     private final String CORREO = "correo";
 
-
-
+    private final String FOTOS_CAP = "capsule_photos";
+    private final String DOCS_CAP = "capsule_documents";
+    private final String MUSICA_CAP = "capsule_music";
+    private final String NOTAS_CAP = "capsule_notes";
+    private final String NOTAS = "box_notes";
+    private final String COL_CAP = "capsules";
 
 
     private BoxInfo boxInfo;
@@ -192,9 +196,12 @@ public class DAOBox {
 
     }
 
-    public void addDocs(BoxInfo b, String d, String fileName, Callbacks cb){
+    public void addDocs(BoxInfo b, String d, String fileName, boolean isBox, Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String DOC = isBox ? DOCS : DOCS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(b.getId());
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
@@ -209,7 +216,7 @@ public class DAOBox {
                     fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
 
 
-                        boxDocument.update(DOCS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                        boxDocument.update(DOC, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
                                     cb.onCallbackExito(true);
                                 })
                                 .addOnFailureListener(e -> {
@@ -228,14 +235,16 @@ public class DAOBox {
                 });
     }
 
-    public void addPhotos(BoxInfo b, String img, Callbacks cb){
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
+    public void addPhotos(BoxInfo b, String img, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String FOT = isBox ? FOTOS : FOTOS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(b.getId());
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
         //TODO GENERAR UN ID SIMILAR AL RESTO
-
-
 
         FirebaseUser user = mAuth.getCurrentUser();
         String idImg = String.format("%s-%s-%s", b.getTitle(), random, "foto").replace("", "");
@@ -251,7 +260,7 @@ public class DAOBox {
 
                         //guardamos la de la img ruta en la propia caja
 
-                        boxDocument.update(FOTOS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                        boxDocument.update(FOT, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
                                     cb.onCallbackExito(true);
                                 })
                                 .addOnFailureListener(e -> {
@@ -272,9 +281,12 @@ public class DAOBox {
 
     }
 
-    public void addPhotoFromCamera(BoxInfo b, Bitmap img, Callbacks cb){
+    public void addPhotoFromCamera(BoxInfo b, Bitmap img, boolean isBox, Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String FOT = isBox ? FOTOS : FOTOS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(b.getId());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -293,7 +305,7 @@ public class DAOBox {
 
                     fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
 
-                        boxDocument.update(FOTOS, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
+                        boxDocument.update(FOT, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
                                     cb.onCallbackExito(true);
                                 })
                                 .addOnFailureListener(e -> {
@@ -310,16 +322,19 @@ public class DAOBox {
                 });
     }
 
-    public void getPhotos(String id, Callbacks cb){
+    public void getPhotos(String id, boolean isBox, Callbacks cb){
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String FOT = isBox ? FOTOS : FOTOS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
         boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Object arrayPhotos = document.get(FOTOS);
+                        Object arrayPhotos = document.get(FOT);
                         if (arrayPhotos != null) {
 
                             cb.onCallbackItems((ArrayList<String>) arrayPhotos);
@@ -335,15 +350,19 @@ public class DAOBox {
 
     }
 
-    public void getDocs(String id, Callbacks cb) {
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+    public void getDocs(String id, boolean isBox, Callbacks cb) {
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String DOC = isBox ? DOCS : DOCS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
         boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Object arrayDocs = document.get(DOCS);
+                        Object arrayDocs = document.get(DOC);
                         if (arrayDocs != null) {
 
                             cb.onCallbackItems((ArrayList<String>) arrayDocs);
@@ -360,11 +379,13 @@ public class DAOBox {
     }
 
 
-    public void borrarFoto(String id, String imagenB, Callbacks cb){
+    public void borrarFoto(String id, String imagenB, boolean isBox, Callbacks cb){
 
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String FOT = isBox ? FOTOS : FOTOS_CAP;
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
-        boxDocument.update(FOTOS, FieldValue.arrayRemove(imagenB))
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+        boxDocument.update(FOT, FieldValue.arrayRemove(imagenB))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -415,9 +436,13 @@ public class DAOBox {
 
     }
 
-    public void deleteDocument(String id, String file, Callbacks cb){
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
-        boxDocument.update(DOCS, FieldValue.arrayRemove(file))
+    public void deleteDocument(String id, String file, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String DOC = isBox ? DOCS : DOCS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+        boxDocument.update(DOC, FieldValue.arrayRemove(file))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -460,12 +485,98 @@ public class DAOBox {
     }
 
 
-    public void deleteBox(String id, String boxName, Callbacks cb){
+    public void getNotes(String id, boolean isBox ,Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String NOT = isBox ? NOTAS : NOTAS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Object arrayNotes = document.get(NOT);
+                        if (arrayNotes != null) {
+                            cb.onCallbackItems((ArrayList<String>) arrayNotes);
+                        }
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
+
+    }
+    private final String NOTE_IDENTIFIER ="///noteIdentifier///";
+    public void addNote(BoxInfo b, String note, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String NOT = isBox ? NOTAS : NOTAS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(b.getId());
+
+        int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+        FirebaseUser user = mAuth.getCurrentUser();
+        String idNote = String.format("%s-%s-%s-%s-%s", b.getTitle(), user.getEmail(), random, NOTE_IDENTIFIER, note);
+
+        boxDocument.update(NOT, FieldValue.arrayUnion(idNote)).addOnSuccessListener(aVoid -> {
+                    cb.onCallbackExito(true);
+                })
+                .addOnFailureListener(e -> {
+                    cb.onCallbackExito(false);
+                });
+
+    }
+
+    public void deleteNote(String id, String idNote, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String NOT = isBox ? NOTAS : NOTAS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+        boxDocument.update(NOT, FieldValue.arrayRemove(idNote)).addOnSuccessListener(aVoid -> {
+                    cb.onCallbackExito(true);
+                })
+                .addOnFailureListener(e -> {
+                    cb.onCallbackExito(false);
+                });
+
+    }
+
+    public void updateNote(String id,String idNoteOld, String idNoteNew,  boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String NOT = isBox ? NOTAS : NOTAS_CAP;
+
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+        try {
+            boxDocument.update(NOT, FieldValue.arrayRemove(idNoteOld));
+            boxDocument.update(NOT, FieldValue.arrayUnion(idNoteNew));
+
+            cb.onCallbackExito(true);
+
+        } catch (Exception e) {
+            cb.onCallbackExito(false);
+        }
+
+    }
+
+    public void deleteBox(String id, String boxName, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        String DOC = isBox ? DOCS : DOCS_CAP;
+        String FOT = isBox ? FOTOS : FOTOS_CAP;
+        String ELEM_PROP = isBox ? CAJAS_PROPIAS : CAPSULAS_PROPIAS;
+        String ELEM_COMP = isBox ? CAJAS_COMPARTIDAS : CAPSULAS_COMPARTIDAS;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference boxDoc = db.collection(COL_BOX).document(id);
+        DocumentReference boxDoc = db.collection(COL).document(id);
 
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(id);
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
 
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
@@ -484,7 +595,7 @@ public class DAOBox {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    List<String> photos = (List<String>) document.get(FOTOS);
+                                    List<String> photos = (List<String>) document.get(FOT);
                                     if (photos != null) {
 
                                         for (String f : photos) {
@@ -516,7 +627,7 @@ public class DAOBox {
 
                                         }
                                     }
-                                    List<String> docs = (List<String>) document.get(DOCS);
+                                    List<String> docs = (List<String>) document.get(DOC);
                                     if (docs != null) {
                                         // TODO Para cada doc de la caja hay que eliminarla del storage
                                         for (String doc : docs) {
@@ -558,12 +669,12 @@ public class DAOBox {
 
                     String userID = d.getId();
                     DocumentReference userRef = usersCollection.document(userID);
-                    List<String> boxes = (List<String>) d.get(CAJAS_PROPIAS);
+                    List<String> boxes = (List<String>) d.get(ELEM_PROP);
                     if (boxes != null) {
                         boxes.remove(id);
                         //actualizamos la coleccion de cajas propias del usuario
 
-                        userRef.update(CAJAS_PROPIAS, boxes)
+                        userRef.update(ELEM_PROP, boxes)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

@@ -94,7 +94,6 @@
     <string name="addBienCap">Item added to capsule</string>
     <string name="addMal">Error while inserting item</string>
 
-
     <!--titulos-->
     <string name="delacaja">from the box</string>
     <string name="delacapsula">from the capsule</string>
@@ -105,8 +104,10 @@
     <!--mensajes varios -->
     <string name="noPDFViewer">Error while opening file</string>
     <string name="eliminar">Do you want to delete the item?</string>
+    <string name="delete">Delete</string>
     <string name="cancelar">Cancel</string>
     <string name="aceptar">Accept</string>
+    <string name="guardar">Save</string>
     <string name="actualizar">Update</string>
     <string name="eliminar2">Delete</string>
     <string name="deleteBien">Element deleted</string>

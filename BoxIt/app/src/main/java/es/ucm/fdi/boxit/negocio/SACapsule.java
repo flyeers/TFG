@@ -18,54 +18,6 @@ public class SACapsule {
         dao.getCapsuleById(id, cb);
     }
 
-    public void addPhotos( CapsuleInfo c, String img, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.addPhotos(c, img, cb);
-    }
-
-    public void addPhotosFromCamera(CapsuleInfo c, Bitmap img, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.addPhotoFromCamera(c, img, cb);
-    }
-
-    public void getPhotos(String id, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.getPhotos(id, cb);
-
-    }
-
-    public void addDocs(CapsuleInfo c , String d, String name, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.addDocs(c, d, name, cb);
-    }
-
-    public void getDocs(String id, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.getDocs(id, cb);
-
-    }
-
-    public void getItems(String id, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.getDocs(id, cb);
-        dao.getPhotos(id, cb);
-
-    }
-
-    public void deletePhoto(String id, String foto, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.borrarFoto(id,foto, cb);
-    }
-
-    public void deleteDoc(String id, String doc, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.deleteDocument(id,doc, cb);
-    }
-    public void deleteCapsule(String id, Callbacks cb){
-        DAOCapsule dao = new DAOCapsule();
-        dao.deleteCapsule(id, cb);
-    }
-
     public void exitCapsule(String id, Callbacks cb) {
         DAOCapsule dao = new DAOCapsule();
         dao.exitCapsule(id, cb);

@@ -19,52 +19,72 @@ public class SABox {
         dao.getBoxById(id, cb);
     }
 
-    public void addPhotos( BoxInfo b, String img, Callbacks cb){
+    public void addPhotos( BoxInfo b, String img, boolean isBox, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addPhotos(b, img, cb);
+        dao.addPhotos(b, img, isBox, cb);
     }
 
-    public void addPhotosFromCamera(BoxInfo b, Bitmap img, Callbacks cb){
+    public void addPhotosFromCamera(BoxInfo b, Bitmap img, boolean isBox, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.addPhotoFromCamera(b, img, cb);
+        dao.addPhotoFromCamera(b, img, isBox, cb);
     }
 
-    public void getPhotos(String id, Callbacks cb){
+    public void getPhotos(String id, boolean isBox, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.getPhotos(id, cb);
-
-    }
-
-    public void addDocs(BoxInfo b , String d, String name, Callbacks cb){
-        DAOBox dao = new DAOBox();
-        dao.addDocs(b, d, name, cb);
-    }
-
-    public void getDocs(String id, Callbacks cb){
-        DAOBox dao = new DAOBox();
-        dao.getDocs(id, cb);
+        dao.getPhotos(id, isBox, cb);
 
     }
 
-    public void getItems(String id, Callbacks cb){
+    public void addDocs(BoxInfo b , String d, String name, boolean isBox, Callbacks cb){
         DAOBox dao = new DAOBox();
-        dao.getDocs(id, cb);
-        dao.getPhotos(id, cb);
+        dao.addDocs(b, d, name, isBox, cb);
+    }
+
+    public void getDocs(String id, boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getDocs(id, isBox, cb);
 
     }
 
-    public void deletePhoto(String id, String foto, Callbacks cb){
+    public void getItems(String id, boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getDocs(id, isBox, cb);
+        dao.getPhotos(id, isBox, cb);
+        dao.getNotes(id, isBox, cb);
+    }
+
+    public void deletePhoto(String id, String foto, boolean isBox, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.borrarFoto(id,foto, cb);
+        daoBox.borrarFoto(id,foto, isBox, cb);
     }
 
-    public void deleteDoc(String id, String file, Callbacks cb){
+    public void deleteDoc(String id, String file, boolean isBox, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.deleteDocument(id,file, cb);
+        daoBox.deleteDocument(id,file, isBox, cb);
     }
-    public void deleteBox(String id, String boxName, Callbacks cb){
+    public void addNote(BoxInfo b, String note, boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.addNote(b, note, isBox, cb);
+    }
+    public void getNotes(String id, boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.getNotes(id, isBox, cb);
+
+    }
+    public void deleteNote(String id, String idNote, boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.deleteNote(id, idNote, isBox, cb);
+    }
+
+    public void updateNote(String id, String idNoteOld, String idNoteNew,  boolean isBox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.updateNote(id, idNoteOld, idNoteNew, isBox, cb);
+    }
+
+
+    public void deleteBox(String id, String boxName, boolean isBox, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.deleteBox(id,boxName, cb);
+        daoBox.deleteBox(id,boxName, isBox, cb);
     }
 
     public void exitBox(String id, Callbacks cb) {

@@ -162,9 +162,9 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     confirmar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(isBox){
+                            //if(isBox){
                                 SABox saBox = new SABox();
-                                saBox.deletePhoto(boxId, img.toString(), new Callbacks() {
+                                saBox.deletePhoto(boxId, img.toString(), isBox, new Callbacks() {
                                     @Override
                                     public void onCallbackExito(Boolean exito) {
                                         if(exito){
@@ -187,7 +187,8 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                         }
                                     }
                                 });
-                            }else{
+                            /*}
+                            else{ TODO BORRA
                                 SACapsule saCapsule = new SACapsule();
                                 saCapsule.deletePhoto(boxId, img.toString(), new Callbacks() {
                                     @Override
@@ -209,7 +210,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                         }
                                     }
                                 });
-                            }
+                            }*/
                         }
                     });
 
@@ -256,30 +257,29 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             SABox saBox = new SABox();
-                            if(isBox){
-                                saBox.deleteDoc(boxId, name, new Callbacks() {
-                                    @Override
-                                    public void onCallbackExito(Boolean exito) {
-                                        if(exito){
-                                            Log.d("CLAU", "TODO BIEN");
-                                            int pos = itemsData.indexOf(name);
-                                            if(pos != -1){
-                                                itemsData.remove(pos);
-                                                notifyDataSetChanged();
-                                            }
-                                            Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-                                            dialogConfirm.dismiss();
+                            saBox.deleteDoc(boxId, name, isBox, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        Log.d("CLAU", "TODO BIEN");
+                                        int pos = itemsData.indexOf(name);
+                                        if(pos != -1){
+                                            itemsData.remove(pos);
+                                            notifyDataSetChanged();
                                         }
-                                        else{
-                                            Log.d("CLAU", "TODO MAL");
-                                            Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                            dialogConfirm.dismiss();
-                                        }
+                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
                                     }
-                                });
-                            }
-
+                                    else{
+                                        Log.d("CLAU", "TODO MAL");
+                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                    }
+                                }
+                            });
                         }
+
+
                     });
 
                     dialogConfirm.show();
@@ -356,9 +356,9 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 confirmar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(isBox){
+                        //if(isBox){
                             SABox saBox = new SABox();
-                            saBox.deletePhoto(boxId, i, new Callbacks() {
+                            saBox.deletePhoto(boxId, i, isBox, new Callbacks() {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
@@ -381,7 +381,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                     }
                                 }
                             });
-                        }else{
+                        /*}else{
                             SACapsule saCapsule = new SACapsule();
                             saCapsule.deletePhoto(boxId, i, new Callbacks() {
                                 @Override
@@ -404,7 +404,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                     }
                                 }
                             });
-                        }
+                        }*/
                     }
                 });
 

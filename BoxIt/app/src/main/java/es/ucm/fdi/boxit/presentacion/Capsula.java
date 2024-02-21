@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
+import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
 public class Capsula extends AppCompatActivity {
@@ -143,8 +144,8 @@ public class Capsula extends AppCompatActivity {
                 confirmar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SACapsule saCapsule = new SACapsule();
-                        saCapsule.deleteCapsule(capsuleInfo.getId(), new Callbacks() {
+                        SABox saBox = new SABox();
+                        saBox.deleteBox(capsuleInfo.getId(), capsuleInfo.getTitle(), false, new Callbacks() {
                             @Override
                             public void onCallbackExito(Boolean exito) {
                                 if(exito){
@@ -512,14 +513,14 @@ public class Capsula extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        SACapsule saCapsule = new SACapsule();
+        SABox saBox = new SABox();
 
         //si lo añadido es una foto, ya sea por camara o por galeria:
         if(requestCode == PICK_IMAGE_REQUEST || requestCode == CAMERA_REQUEST_CODE ){
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data.getData() != null) {
 
                 selectedItem = data.getData();
-                saCapsule.addPhotos(capsuleInfo, selectedItem.toString(), new Callbacks() {
+                saBox.addPhotos(capsuleInfo, selectedItem.toString(), false, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
@@ -542,12 +543,12 @@ public class Capsula extends AppCompatActivity {
 
 
 
-                saCapsule.addPhotosFromCamera(capsuleInfo, imageBitmap, new Callbacks() {
+                saBox.addPhotosFromCamera(capsuleInfo, imageBitmap, false, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
 
-                            saCapsule.getPhotos(capsuleInfo.getId(), new Callbacks() {
+                            saBox.getPhotos(capsuleInfo.getId(), false, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
                                     photoAdapter.setElementsData(photos, true, false, false, ctx, capsuleInfo);
@@ -577,12 +578,12 @@ public class Capsula extends AppCompatActivity {
             selectedItem = data.getData();
             String fileName = getFileName(selectedItem);
 
-            saCapsule.addDocs(capsuleInfo, selectedItem.toString(), fileName, new Callbacks() {
+            saBox.addDocs(capsuleInfo, selectedItem.toString(), fileName, false, new Callbacks() {
                 @Override
                 public void onCallbackExito(Boolean exito) {
                     if(exito){
 
-                        saCapsule.getDocs(capsuleInfo.getId(), new Callbacks() {
+                        saBox.getDocs(capsuleInfo.getId(), false, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
                                 docAdapter.setElementsData(items, false, true, false, ctx, capsuleInfo);
@@ -603,11 +604,8 @@ public class Capsula extends AppCompatActivity {
     }
 
     public void getAll(){
-        SACapsule saCapsule = new SACapsule();
-
-
-
-        saCapsule.getDocs(capsuleInfo.getId(), new Callbacks() {
+        SABox saBox = new SABox();
+        saBox.getDocs(capsuleInfo.getId(), false, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
@@ -616,7 +614,7 @@ public class Capsula extends AppCompatActivity {
                 recyclerView.setAdapter(docAdapter);
             }
         });
-        saCapsule.getPhotos(capsuleInfo.getId(), new Callbacks() {
+        saBox.getPhotos(capsuleInfo.getId(), false, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> photos) {
 
