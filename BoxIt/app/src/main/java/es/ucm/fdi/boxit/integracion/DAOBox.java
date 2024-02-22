@@ -78,11 +78,14 @@ public class DAOBox {
 
             ArrayList<String> fotos = new ArrayList<>();
             ArrayList<String> docs = new ArrayList<>();
+            ArrayList<String> notes = new ArrayList<>();
             Map<String, Object> data = new HashMap<>();
             data.put(NOMBRE, b.getTitle());
             data.put(COLABORADORES, b.getColaborators());
             data.put(FOTOS, fotos);
             data.put(DOCS, docs);
+            data.put(NOTAS, notes);
+
 
             //IMG
 
@@ -521,15 +524,15 @@ public class DAOBox {
 
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
         FirebaseUser user = mAuth.getCurrentUser();
-        String idNote = String.format("%s-%s-%s-%s-%s", b.getTitle(), user.getEmail(), random, NOTE_IDENTIFIER, note);
+        String idNote = String.format("%s-%s-%s-%s%s", b.getTitle(), user.getEmail(), random, NOTE_IDENTIFIER, note);
 
-        boxDocument.update(NOT, FieldValue.arrayUnion(idNote)).addOnSuccessListener(aVoid -> {
-                    cb.onCallbackExito(true);
-                })
-                .addOnFailureListener(e -> {
-                    cb.onCallbackExito(false);
-                });
-
+        try {
+            boxDocument.update(NOT, FieldValue.arrayUnion(idNote));
+            cb.onCallbackData(idNote);
+        }
+        catch (Exception e){
+            cb.onCallbackData("");
+        }
     }
 
     public void deleteNote(String id, String idNote, boolean isBox, Callbacks cb){

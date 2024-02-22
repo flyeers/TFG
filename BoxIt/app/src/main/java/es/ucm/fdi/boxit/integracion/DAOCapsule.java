@@ -44,6 +44,8 @@ public class DAOCapsule {
     private final String FOTOS = "capsule_photos";
     private final String DOCS = "capsule_documents";
     private final String MUSICA = "capsule_music";
+    private final String NOTAS = "capsule_notes";
+
     private final String CORREO = "correo";
 
     private CapsuleInfo capsuleInfo;
@@ -64,12 +66,15 @@ public class DAOCapsule {
             ArrayList<String> fotos = new ArrayList<>();
             ArrayList<String> docs = new ArrayList<>();
             Map<String, Object> data = new HashMap<>();
+            ArrayList<String> notes = new ArrayList<>();
             data.put(NOMBRE, c.getTitle());
             data.put(COLABORADORES, c.getColaborators());
             data.put(FOTOS, fotos);
             data.put(DOCS, docs);
             data.put(CIERRE, c.getCierre());
             data.put(APERTURA, c.getApertura());
+            data.put(NOTAS, notes);
+
 
             //IMG
             int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales

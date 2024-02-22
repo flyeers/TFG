@@ -467,14 +467,12 @@ public class Caja extends AppCompatActivity {
                                 public void onClick(View v) {
                                     String note = String.valueOf(textNote.getText());
 
-                                    /*SABox saBox = new SABox();
-                                    saBox.addNote(boxInfo.getId(), new Callbacks() {
+                                    SABox saBox = new SABox();
+                                    saBox.addNote(boxInfo , note, true, new Callbacks() {
                                         @Override
-                                        public void onCallbackExito(Boolean exito) {
-                                            if(exito){
-
-                                                //TODO METER EN EL ADAPTER
-                                                noteAdapter.addElem(note, null);
+                                        public void onCallbackData(String data) {
+                                            if(!data.equals("")){
+                                                noteAdapter.addElem(data, null);
                                                 noteAdapter.notifyDataSetChanged();
                                                 dialogNote.dismiss();
                                                 Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
@@ -482,12 +480,10 @@ public class Caja extends AppCompatActivity {
                                             }
                                             else{
                                                 dialogNote.dismiss();
-                                                Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();                                            }
+                                                Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    });*/
-                                    noteAdapter.addElem(note, null);
-                                    noteAdapter.notifyDataSetChanged();
-                                    dialogNote.dismiss();
+                                    });
                                 }
                             });
                             dialogNote.show();
@@ -620,13 +616,7 @@ public class Caja extends AppCompatActivity {
             }
         });
 
-       notes_b.add("NOTA 1");
-       notes_b.add("aipsdjfao s9ausdf90uasdf90uaoiusf doiuas auf9ua0s9fu ufa0we uf9oaipufaiohji");
-        noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
-        RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
-        recyclerView.setAdapter(noteAdapter);
-
-       /*saBox.getNotes(boxInfo.getId(), new Callbacks() {
+       saBox.getNotes(boxInfo.getId(), true, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> notes) {
                 notes_b = notes;
@@ -634,7 +624,7 @@ public class Caja extends AppCompatActivity {
                 RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                 recyclerView.setAdapter(noteAdapter);
             }
-       });*/
+       });
 
     }
 

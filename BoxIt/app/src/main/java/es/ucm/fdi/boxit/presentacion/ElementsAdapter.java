@@ -49,6 +49,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private static final int IMAGE_WIDTH_KEY = 1;
     private static final int IMAGE_HEIGHT_KEY = 2;
 
+    private final String NOTE_IDENTIFIER ="///noteIdentifier///";
 
     private Context ctx;
 
@@ -288,13 +289,65 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             });
         }
         else if (note) {
-            String noteText = itemsData.get(position);
+            String noteId = itemsData.get(position);
+
+            int endIndex = noteId.indexOf(NOTE_IDENTIFIER) + NOTE_IDENTIFIER.length();
+            String noteText = noteId.substring(endIndex);
             h1.fileName.setText(noteText);
 
             h1.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mostrarNote(noteText);
+                    mostrarNote(noteId);
+                }
+            });
+
+            h1.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+
+                    Dialog dialogConfirm = new Dialog(ctx);
+                    dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                    Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                    Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogConfirm.dismiss();
+                        }
+                    });
+
+                    confirmar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SABox saBox = new SABox();
+                            saBox.deleteNote(boxId, noteId, isBox, new Callbacks() {
+                                @Override
+                                public void onCallbackExito(Boolean exito) {
+                                    if(exito){
+                                        int pos = itemsData.indexOf(noteId);
+                                        if(pos != -1){
+                                            itemsData.remove(pos);
+                                            notifyDataSetChanged();
+                                        }
+                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                    }
+                                    else{
+                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                        dialogConfirm.dismiss();
+                                    }
+                                }
+                            });
+                        }
+
+
+                    });
+
+                    dialogConfirm.show();
+                    return false;
                 }
             });
         }
@@ -422,14 +475,19 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         dialog.show();
     }
 
-    private void mostrarNote(String noteTextOld){
+    private void mostrarNote(String noteId){
+
+        int endeIndex = noteId.indexOf(NOTE_IDENTIFIER) + NOTE_IDENTIFIER.length();
+
+        String noteText = noteId.substring(endeIndex);
+        String preId = noteId.substring(0, endeIndex);
 
         Dialog dialogNote = new Dialog(ctx);
         dialogNote.setContentView(R.layout.note_preview);
         Button cancelar = dialogNote.findViewById(R.id.buttonCancelar);
         Button confirmar = dialogNote.findViewById(R.id.buttonAceptar);
         EditText textFile = dialogNote.findViewById(R.id.textNote);
-        textFile.setText(noteTextOld);
+        textFile.setText(noteText);
         confirmar.setText(ctx.getString(R.string.actualizar));
 
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -443,28 +501,24 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 String noteTextNew = String.valueOf(textFile.getText());
+                String noteIdNew = String.format("%s%s", preId, noteTextNew);
 
-                /*SABox saBox = new SABox();
-                saBox.updateNote(boxInfo.getId(), noteTextOld, noteTextNew new Callbacks() {
+                SABox saBox = new SABox();
+                saBox.updateNote(boxId, noteId, noteIdNew, true, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
-
-                            //TODO METER EN EL ADAPTER
-
-                            //noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
-
-                                noteAdapter.addElem(note, null);
-                                noteAdapter.notifyDataSetChanged();
+                            int pos = itemsData.indexOf(noteId);
+                            itemsData.set(pos, noteIdNew);
+                            notifyDataSetChanged();
                             dialogNote.dismiss();
-                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(ctx,R.string.editarBien , Toast.LENGTH_SHORT).show();
                         }
                         else{
                             dialogNote.dismiss();
-                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();                                            }
+                            Toast.makeText(ctx,R.string.editarMal , Toast.LENGTH_SHORT).show();                                            }
                     }
-                });*/
+                });
             }
         });
         dialogNote.show();

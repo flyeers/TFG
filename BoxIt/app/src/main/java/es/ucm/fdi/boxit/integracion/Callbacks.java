@@ -9,15 +9,13 @@ import es.ucm.fdi.boxit.negocio.UserInfo;
 public interface Callbacks {
     default void onCallback(UserInfo u){}
     default void onCallbackExito(Boolean exito){}
-
     default void onCallbackBox(BoxInfo b){}
     default void onCallbackBoxes(ArrayList<BoxInfo> boxes){}
-
     default void onCallbackItems(ArrayList<String> items){}
-
     default void onCallbackUsers(ArrayList<UserInfo> users){}
     default void onCallbackCapsule(CapsuleInfo c){}
     default void onCallbackCapsules(ArrayList<CapsuleInfo> capsules){}
+    default void onCallbackData(String data){}
 
     default void onCallbackUserPhoto(String photo){}
 
