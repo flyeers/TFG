@@ -513,6 +513,18 @@ public class Caja extends AppCompatActivity {
                 selectedItem = data.getData();
                 saBox.addPhotos(boxInfo, selectedItem.toString(), true, new Callbacks() {
                     @Override
+                    public void onCallbackData(String data) {
+                        if(!data.equals("")){
+                            photoAdapter.addElem(data, null);
+                            photoAdapter.notifyDataSetChanged();
+                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                   /* @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
 
@@ -524,7 +536,9 @@ public class Caja extends AppCompatActivity {
                         else{
                             Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    }*/
+
+
                 });
             }
             else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

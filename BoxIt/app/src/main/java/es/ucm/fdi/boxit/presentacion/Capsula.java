@@ -518,6 +518,18 @@ public class Capsula extends AppCompatActivity {
                 selectedItem = data.getData();
                 saBox.addPhotos(capsuleInfo, selectedItem.toString(), false, new Callbacks() {
                     @Override
+                    public void onCallbackData(String data) {
+                        if(!data.equals("")){
+                            photoAdapter.addElem(data, null);
+                            photoAdapter.notifyDataSetChanged();
+                            Toast.makeText(ctx,R.string.addBienCap , Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    /*@Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
 
@@ -529,7 +541,7 @@ public class Capsula extends AppCompatActivity {
                         else{
                             Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    }*/
                 });
             }
             else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

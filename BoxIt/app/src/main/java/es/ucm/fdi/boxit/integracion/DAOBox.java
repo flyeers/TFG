@@ -264,10 +264,11 @@ public class DAOBox {
                         //guardamos la de la img ruta en la propia caja
 
                         boxDocument.update(FOT, FieldValue.arrayUnion(uri.toString())).addOnSuccessListener(aVoid -> {
-                                    cb.onCallbackExito(true);
+                                   // cb.onCallbackExito(true);
+                                    cb.onCallbackData(uri.toString());
                                 })
                                 .addOnFailureListener(e -> {
-                                    cb.onCallbackExito(false);
+                                    cb.onCallbackData("");
                                 });
 
 
@@ -275,7 +276,7 @@ public class DAOBox {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            cb.onCallbackExito(false);
+                            cb.onCallbackData("");
                         }
                     });
 
