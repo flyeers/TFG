@@ -374,7 +374,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    //noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                    noteAdapter.setElementsData(notes_b, false, false, true, ctx, capsuleInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }

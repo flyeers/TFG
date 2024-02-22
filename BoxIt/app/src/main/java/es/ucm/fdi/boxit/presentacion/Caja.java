@@ -367,7 +367,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    //noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                    noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }
@@ -472,6 +472,7 @@ public class Caja extends AppCompatActivity {
                                         @Override
                                         public void onCallbackData(String data) {
                                             if(!data.equals("")){
+
                                                 noteAdapter.addElem(data, null);
                                                 noteAdapter.notifyDataSetChanged();
                                                 dialogNote.dismiss();
