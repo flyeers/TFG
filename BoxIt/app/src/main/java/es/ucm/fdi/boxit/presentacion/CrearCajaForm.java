@@ -54,6 +54,7 @@ public class CrearCajaForm extends AppCompatActivity {
     private ArrayList<UserInfo> amigos;
     private ArrayList<String> colaboradores = new ArrayList<>();
     private UsersAdapter adapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +105,16 @@ public class CrearCajaForm extends AppCompatActivity {
             }
         });
 
+
+        //Si viene con datos de diseño
+        BoxInfo boxDising = getIntent().getParcelableExtra("DisingData");
+        if(boxDising != null) setData(boxDising);
+
+        //Si es un update
+        boolean isCrear = getIntent().getBooleanExtra("Crear", true);
+
         //COLABORADORES
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
+        recyclerView = findViewById(R.id.recycler_view_friends);
         recyclerView.setVisibility(View.GONE);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -136,13 +145,20 @@ public class CrearCajaForm extends AppCompatActivity {
                         }
                     }
                 });
+
+                if(boxDising != null && !boxDising.getColaborators().isEmpty()){
+                    //recargamos el adapter para q salgan esoso colaboradores
+                    adapter = new UsersAdapter();
+                    adapter.setPreData(boxDising.getColaborators());
+                    adapter.setUserData(amigos);//los amigos cargados antes
+                    recyclerView.setAdapter(adapter);
+                }
             }
         });
 
-
-
-        //CREAR
+        //CREAR / ACTUALIZAR
         btnCrear = findViewById(R.id.CrearCajaBTN);
+        if(!isCrear) btnCrear.setText(getString(R.string.guardar));
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,7 +174,6 @@ public class CrearCajaForm extends AppCompatActivity {
                         selectedImage = Uri.parse("android.resource://" + packageName + "/drawable/default_image");
                     }
 
-
                     BoxInfo box = new BoxInfo("a",nombreCajaInput.getText().toString(), selectedImage);
 
                     //cogemos los colaboradores si los hay
@@ -168,28 +183,42 @@ public class CrearCajaForm extends AppCompatActivity {
                         box.setCollaborators(colaboradores);
                     }
 
-                    saBox.createBox(box, new Callbacks() {
-                        @Override
-                        public void onCallbackExito(Boolean exito) {
-                            if(exito){
-                                Context ctx = v.getContext();
-                                Intent intent = new Intent(ctx, Caja.class);
-                                intent.putExtra("boxInfo", box);
-                                ctx.startActivity(intent);
+                    if(isCrear){
+                        saBox.createBox(box, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Context ctx = v.getContext();
+                                    Intent intent = new Intent(ctx, Caja.class);
+                                    intent.putExtra("boxInfo", box);
+                                    ctx.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(CrearCajaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(CrearCajaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                    else{
+                        box.setId(boxDising.getId());
+                        saBox.updateBox(box, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Context ctx = v.getContext();
+                                    Intent intent = new Intent(ctx, Caja.class);
+                                    intent.putExtra("boxInfo", box);
+                                    ctx.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(CrearCajaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
-
-        //Si viene con datos
-        BoxInfo boxDising = getIntent().getParcelableExtra("DisingData");
-        if(boxDising != null) setData(boxDising);
-
 
     }
     @Override
@@ -218,7 +247,6 @@ public class CrearCajaForm extends AppCompatActivity {
                     .transform(new CenterCrop(), new RoundedCorners(5000))
                     .into(ellipse);
             selectedImage = boxDising.getImg();
-
         }
     }
 }

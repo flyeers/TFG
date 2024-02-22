@@ -166,7 +166,86 @@ public class DAOBox {
         }
     }
 
+    public void updateBox(BoxInfo b, Callbacks cb){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+        DAOUsuario daoUsuario = new DAOUsuario();
 
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_BOX).document(b.getId());
+        boxDocument.update(NOMBRE, b.getTitle());
+
+
+        //TODO -> AÑADIR EL ACTUALIZAR LA FOTO
+        //COLABORADORES
+        if(!b.getColaborators().isEmpty()){
+            boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot ds = task.getResult();
+                        if(ds.exists()){
+                            ArrayList<String> preColab = (ArrayList<String>) ds.get(COLABORADORES);
+                            if(preColab.isEmpty()){
+                                //si era vacio cambio la caja de lista en el currentUser
+                                daoUsuario.boxPropToComp(currentUser.getEmail(), b.getId(), new Callbacks() {
+                                    @Override
+                                    public void onCallbackExito(Boolean exito) {
+                                        for (String correo: b.getColaborators()) {
+                                            if(!preColab.contains(currentUser.getEmail())){//me aseguro de no volve a meter al current
+                                                usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot d : task.getResult()) {
+                                                            String userId = d.getId();
+                                                            usersCollection.document(userId).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(b.getId()));
+                                                        }
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        //actualizo la lista de colaboradores de la caja
+                                        boxDocument.update(COLABORADORES, b.getColaborators());
+                                        cb.onCallbackExito(true);
+                                    }
+                                });
+                            }
+                            else if(preColab.size() == b.getColaborators().size()){
+                                //Si el size es igual no se han añadido más colaborades
+                                cb.onCallbackExito(true);
+                            }
+                            else{
+                                //Meto todos los q no estaban ya
+                                for (String correo: b.getColaborators()) {
+                                    if(!preColab.contains(correo)){
+                                        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task2 -> {
+                                            if (task2.isSuccessful()) {
+                                                for (QueryDocumentSnapshot d : task2.getResult()) {
+                                                    String userId = d.getId();
+                                                    usersCollection.document(userId).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(b.getId()));
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                //actualizo la lista de colaboradores de la caja
+                                boxDocument.update(COLABORADORES, b.getColaborators());
+                                cb.onCallbackExito(true);
+                            }
+                        }
+                        else{
+                            cb.onCallbackExito(false);
+                        }
+                    }
+                    else{
+                        cb.onCallbackExito(false);
+                    }
+                }
+            });
+        }
+        else{
+            cb.onCallbackExito(true);
+        }
+    }
 
     public void getBoxById(String id, Callbacks callBacks){
 

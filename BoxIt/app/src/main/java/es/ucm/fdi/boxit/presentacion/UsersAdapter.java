@@ -37,6 +37,9 @@ public class UsersAdapter extends RecyclerView.Adapter{
     public void setUserData(List<UserInfo> data){
         this.usersData = (ArrayList<UserInfo>) data;
     }
+    public void setPreData(ArrayList<String> colaborators) {
+        this.colaboradores = colaborators;
+    }
     public ArrayList<String> getData(){
         return colaboradores;
     }
@@ -74,27 +77,33 @@ public class UsersAdapter extends RecyclerView.Adapter{
                 });
 
 
-        h.imgOver.setVisibility(View.GONE);
-        h.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(h.imgOver.getVisibility() == View.GONE){
-                    h.imgOver.setVisibility(View.VISIBLE);
-                    colaboradores.add(u.getCorreo());
-                }
-                else{
-                    h.imgOver.setVisibility(View.GONE);
-                    colaboradores.remove(u.getCorreo());
-                }
+        //si no era colaborador de inicio
+        if(colaboradores.isEmpty() || !colaboradores.contains(u.getCorreo())){
+            h.imgOver.setVisibility(View.GONE);
+            h.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(h.imgOver.getVisibility() == View.GONE){
+                        h.imgOver.setVisibility(View.VISIBLE);
+                        colaboradores.add(u.getCorreo());
+                    }
+                    else{
+                        h.imgOver.setVisibility(View.GONE);
+                        colaboradores.remove(u.getCorreo());
+                    }
 
-            }
-        });
+                }
+            });
+        }
+
+
     }
 
     @Override
     public int getItemCount() {
         return usersData != null ? usersData.size() : 0;
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nombre;

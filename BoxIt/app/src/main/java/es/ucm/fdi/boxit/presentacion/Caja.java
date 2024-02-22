@@ -122,44 +122,69 @@ public class Caja extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialogConfirm = new Dialog(ctx);
-                dialogConfirm.setContentView(R.layout.eliminar_confirm);
-                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
-                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
-
-                cancelar.setOnClickListener(new View.OnClickListener() {
+                Context ctx = v.getContext();
+                ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(ctx, R.style.EstiloMenu);
+                PopupMenu popup = new PopupMenu(contextThemeWrapper, v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.edit_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        dialogConfirm.dismiss();
+                    public boolean onMenuItemClick(MenuItem item) {
 
-                    }
-                });
+                        int id = item.getItemId();
+                        if(id == R.id.editElem){
+                            Context ctx = v.getContext();
+                            Intent intent = new Intent(ctx, CrearCajaForm.class);
+                            intent.putExtra("DisingData", boxInfo);
+                            intent.putExtra("Crear", false);
+                            ctx.startActivity(intent);
+                            return true;
+                        }
+                        else if(id == R.id.deleteElem){
+                            Dialog dialogConfirm = new Dialog(ctx);
+                            dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                            Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                            Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
 
-                confirmar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SABox saBox = new SABox();
-                        saBox.deleteBox(boxInfo.getId(), boxInfo.getTitle(), true, new Callbacks() {
-                            @Override
-                            public void onCallbackExito(Boolean exito) {
-                                if(exito){
-                                    Intent intent1 = new Intent(ctx, MainActivity.class);
-                                    ctx.startActivity(intent1);
-                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                            cancelar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     dialogConfirm.dismiss();
-                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
 
+                                }
+                            });
+
+                            confirmar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SABox saBox = new SABox();
+                                    saBox.deleteBox(boxInfo.getId(), boxInfo.getTitle(), true, new Callbacks() {
+                                        @Override
+                                        public void onCallbackExito(Boolean exito) {
+                                            if(exito){
+                                                Intent intent1 = new Intent(ctx, MainActivity.class);
+                                                ctx.startActivity(intent1);
+                                                Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                            }
+                                            else{
+                                                dialogConfirm.dismiss();
+                                                Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+                                }
+                            });
+
+                            dialogConfirm.show();
+                        }
+                        return false;
                     }
                 });
-
-                dialogConfirm.show();
+                popup.show();
             }
         });
+
 
         if(!boxInfo.getColaborators().isEmpty()){
             exit.setVisibility(View.VISIBLE);

@@ -19,6 +19,11 @@ public class SABox {
         dao.getBoxById(id, cb);
     }
 
+    public void updateBox(BoxInfo b, Callbacks cb) {
+        DAOBox dao = new DAOBox();
+        dao.updateBox(b, cb);
+    }
+
     public void addPhotos( BoxInfo b, String img, boolean isBox, Callbacks cb){
         DAOBox dao = new DAOBox();
         dao.addPhotos(b, img, isBox, cb);
