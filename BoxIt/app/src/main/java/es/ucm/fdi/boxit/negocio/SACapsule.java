@@ -18,6 +18,11 @@ public class SACapsule {
         dao.getCapsuleById(id, cb);
     }
 
+    public void updateCap(CapsuleInfo c, Callbacks cb) {
+        DAOCapsule dao = new DAOCapsule();
+        dao.updateCap(c, cb);
+    }
+
     public void exitCapsule(String id, Callbacks cb) {
         DAOCapsule dao = new DAOCapsule();
         dao.exitCapsule(id, cb);

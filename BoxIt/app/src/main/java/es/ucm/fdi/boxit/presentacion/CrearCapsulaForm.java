@@ -238,6 +238,13 @@ public class CrearCapsulaForm extends AppCompatActivity {
             }
         });
 
+        //Si viene con datos
+        CapsuleInfo capDising = getIntent().getParcelableExtra("DisingData");
+        if(capDising != null) setData(capDising);
+
+        //Si es un update
+        boolean isCrear = getIntent().getBooleanExtra("Crear", true);
+
         //COLABORADORES
         RecyclerView recyclerView = findViewById(R.id.recycler_view_friends);
         recyclerView.setVisibility(View.GONE);
@@ -270,12 +277,21 @@ public class CrearCapsulaForm extends AppCompatActivity {
                         }
                     }
                 });
+
+                if(capDising != null && !capDising.getColaborators().isEmpty()){
+                    //recargamos el adapter para q salgan esoso colaboradores
+                    adapter = new UsersAdapter();
+                    adapter.setPreData(capDising.getColaborators());
+                    adapter.setUserData(amigos);//los amigos cargados antes
+                    recyclerView.setAdapter(adapter);
+                }
             }
         });
 
 
-        //CREAR
+        //CREAR / ACTUALIZAR
         btnCrear = findViewById(R.id.CrearCapBTN);
+        if(!isCrear) btnCrear.setText(getString(R.string.guardar));
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,32 +322,47 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     //cogemos los colaboradores si los hay
                     colaboradores = adapter.getData();
                     if(!colaboradores.isEmpty()) {
-                        //colaboradores.add(currentUser.getEmail());
+                        colaboradores.add(currentUser.getEmail());
                         cap.setCollaborators(colaboradores);
                     }
 
                     SACapsule saCapsule = new SACapsule();
-                    saCapsule.createCapsule(cap, new Callbacks() {
-                        @Override
-                        public void onCallbackExito(Boolean exito) {
-                            if(exito){
-                                Context ctx = v.getContext();
-                                Intent intent = new Intent(ctx, Capsula.class);
-                                intent.putExtra("capsuleInfo", cap);
-                                ctx.startActivity(intent);
+                    if(isCrear){
+                        saCapsule.createCapsule(cap, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Context ctx = v.getContext();
+                                    Intent intent = new Intent(ctx, Capsula.class);
+                                    intent.putExtra("capsuleInfo", cap);
+                                    ctx.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(CrearCapsulaForm.this, R.string.errCrearCap, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(CrearCapsulaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                    else{
+                        cap.setId(capDising.getId());
+                        saCapsule.updateCap(cap, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    Context ctx = v.getContext();
+                                    Intent intent = new Intent(ctx, Caja.class);
+                                    intent.putExtra("boxInfo", cap);
+                                    ctx.startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(CrearCapsulaForm.this, R.string.errUpdate, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
-
-        //Si viene con datos
-        CapsuleInfo capDising = getIntent().getParcelableExtra("DisingData");
-        if(capDising != null) setData(capDising);
 
     }
 

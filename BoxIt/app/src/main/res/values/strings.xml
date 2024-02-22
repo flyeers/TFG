@@ -58,6 +58,9 @@
     <string name="tiempoCerrado">La capsula estará cerrada durante </string>
     <string name="dias">dias</string>
     <string name="abiertaPermanente">Permanentemente abierta </string>
+    <string name="errCrearCap">No se ha podido crear la capsula</string>
+    <string name="errUpdate">No se ha podido actualizar</string>
+
 
     <!--Ver all-->
     <string name="cajas">Cajas</string>

@@ -59,6 +59,8 @@
     <string name="tiempoCerrado">The capsule remains closed for </string>
     <string name="dias">days</string>
     <string name="abiertaPermanente">Permanently open</string>
+    <string name="errCrearCap">The capsule could not be created</string>
+    <string name="errUpdate">Failed to update</string>
 
 
     <!--Ver all-->
