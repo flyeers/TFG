@@ -87,9 +87,9 @@ public class SABox {
     }
 
 
-    public void deleteBox(String id, String boxName, boolean isBox, Callbacks cb){
+    public void deleteBox(BoxInfo boxinfo, boolean isBox, Callbacks cb){
         DAOBox daoBox = new DAOBox();
-        daoBox.deleteBox(id,boxName, isBox, cb);
+        daoBox.deleteBox(boxinfo, isBox, cb);
     }
 
     public void exitBox(String id, Callbacks cb) {

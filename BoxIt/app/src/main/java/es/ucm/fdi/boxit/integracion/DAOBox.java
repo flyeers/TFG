@@ -648,7 +648,7 @@ public class DAOBox {
 
     }
 
-    public void deleteBox(String id, String boxName, boolean isBox, Callbacks cb){
+    public void deleteBox(BoxInfo boxInfo, boolean isBox, Callbacks cb){
 
         String COL = isBox ? COL_BOX : COL_CAP;
         String DOC = isBox ? DOCS : DOCS_CAP;
@@ -657,10 +657,7 @@ public class DAOBox {
         String ELEM_COMP = isBox ? CAJAS_COMPARTIDAS : CAPSULAS_COMPARTIDAS;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference boxDoc = db.collection(COL).document(id);
-
-        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
-
+        DocumentReference boxDoc = db.collection(COL).document(boxInfo.getId());
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
         //acceder a las boxes de mi user actual y eliminar del array el id de la caja
@@ -712,17 +709,40 @@ public class DAOBox {
                                     }
                                     List<String> docs = (List<String>) document.get(DOC);
                                     if (docs != null) {
-                                        // TODO Para cada doc de la caja hay que eliminarla del storage
+                                        // Para cada doc de la caja hay que eliminarla del storage
                                         for (String doc : docs) {
-                                            // TODO Para cada docuemnto de la caja hay que eliminarla del storage
-                                            Log.d("CLAU", "Doc");
+                                            Log.d("CLAU", "Borrado de lista");
+                                            FirebaseStorage imageStorage = new FirebaseStorage();
+
+                                            int startIndex = doc.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                                            int endIndex = doc.indexOf(".pdf");
+                                            String res = doc.substring(startIndex, endIndex);
+
+                                            StorageReference fileReference = imageStorage.getStorageRef().child(res + ".pdf");
+
+                                            // Delete the file
+                                            fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("CLAU", "Borrado del storage");
+                                                    cb.onCallbackExito(true);
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Uh-oh, an error occurred!
+                                                    Log.d("CLAU", "Borrado del storage MAL");
+                                                    cb.onCallbackExito(false);
+                                                }
+                                            });
 
                                         }
                                     }
 
 
                                     //BORRAMOS LA IMAGEN DE PORTADA:
-                                    String idCover = String.format("%s-%s-%s", boxName, mAuth.getCurrentUser().getEmail(), "cover").replace("", "");
+                                    String idCover = String.format("%s-%s-%s", boxInfo.getTitle(), mAuth.getCurrentUser().getEmail(), "cover").replace("", "");
                                     FirebaseStorage imageStorage2 = new FirebaseStorage();
                                     StorageReference fileReference2 = imageStorage2.getStorageRef().child(idCover + ".png");
 
@@ -750,15 +770,8 @@ public class DAOBox {
                     });
 
 
-                    String userID = d.getId();
-                    DocumentReference userRef = usersCollection.document(userID);
-                    List<String> boxes = (List<String>) d.get(ELEM_PROP);
-                    if (boxes != null) {
-                        boxes.remove(id);
-                        //actualizamos la coleccion de cajas propias del usuario
-
-                        userRef.update(ELEM_PROP, boxes)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    if(boxInfo.getColaborators().isEmpty()){//No hay colaboradores, solo el current user
+                        usersCollection.document(mAuth.getUid()).update(ELEM_PROP, FieldValue.arrayRemove(boxInfo.getId())).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         //eliminado del array de cajas del usuario
@@ -785,12 +798,49 @@ public class DAOBox {
                                         cb.onCallbackExito(false);
                                     }
                                 });
-
-
-                    } else {
-                        cb.onCallbackExito(false);
                     }
+                    else {
+                        usersCollection.document(mAuth.getUid()).update(ELEM_COMP, FieldValue.arrayRemove(boxInfo.getId())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //eliminado del array de cajas del usuario
 
+                                    // Ahora se elimina la caja en si
+                                    boxDoc.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            for (String correo: boxInfo.getColaborators()) {
+                                                if(!correo.equals(mAuth.getCurrentUser().getEmail())) {
+                                                    usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task2 -> {
+                                                        if (task2.isSuccessful()) {
+                                                            for (QueryDocumentSnapshot d2 : task2.getResult()) {
+                                                                String userId = d2.getId();
+                                                                usersCollection.document(userId).update(ELEM_COMP, FieldValue.arrayRemove(boxInfo.getId()));
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            cb.onCallbackExito(true);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            cb.onCallbackExito(false);
+                                        }
+                                    });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //error al eliminar del array de cajas del usuario
+                                    cb.onCallbackExito(false);
+                                }
+                            });
+
+
+                    }
                 }
             }
 

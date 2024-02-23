@@ -158,7 +158,7 @@ public class Caja extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     SABox saBox = new SABox();
-                                    saBox.deleteBox(boxInfo.getId(), boxInfo.getTitle(), true, new Callbacks() {
+                                    saBox.deleteBox(boxInfo, true, new Callbacks() {
                                         @Override
                                         public void onCallbackExito(Boolean exito) {
                                             if(exito){

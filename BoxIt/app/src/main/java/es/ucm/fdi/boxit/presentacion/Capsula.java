@@ -164,7 +164,7 @@ public class Capsula extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     SABox saBox = new SABox();
-                                    saBox.deleteBox(capsuleInfo.getId(), capsuleInfo.getTitle(), false, new Callbacks() {
+                                    saBox.deleteBox(capsuleInfo, false, new Callbacks() {
                                         @Override
                                         public void onCallbackExito(Boolean exito) {
                                             if(exito){
