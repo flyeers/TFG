@@ -6,54 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".presentacion.Registro">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/fondoClaro">
-
-
-    <TextView
-        android:id="@+id/nombre_logo"
-        android:layout_width="177dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="90dp"
-        android:layout_marginRight="120dp"
-        android:fontFamily="@font/interbold"
-        android:gravity="top"
-        android:text="NOMBRE/LOGO"
-        android:textColor="@color/textoOscuro"
-        android:textAppearance="@style/Logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="240dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@drawable/icon_boxit_text" />
+
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_gravity="center"
                 android:fontFamily="@font/interbold"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="@string/crearCuenta"
-                android:textColor="@color/textoOscuro"
-                android:textAppearance="@style/Logo" />
+                android:textAppearance="@style/Logo"
+                android:textColor="@color/textoOscuro" />
 
             <ImageButton
                 android:id="@+id/addfotoperfil"
+                style="@style/ImagenRedondeada"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
-                android:scaleType="centerCrop"
                 android:backgroundTint="#00FFFFFF"
-                style="@style/ImagenRedondeada"
+                android:scaleType="centerCrop"
 
                 app:srcCompat="@drawable/user_pordefecto2" />
 
@@ -67,17 +58,17 @@
                 <EditText
                     android:id="@+id/reg_email"
                     style="@style/Formulario"
-                    android:inputType="textEmailAddress"
                     android:fontFamily="@font/interregular"
                     android:hint="@string/email"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="@color/textoOscuro" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_nombrePers_lay"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/reg_nombrePers"
@@ -89,9 +80,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_nombre_lay"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/reg_nombre"
@@ -103,9 +94,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_contrasenya_lay"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/reg_crear_contrasenya"
@@ -126,14 +117,14 @@
                 android:layout_marginLeft="55dp"
                 android:layout_marginRight="55dp"
                 android:fontFamily="@font/interregular"
-                android:textSize="11dp"
-                android:text="@string/patronContraseña" />
+                android:text="@string/patronContraseña"
+                android:textSize="11dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reg_confirmar_contrasenya_lay"
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <EditText
                     android:id="@+id/reg_confirmar_contrasenya"
@@ -170,8 +161,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -187,14 +178,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:clickable="true"
                     android:fontFamily="@font/interbold"
                     android:text="@string/entra"
-                    android:textColor="@color/textoOscuro"
-                    android:clickable="true"
-                    />
+                    android:textColor="@color/textoOscuro" />
             </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

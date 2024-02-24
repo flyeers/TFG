@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,20 +11,13 @@
         android:background="@color/fondoClaro">
 
 
-        <TextView
-            android:id="@+id/nombre_logo"
-            android:layout_width="177dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="120dp"
-            android:fontFamily="@font/interbold"
-            android:gravity="top"
-            android:text="NOMBRE/LOGO"
-            android:textColor="@color/textoOscuro"
-            android:textAppearance="@style/Logo" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            app:srcCompat="@drawable/icon_boxit_redondeado" />
 
         <EditText
             style="@style/Formulario"
@@ -60,44 +54,47 @@
             android:text="@string/botonLogin" />
 
 
-
-
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="380dp"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="230dp"
-            android:background="@color/rosaBoton" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
-            android:orientation="horizontal">
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="360dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/rosaBoton" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
-                android:text="@string/noTienesCuenta"
-                android:textColor="@color/textoOscuro" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="10dp"
 
-            <TextView
-                android:id="@+id/registrateBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/interbold"
-                android:text="@string/regis"
-                android:textColor="@color/textoOscuro"
-                android:clickable="true"
-                />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/noTienesCuenta"
+                    android:textColor="@color/textoOscuro" />
+
+                <TextView
+                    android:id="@+id/registrateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="true"
+                    android:fontFamily="@font/interbold"
+                    android:text="@string/regis"
+                    android:textColor="@color/textoOscuro" />
+            </LinearLayout>
         </LinearLayout>
 
 
