@@ -60,6 +60,10 @@ public class BoxInfo implements Parcelable {
     }
 
     public void setId(String id){this.id = id;}
+
+    public void setImg(Uri img) {
+        this.img = img;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -73,4 +77,5 @@ public class BoxInfo implements Parcelable {
         dest.writeStringList(collaborators);
         dest.writeString(id);
     }
+
 }

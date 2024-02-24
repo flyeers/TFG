@@ -89,7 +89,7 @@ public class DAOBox {
 
             //IMG
 
-            String idImg = String.format("%s-%s-%s", b.getTitle(), user.getEmail().toString(), "cover").replace("", "");
+            String idImg = String.format("%s-%s", b.getTitle(), "cover").replace("", "");
 
             FirebaseStorage imageStorage = new FirebaseStorage();
             StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
@@ -101,6 +101,7 @@ public class DAOBox {
 
                             //guardamos la de la img ruta en la propia caja
                             data.put(PORTADA, uri.toString());
+                            b.setImg(uri);
 
                             //añadimos la caja a la colleccion de cajas
                             Task<Void> boxesCollectionTask = boxCollection.add(data).continueWithTask(new Continuation<DocumentReference, Task<Void>>() {
@@ -636,15 +637,28 @@ public class DAOBox {
         String NOT = isBox ? NOTAS : NOTAS_CAP;
 
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
-        try {
-            boxDocument.update(NOT, FieldValue.arrayRemove(idNoteOld));
-            boxDocument.update(NOT, FieldValue.arrayUnion(idNoteNew));
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ArrayList<String> arrayNotes = (ArrayList<String>) document.get(NOT);
+                        if (arrayNotes != null) {
+                            int pos = arrayNotes.indexOf(idNoteOld);
+                            arrayNotes.set(pos, idNoteNew);
+                            boxDocument.update(NOT, arrayNotes);
 
-            cb.onCallbackExito(true);
-
-        } catch (Exception e) {
-            cb.onCallbackExito(false);
-        }
+                            cb.onCallbackExito(true);
+                        }
+                    } else {
+                        cb.onCallbackExito(false);
+                    }
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
 
     }
 
@@ -740,11 +754,12 @@ public class DAOBox {
                                         }
                                     }
 
+                                    int startIndex = boxInfo.getImg().toString().indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
+                                    int endIndex = boxInfo.getImg().toString().indexOf(".png");
+                                    String res = boxInfo.getImg().toString().substring(startIndex, endIndex);
 
-                                    //BORRAMOS LA IMAGEN DE PORTADA:
-                                    String idCover = String.format("%s-%s-%s", boxInfo.getTitle(), mAuth.getCurrentUser().getEmail(), "cover").replace("", "");
                                     FirebaseStorage imageStorage2 = new FirebaseStorage();
-                                    StorageReference fileReference2 = imageStorage2.getStorageRef().child(idCover + ".png");
+                                    StorageReference fileReference2 = imageStorage2.getStorageRef().child(res + ".png");
 
                                     // Delete the file
                                     fileReference2.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
