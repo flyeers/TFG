@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_boxit"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BoxIt"
+        android:theme="@style/Base.Theme.BoxIt"
         tools:targetApi="31">
         <activity
             android:name=".presentacion.Caja"

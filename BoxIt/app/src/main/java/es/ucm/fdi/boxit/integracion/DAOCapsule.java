@@ -77,7 +77,7 @@ public class DAOCapsule {
 
             //IMG
             int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-            String idImg = String.format("%s-%s-%s", c.getTitle(), random, user.getEmail().toString()).replace("", "");
+            String idImg = String.format("%s-%s-%s", c.getTitle(), random, "cover").replace("", "");
 
             FirebaseStorage imageStorage = new FirebaseStorage();
             StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
@@ -164,7 +164,58 @@ public class DAOCapsule {
         boxDocument.update(APERTURA, c.getCierre());
         boxDocument.update(CIERRE, c.getApertura());
 
-        //TODO -> AÑADIR EL ACTUALIZAR LA FOTO
+        //COVER
+        boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot ds = task.getResult();
+                    if(ds.exists()){
+                        String oldImg = ds.get(PORTADA).toString();
+                        if(!oldImg.equals(c.getImg().toString())){//CAMBIO DE FOTO
+                            int startIndex = oldImg.indexOf("/o/") + 3;
+                            int endIndex = oldImg.indexOf(".png");
+
+                            String res = oldImg.substring(startIndex, endIndex);
+                            FirebaseStorage imageStorage = new FirebaseStorage();
+                            StorageReference fileReference = imageStorage.getStorageRef().child(res + ".png");
+
+                            // Delete the file
+                            fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    //IMG
+                                    int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
+                                    String idImg = String.format("%s-%s-%s", c.getTitle(), random, "cover").replace("", "");
+                                    FirebaseStorage imageStorage = new FirebaseStorage();
+                                    StorageReference fileReference = imageStorage.getStorageRef().child(idImg + ".png");
+
+                                    fileReference.putFile(c.getImg()).addOnSuccessListener(taskSnapshot -> {
+
+                                        fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                            //guardamos la de la nueva en la propia caja
+                                            boxDocument.update(PORTADA, uri.toString());
+                                            c.setImg(uri);
+                                        });
+                                    });
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    cb.onCallbackExito(false);
+                                }
+                            });
+
+                        }
+                    }
+                }
+            }
+
+        });
+
         //COLABORADORES
         if(!c.getColaborators().isEmpty()){
             boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

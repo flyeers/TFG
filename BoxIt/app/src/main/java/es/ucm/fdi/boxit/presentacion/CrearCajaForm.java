@@ -221,7 +221,7 @@ public class CrearCajaForm extends AppCompatActivity {
                                     ctx.startActivity(intent);
                                 }
                                 else{
-                                    Toast.makeText(CrearCajaForm.this, R.string.errCrearCaja, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CrearCajaForm.this, R.string.errUpdate, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
