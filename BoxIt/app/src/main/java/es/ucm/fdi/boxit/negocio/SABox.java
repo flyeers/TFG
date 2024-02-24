@@ -97,4 +97,9 @@ public class SABox {
         dao.exitBox(id, cb);
     }
 
+    public void addSong(String id, String song, String artist, String uriSong, String uriImage, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.addSong(id,song,artist,uriSong,uriImage, cb);
+    }
+
 }

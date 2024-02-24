@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.types.Image;
+import com.spotify.protocol.types.ImageUri;
+import com.spotify.protocol.types.Track;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,6 +66,16 @@ public class Capsula extends AppCompatActivity {
 
     private boolean fotoPulsado, docPulsado, notasPulsado;
     private ImageView home, delete, exit;
+
+    private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
+    private static final String REDIRECT_URI = "com.spotify.boxit://callback";
+    private SpotifyAppRemote mSpotifyAppRemote;
+
+    private Track track;
+    private String songTitle, artist, songUri;
+
+    private ImageUri songImage;
+
 
 
     @Override
@@ -467,6 +486,8 @@ public class Capsula extends AppCompatActivity {
                         else if(id == R.id.addMusic){
 
 
+                            conectarSpotify();
+
                             return true;
                         }
                         else if(id == R.id.addDoc){
@@ -689,6 +710,89 @@ public class Capsula extends AppCompatActivity {
             result = uri.getLastPathSegment();
         }
         return result;
+    }
+
+
+
+    private void conectarSpotify(){
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(this, connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.d("CLAU", "Connected! Yay!");
+                        // Now you can start interacting with App Remote
+                        addLastSong();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Toast.makeText(ctx,R.string.errorConect , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addLastSong(){
+
+
+        Dialog dialogAddMusic = new Dialog(ctx);
+        dialogAddMusic.setContentView(R.layout.add_cancion_dialog);
+        Button cancelar = dialogAddMusic.findViewById(R.id.buttonCancelar);
+        Button add = dialogAddMusic.findViewById(R.id.buttonAñadir);
+
+        TextView nombreCancion = dialogAddMusic.findViewById(R.id.ultimaCancion);
+        ImageView cover = dialogAddMusic.findViewById(R.id.coverSong);
+
+        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(playerState -> {
+            // Extrae la información de la canción actual del objeto PlayerState
+            track = playerState.track;
+            songTitle = track.name; // Título de la canción
+            artist = track.artist.name; // Nombre del artista
+            songImage = track.imageUri;
+            songUri = track.uri;
+
+            mSpotifyAppRemote.getImagesApi().getImage(songImage).setResultCallback(
+                    bitmap -> {
+                        cover.setImageBitmap(bitmap);
+
+                    });
+
+
+
+            nombreCancion.setText(songTitle + " - " + artist);
+
+        });
+
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAddMusic.dismiss();
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                mSpotifyAppRemote.getPlayerApi().play(songUri);
+
+                dialogAddMusic.dismiss();
+
+            }
+        });
+
+        dialogAddMusic.show();
+
     }
 
 }

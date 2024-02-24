@@ -909,5 +909,9 @@ public class DAOBox {
         }
     }
 
+    public void addSong(String id, String song, String artist, String uriSong, String uriImage, Callbacks cb){
+        //TODO
+    }
+
 
 }

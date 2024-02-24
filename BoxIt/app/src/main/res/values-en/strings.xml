@@ -129,4 +129,9 @@
     <string name="disTFG">TFG</string>
     <string name="disPrimavera">Primavera</string>
 
+    <!--Música -->
+    <string name="addMusPregunta">Do you want to add your last song listened to on Spotify?</string>
+    <string name="add">Add</string>
+    <string name="errorConect">Something went wrong</string>
+
 </resources>

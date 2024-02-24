@@ -27,4 +27,6 @@ public class SACapsule {
         DAOCapsule dao = new DAOCapsule();
         dao.exitCapsule(id, cb);
     }
+
+
 }

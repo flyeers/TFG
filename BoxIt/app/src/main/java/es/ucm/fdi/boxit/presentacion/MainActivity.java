@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus, pruebaS;
+    Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus;
 
     TextView nombre;
     ImageView perfil;
@@ -297,14 +297,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        pruebaS = findViewById(R.id.spot);
-        pruebaS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ctx, SpotifyActivity.class);
-                ctx.startActivity(intent);
-            }
-        });
+
 
 
     }
