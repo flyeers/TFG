@@ -43,6 +43,8 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             saUser.getCapsules(currentUser.getEmail(), new Callbacks() {
                 @Override
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
+                    Collections.sort(cs, Comparator.comparing(BoxInfo::getTitle).reversed());
                     capsules.addAll(cs);
                     c1.setCapData(capsules, false, true);
                     RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
@@ -148,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
                 @Override
                 public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
+                    Collections.sort(bs, Comparator.comparing(BoxInfo::getTitle).reversed());
                     boxes.addAll(bs);
                     b2.setBoxData(boxes, true, true);
                     RecyclerView recyclerView = findViewById(R.id.recycler_view_box);
@@ -166,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCallbackBoxes(ArrayList<BoxInfo> bs) {
                     if(!bs.isEmpty()){
+                        Collections.sort(bs, Comparator.comparing(BoxInfo::getTitle).reversed());
                         boxesShared.add(boxAdd);
 
                         lShare.setVisibility(View.VISIBLE);
@@ -194,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
                     if(!cs.isEmpty()){
+                        Collections.sort(cs, Comparator.comparing(BoxInfo::getTitle).reversed());
                         capsulesShared.add(capAdd);
 
                         lShareCap.setVisibility(View.VISIBLE);
