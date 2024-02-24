@@ -3,19 +3,16 @@ package es.ucm.fdi.boxit.presentacion;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,12 +24,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import es.ucm.fdi.boxit.R;
@@ -472,7 +464,7 @@ public class Caja extends AppCompatActivity {
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
-                        else if(id == R.id.addAudio){ //TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
+                        else if(id == R.id.addNota){ //TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
 
                             Dialog dialogNote = new Dialog(ctx);
                             dialogNote.setContentView(R.layout.note_preview);

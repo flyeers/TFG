@@ -55,8 +55,7 @@ public class DAOCapsule {
     }
 
     public void createCapsule(CapsuleInfo c, Callbacks cb) {
-        //TODO
-        //docData.put("dateExample", new Timestamp(new Date()));
+
 
         try {
             FirebaseUser user = mAuth.getCurrentUser();
@@ -90,6 +89,7 @@ public class DAOCapsule {
 
                             //guardamos la de la img ruta en la propia caja
                             data.put(PORTADA, uri.toString());
+                            c.setImg(uri);
 
                             //añadimos la caja a la colleccion de cajas
                             Task<Void> capsulesCollectionTask = capsuleCollection.add(data).continueWithTask(new Continuation<DocumentReference, Task<Void>>() {

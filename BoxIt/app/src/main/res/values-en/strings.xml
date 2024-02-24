@@ -120,8 +120,8 @@
     <string name="abandonar">Exit</string>
     <string name="abandonoBien">Exit made</string>
     <string name="abandonoMal">Error exiting</string>
-    <string name="editarBien">The userinfo has been updated</string>
-    <string name="editarMal">Error while updating userinfo</string>
+    <string name="editarBien">Updated successfully</string>
+    <string name="editarMal">Error while updating</string>
 
     <!--Diseños -->
     <string name="disVerano">Summer</string>

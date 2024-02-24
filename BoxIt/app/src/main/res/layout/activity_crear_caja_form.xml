@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ellipse_13"
             style="@style/FondoBase" />
@@ -132,6 +133,22 @@
             android:text="@string/crearCaja"
             android:textColor="@color/rosaFormulario"
             android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/cancelarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/rosaBotonClaro"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:fontFamily="@font/interbold"
+            android:text="@string/cancelar"
+            android:textColor="@color/rosaFormulario"
+            android:textSize="20dp"
+            android:visibility="gone" />
 
 
     </LinearLayout>

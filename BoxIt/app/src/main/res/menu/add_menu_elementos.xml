@@ -17,7 +17,7 @@
         android:id="@+id/addDoc"
         android:title="@string/docs" />
     <item
-        android:id="@+id/addAudio"
-        android:title="@string/audio" />
+        android:id="@+id/addNota"
+        android:title="@string/notas" />
 
 </menu>

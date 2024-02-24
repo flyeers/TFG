@@ -25,11 +25,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.types.Image;
 import com.spotify.protocol.types.ImageUri;
 import com.spotify.protocol.types.Track;
 
@@ -500,7 +498,7 @@ public class Capsula extends AppCompatActivity {
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
-                        else if(id == R.id.addAudio){//TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
+                        else if(id == R.id.addNota){//TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
 
                             Dialog dialogNote = new Dialog(ctx);
                             dialogNote.setContentView(R.layout.note_preview);

@@ -50,7 +50,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
     private TextView nombreCapsulaTitulo, textApertura, textCierre, daysApertura, daysCierre, daysCerrado;
     private NumberPicker diaCierre, mesCierre, añoCierre, diaApertura, mesApertura, añoApertura;
     private LinearLayout btnAddImg, btnAddColaborator, layCierre, layApertura, layTextCierre, layTextApertura;
-    private Button btnCrear, btnSetCierre, btnSetApertura;
+    private Button btnCrear, btnCancelar, btnSetCierre, btnSetApertura;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ArrayList<UserInfo> amigos;
@@ -291,7 +291,17 @@ public class CrearCapsulaForm extends AppCompatActivity {
 
         //CREAR / ACTUALIZAR
         btnCrear = findViewById(R.id.CrearCapBTN);
-        if(!isCrear) btnCrear.setText(getString(R.string.guardar));
+        if(!isCrear){
+            btnCrear.setText(getString(R.string.guardar));
+            btnCancelar = findViewById(R.id.cancelarBtn);
+            btnCancelar.setVisibility(View.VISIBLE);
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,8 +7,8 @@
     tools:context=".presentacion.MainActivity">
 
     <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="798dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,17 +31,17 @@
                 android:text="@string/bienvenida"
                 android:textAppearance="@style/Logo"
                 android:textColor="@color/textoOscuro" />
+
             <TextView
                 android:id="@+id/nombreUsuario"
                 android:layout_width="245dp"
-                android:layout_marginLeft="10dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text=""
                 android:textAppearance="@style/Logo"
                 android:textColor="@color/textoOscuro" />
 
-           
 
             <ImageView
                 android:id="@+id/perfil1"

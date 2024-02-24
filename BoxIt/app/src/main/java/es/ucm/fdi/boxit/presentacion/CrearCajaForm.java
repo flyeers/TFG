@@ -45,7 +45,7 @@ public class CrearCajaForm extends AppCompatActivity {
     private EditText nombreCajaInput;
     private TextView nombreCajaTitulo;
 
-    private Button btnCrear;
+    private Button btnCrear, btnCancelar;
     private LinearLayout btnAddImg, btnAddColaborator;
 
     private ImageView ellipse, home;
@@ -158,7 +158,17 @@ public class CrearCajaForm extends AppCompatActivity {
 
         //CREAR / ACTUALIZAR
         btnCrear = findViewById(R.id.CrearCajaBTN);
-        if(!isCrear) btnCrear.setText(getString(R.string.guardar));
+        if(!isCrear){
+            btnCrear.setText(getString(R.string.guardar));
+            btnCancelar = findViewById(R.id.cancelarBtn);
+            btnCancelar.setVisibility(View.VISIBLE);
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
