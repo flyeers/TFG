@@ -3,6 +3,7 @@ package es.ucm.fdi.boxit.presentacion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -156,7 +157,7 @@ public class VerTodo extends AppCompatActivity {
         });
 
         //Carga info
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         SAUser saUser = new SAUser();
         saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
             @Override
@@ -192,7 +193,49 @@ public class VerTodo extends AppCompatActivity {
                     }
                 });
             }
+        });*/
+        //Carga info
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        SAUser saUser = new SAUser();
+        saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
+            @Override
+            public void onCallbackBoxes(ArrayList<BoxInfo> boxes) {
+                allBoxes.addAll(boxes);
+            }
         });
+        saUser.getBoxesCompartidas(currentUser.getEmail(), new Callbacks() {
+            @Override
+            public void onCallbackBoxes(ArrayList<BoxInfo> boxes) {
+                allBoxes.addAll(boxes);
+            }
+        });
+
+        saUser.getCapsules(currentUser.getEmail(), new Callbacks() {
+            @Override
+            public void onCallbackCapsules(ArrayList<CapsuleInfo> capsules) {
+                allCapsules.addAll(capsules);
+            }
+        });
+        saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
+            @Override
+            public void onCallbackCapsules(ArrayList<CapsuleInfo> capsules) {
+                allCapsules.addAll(capsules);
+            }
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Collections.sort(allBoxes, Comparator.comparing(BoxInfo::getTitle));
+                BoxAdapter b = new BoxAdapter();
+                b.setBoxData(allBoxes, true, false);
+                recyclerBox.setAdapter(b);
+
+                Collections.sort(allCapsules, Comparator.comparing(CapsuleInfo::getTitle));
+                CapAdapter c = new CapAdapter();
+                c.setCapData(allCapsules, true, false);
+                recyclerCap.setAdapter(c);            }
+        }, 1000);
 
     }
 }

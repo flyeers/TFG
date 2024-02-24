@@ -404,6 +404,10 @@ public class CrearCapsulaForm extends AppCompatActivity {
         Long d = apertura.getTime() - cd.getTime();
         daysApertura.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
 
+        diaApertura.setValue(a.get(Calendar.DAY_OF_MONTH));
+        mesApertura.setValue(a.get(Calendar.MONTH));
+        añoApertura.setValue(a.get(Calendar.YEAR));
+
         //Cierre
         cierre = capDising.getCierre();
         Calendar c = new GregorianCalendar();
@@ -412,6 +416,10 @@ public class CrearCapsulaForm extends AppCompatActivity {
         textCierre.setText(c.get(Calendar.DAY_OF_MONTH)+"/"+ meses[c.get(Calendar.MONTH)]+"/"+c.get(Calendar.YEAR));
         d = cierre.getTime() - cd.getTime();
         daysCierre.setText(TimeUnit.MILLISECONDS.toDays(d) + " ");
+
+        diaCierre.setValue(c.get(Calendar.DAY_OF_MONTH));
+        mesCierre.setValue(c.get(Calendar.MONTH));
+        añoCierre.setValue(c.get(Calendar.YEAR));
 
         d = apertura.getTime() -  cierre.getTime();
         daysCerrado.setText(getString(R.string.tiempoCerrado)+" "+ TimeUnit.MILLISECONDS.toDays(d) +" "+ getString(R.string.dias));
