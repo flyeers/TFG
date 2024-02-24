@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +30,15 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
+
+
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
@@ -43,10 +53,13 @@ import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
+
 public class MainActivity extends AppCompatActivity {
 
 
-    Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus;
+
+
+    Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus, pruebaS;
 
     TextView nombre;
     ImageView perfil;
@@ -278,7 +291,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        pruebaS = findViewById(R.id.spot);
+        pruebaS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, SpotifyActivity.class);
+                ctx.startActivity(intent);
+            }
+        });
 
 
     }
+
+
+
+
+
+
 }

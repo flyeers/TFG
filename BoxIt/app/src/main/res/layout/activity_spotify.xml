@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentacion.SpotifyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/search_track"
+            android:layout_width="301dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/fondoCards"
+            android:backgroundTint="@color/fondoCards" >
+
+        </EditText>
+
+        <Button
+            android:id="@+id/buttonB"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Buscar" />
+
+        <TextView
+            android:id="@+id/resultados"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:textColor="@color/textoOscuro"
+            android:background="@color/fondoAdd"
+            android:layout_gravity="center"
+            >
+
+        </TextView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
