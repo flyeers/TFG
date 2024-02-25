@@ -106,11 +106,11 @@ public class CapAdapter extends RecyclerView.Adapter{
         switch (holder.getItemViewType()) {
             case ADD_CARD:
                 CapAdapter.AddViewHolder h2 = (CapAdapter.AddViewHolder) holder;
-                if(small){
+                if(!small){
 
                     ViewGroup.LayoutParams layoutParams = h2.addCard.getLayoutParams();
-                    layoutParams.height = (int) (layoutParams.height * 0.8);
-                    layoutParams.width = (int) (layoutParams.width * 0.8);
+                    layoutParams.height = (int) (layoutParams.height / 0.8);
+                    layoutParams.width = (int) (layoutParams.width / 0.8);
                     h2.addCard.setLayoutParams(layoutParams);
 
                     h2.addCard.setOnClickListener(new View.OnClickListener() {
@@ -143,14 +143,14 @@ public class CapAdapter extends RecyclerView.Adapter{
                 break;
             case NORMAL_CARD:
                 CapAdapter.ViewHolder h1 = (CapAdapter.ViewHolder) holder;
-                if (small) {
+                if (!small) {
                     ViewGroup.LayoutParams layoutParams = h1.cardView.getLayoutParams();
-                    layoutParams.height = (int) (layoutParams.height * 0.8);
-                    layoutParams.width = (int) (layoutParams.width * 0.8);
+                    layoutParams.height = (int) (layoutParams.height / 0.8);
+                    layoutParams.width = (int) (layoutParams.width / 0.8);
                     h1.cardView.setLayoutParams(layoutParams);
 
                     ViewGroup.LayoutParams layoutParams2 = h1.imagen.getLayoutParams();
-                    layoutParams2.height = (int) (layoutParams2.height * 0.8);
+                    layoutParams2.height = (int) (layoutParams2.height / 0.8);
                     h1.imagen.setLayoutParams(layoutParams2);
                 }
 

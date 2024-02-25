@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -37,14 +41,21 @@ import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 import es.ucm.fdi.boxit.negocio.SAUser;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class VerTodo extends AppCompatActivity {
 
     private RecyclerView recyclerBox, recyclerCap;
     private TextView cap, box;
-    Button plus;
+    private Button plus;
+    private LinearLayout layBox, layCap;
+    private SearchView sBox, sCap;
+    private BoxAdapter b;
+    private CapAdapter c;
     private ArrayList<BoxInfo> allBoxes;
+    private List<BoxInfo> resBoxes;
     private ArrayList<CapsuleInfo> allCapsules;
+    private List<CapsuleInfo> resCapsules;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,19 +67,31 @@ public class VerTodo extends AppCompatActivity {
 
         allBoxes = new ArrayList<>();
         allCapsules = new ArrayList<>();
+        resBoxes = new ArrayList<>();
+        resCapsules = new ArrayList<>();
 
         recyclerBox = findViewById(R.id.reclyclerViewBox);
         recyclerCap = findViewById(R.id.reclyclerViewCap);
+        layBox = findViewById(R.id.layBox);
+        layCap = findViewById(R.id.layCap);
+
+        b = new BoxAdapter();
+        c = new CapAdapter();
+
+
+        sBox = findViewById(R.id.search_box);
+        sCap = findViewById(R.id.search_cap);
+
         boolean isBox = getIntent().getBooleanExtra("isBox", false);
 
         //Preparacion inicial
         if(isBox){
-            recyclerCap.setVisibility(View.GONE);
+            layCap.setVisibility(View.GONE);
             box.setTextColor(getResources().getColor(R.color.rosaBoton));
             cap.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
         }
         else{
-            recyclerBox.setVisibility(View.GONE);
+            layBox.setVisibility(View.GONE);
             cap.setTextColor(getResources().getColor(R.color.rosaBoton));
             box.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
         }
@@ -77,9 +100,9 @@ public class VerTodo extends AppCompatActivity {
         box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(recyclerBox.getVisibility() == View.GONE){
-                    recyclerCap.setVisibility(View.GONE);
-                    recyclerBox.setVisibility(View.VISIBLE);
+                if(layBox.getVisibility() == View.GONE){
+                    layCap.setVisibility(View.GONE);
+                    layBox.setVisibility(View.VISIBLE);
                     box.setTextColor(getResources().getColor(R.color.rosaBoton));
                     cap.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
                 }
@@ -88,9 +111,9 @@ public class VerTodo extends AppCompatActivity {
         cap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(recyclerCap.getVisibility() == View.GONE){
-                    recyclerBox.setVisibility(View.GONE);
-                    recyclerCap.setVisibility(View.VISIBLE);
+                if(layCap.getVisibility() == View.GONE){
+                    layBox.setVisibility(View.GONE);
+                    layCap.setVisibility(View.VISIBLE);
                     cap.setTextColor(getResources().getColor(R.color.rosaBoton));
                     box.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
                 }
@@ -156,44 +179,58 @@ public class VerTodo extends AppCompatActivity {
             }
         });
 
-        //Carga info
-        /*FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        SAUser saUser = new SAUser();
-        saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
+        //Busquedas
+        sBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onCallbackBoxes(ArrayList<BoxInfo> boxes) {
-                allBoxes.addAll(boxes);
-                saUser.getBoxesCompartidas(currentUser.getEmail(), new Callbacks() {
-                    @Override
-                    public void onCallbackBoxes(ArrayList<BoxInfo> boxes) {
-                        allBoxes.addAll(boxes);
-                        Collections.sort(allBoxes, Comparator.comparing(BoxInfo::getTitle));
-                        BoxAdapter b = new BoxAdapter();
-                        b.setBoxData(allBoxes, true, false);
-                        recyclerBox.setAdapter(b);
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-                    }
-                });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.equals("")){ //toda la lista
+                    b.setBoxData(allBoxes, true, false);
+                    b.notifyDataSetChanged();
+                }
+                else{
+                    resBoxes =  allBoxes.stream()
+                            .filter(boxInfo -> boxInfo.getTitle().toLowerCase().contains(newText.toLowerCase()))
+                            .collect(Collectors.toList());
+
+                    b.setBoxData(resBoxes, true, false);
+                    b.notifyDataSetChanged();
+
+                }
+                return false;
             }
         });
 
-        saUser.getCapsules(currentUser.getEmail(), new Callbacks() {
+        sCap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onCallbackCapsules(ArrayList<CapsuleInfo> capsules) {
-                allCapsules.addAll(capsules);
-                saUser.getCapsulesCompartidas(currentUser.getEmail(), new Callbacks() {
-                    @Override
-                    public void onCallbackCapsules(ArrayList<CapsuleInfo> capsules) {
-                        allCapsules.addAll(capsules);
-                        Collections.sort(allCapsules, Comparator.comparing(CapsuleInfo::getTitle));
-                        CapAdapter c = new CapAdapter();
-                        c.setCapData(allCapsules, true, false);
-                        recyclerCap.setAdapter(c);
+            public boolean onQueryTextSubmit(String query) {
 
-                    }
-                });
+                return false;
             }
-        });*/
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.equals("")){ //toda la lista
+                    c.setCapData(allCapsules, true, false);
+                    c.notifyDataSetChanged();
+                }
+                else{
+                    resCapsules =  allCapsules.stream()
+                            .filter(capInfo -> capInfo.getTitle().toLowerCase().contains(newText.toLowerCase()))
+                            .collect(Collectors.toList());
+                    c.setCapData(resCapsules, true, false);
+                    c.notifyDataSetChanged();
+
+                }
+
+                return false;
+            }
+        });
+
         //Carga info
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         SAUser saUser = new SAUser();
@@ -227,12 +264,10 @@ public class VerTodo extends AppCompatActivity {
             @Override
             public void run() {
                 Collections.sort(allBoxes, Comparator.comparing(BoxInfo::getTitle));
-                BoxAdapter b = new BoxAdapter();
                 b.setBoxData(allBoxes, true, false);
                 recyclerBox.setAdapter(b);
 
                 Collections.sort(allCapsules, Comparator.comparing(CapsuleInfo::getTitle));
-                CapAdapter c = new CapAdapter();
                 c.setCapData(allCapsules, true, false);
                 recyclerCap.setAdapter(c);            }
         }, 1000);
