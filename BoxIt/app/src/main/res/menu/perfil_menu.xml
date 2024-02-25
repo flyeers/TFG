@@ -10,6 +10,7 @@
         android:id="@+id/cerrarSesionMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/exit"
         android:title="@string/cerrar" />
 
 </menu>

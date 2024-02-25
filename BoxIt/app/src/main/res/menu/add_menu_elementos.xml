@@ -12,12 +12,15 @@
 
     <item
         android:id="@+id/addMusic"
+        android:icon="@drawable/music"
         android:title="@string/musica" />
     <item
         android:id="@+id/addDoc"
+        android:icon="@drawable/file"
         android:title="@string/docs" />
     <item
         android:id="@+id/addNota"
+        android:icon="@drawable/note"
         android:title="@string/notas" />
 
 </menu>

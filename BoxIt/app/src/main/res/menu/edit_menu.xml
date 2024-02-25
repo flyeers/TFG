@@ -3,9 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/editElem"
+        android:icon="@drawable/edit"
         android:title="@string/editar" />
     <item
         android:id="@+id/deleteElem"
+        android:icon="@drawable/delete"
         android:title="@string/delete" />
 
 </menu>

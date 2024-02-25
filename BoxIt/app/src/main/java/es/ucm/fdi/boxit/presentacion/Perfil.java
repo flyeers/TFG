@@ -41,6 +41,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
@@ -133,6 +135,17 @@ public class Perfil extends AppCompatActivity {
                 PopupMenu popup = new PopupMenu(contextThemeWrapper, v);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.perfil_menu, popup.getMenu());
+                // Forzamos los iconos
+                try {
+                    Field field = popup.getClass().getDeclaredField("mPopup");
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popup);
+                    Class<?> cls = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = cls.getDeclaredMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
