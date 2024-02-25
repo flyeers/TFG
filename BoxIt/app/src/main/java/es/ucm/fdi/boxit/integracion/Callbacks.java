@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
+import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public interface Callbacks {
@@ -16,6 +17,7 @@ public interface Callbacks {
     default void onCallbackCapsule(CapsuleInfo c){}
     default void onCallbackCapsules(ArrayList<CapsuleInfo> capsules){}
     default void onCallbackData(String data){}
+    default void onCallbackMusicData(ArrayList<MusicInfo> data){}
 
     default void onCallbackUserPhoto(String photo){}
 

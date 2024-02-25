@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +25,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.types.ImageUri;
+import com.spotify.protocol.types.Track;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -32,6 +39,7 @@ import java.util.List;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 
 public class Caja extends AppCompatActivity {
@@ -48,6 +56,7 @@ public class Caja extends AppCompatActivity {
     private String imagePath;
     private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
 
+    private List<MusicInfo> music_b;
     private List<String> documents_b, photos_b, notes_b;
 
     private android.net.Uri selectedItem = null;
@@ -56,6 +65,16 @@ public class Caja extends AppCompatActivity {
 
     private boolean fotoPulsado, docPulsado, notasPulsado;
     private ImageView home, delete, exit;
+    private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
+    private static final String REDIRECT_URI = "com.spotify.boxit://callback";
+    private SpotifyAppRemote mSpotifyAppRemote;
+
+    private Track track;
+    private String songTitle, artist, songUri;
+
+    private ImageUri songImage;
+
+    private MusicInfo musicInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,7 +307,7 @@ public class Caja extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
-                    photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo);
+                    photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
                 }
@@ -342,7 +361,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo);
+                    docAdapter.setElementsData(documents_b, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -397,7 +416,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                    noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, boxInfo, null, mSpotifyAppRemote);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }
@@ -597,7 +616,7 @@ public class Caja extends AppCompatActivity {
                             saBox.getPhotos(boxInfo.getId(), true, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, false, ctx, boxInfo);
+                                    photoAdapter.setElementsData(photos, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
 
@@ -631,7 +650,7 @@ public class Caja extends AppCompatActivity {
                         saBox.getDocs(boxInfo.getId(), true, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, false, true, false, ctx, boxInfo);
+                                docAdapter.setElementsData(items, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -655,7 +674,7 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo);
+                docAdapter.setElementsData(documents_b, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -665,7 +684,7 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo);
+                photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
 
@@ -676,11 +695,18 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> notes) {
                 notes_b = notes;
-                noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
+                noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, boxInfo, null, mSpotifyAppRemote);
                 RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                 recyclerView.setAdapter(noteAdapter);
             }
        });
+        saBox.getSongs(boxInfo.getId(), false, new Callbacks() {
+            @Override
+            public void onCallbackMusicData(ArrayList<MusicInfo> data) {
+                music_b = data;
+
+            }
+        });
 
     }
 
@@ -699,5 +725,99 @@ public class Caja extends AppCompatActivity {
             result = uri.getLastPathSegment();
         }
         return result;
+    }
+    private void conectarSpotify(){
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(this, connectionParams,
+                new Connector.ConnectionListener() {
+
+                    @Override
+                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        mSpotifyAppRemote = spotifyAppRemote;
+                        Log.d("CLAU", "Connected! Yay!");
+                        // Now you can start interacting with App Remote
+                        addLastSong();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Toast.makeText(ctx,R.string.errorConect , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addLastSong(){
+
+
+        Dialog dialogAddMusic = new Dialog(ctx);
+        dialogAddMusic.setContentView(R.layout.add_cancion_dialog);
+        Button cancelar = dialogAddMusic.findViewById(R.id.buttonCancelar);
+        Button add = dialogAddMusic.findViewById(R.id.buttonAñadir);
+
+        TextView nombreCancion = dialogAddMusic.findViewById(R.id.ultimaCancion);
+        ImageView cover = dialogAddMusic.findViewById(R.id.coverSong);
+
+        mSpotifyAppRemote.getPlayerApi().subscribeToPlayerState().setEventCallback(playerState -> {
+            // Extrae la información de la canción actual del objeto PlayerState
+            track = playerState.track;
+            songTitle = track.name; // Título de la canción
+            artist = track.artist.name; // Nombre del artista
+            songImage = track.imageUri;
+            songUri = track.uri;
+
+
+            mSpotifyAppRemote.getImagesApi().getImage(songImage).setResultCallback(
+                    bitmap -> {
+                        cover.setImageBitmap(bitmap);
+
+                    });
+
+
+            musicInfo = new MusicInfo(songTitle,artist,songUri, songImage.toString());
+
+            nombreCancion.setText(songTitle + " - " + artist);
+
+        });
+
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAddMusic.dismiss();
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // mSpotifyAppRemote.getPlayerApi().play(songUri);
+
+                SABox saBox = new SABox();
+                saBox.addSong(boxInfo.getId(), musicInfo, true, new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+                            Log.d("CLAU", "bien");
+                        }
+                        else{
+                            Log.d("CLAU", "mal");
+                        }
+                    }
+                });
+                dialogAddMusic.dismiss();
+
+            }
+        });
+
+        dialogAddMusic.show();
+
     }
 }

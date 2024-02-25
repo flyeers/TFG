@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Random;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SAUser;
 
 public class DAOBox {
@@ -59,6 +60,10 @@ public class DAOBox {
     private final String NOTAS_CAP = "capsule_notes";
     private final String NOTAS = "box_notes";
     private final String COL_CAP = "capsules";
+    private final String SONG_TITLE = "nombre";
+    private final String SONG_ARTIST = "artista";
+    private final String SONG_IMAGE = "imagen";
+    private final String SONG_URI = "uri_cancion";
 
 
     private BoxInfo boxInfo;
@@ -87,6 +92,8 @@ public class DAOBox {
             data.put(NOTAS, notes);
 
 
+
+
             //IMG
             int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
             String idImg = String.format("%s-%s-%s", b.getTitle(), random, "cover").replace("", "");
@@ -105,6 +112,8 @@ public class DAOBox {
 
                             //añadimos la caja a la colleccion de cajas
                             Task<Void> boxesCollectionTask = boxCollection.add(data).continueWithTask(new Continuation<DocumentReference, Task<Void>>() {
+
+
 
                                 //Añadimos la caja a su propietario y/o colaboradores
                                 @Override
@@ -962,8 +971,73 @@ public class DAOBox {
         }
     }
 
-    public void addSong(String id, String song, String artist, String uriSong, String uriImage, Callbacks cb){
-        //TODO
+    public void addSong(String id, MusicInfo musicInfo, boolean isBox, Callbacks cb){
+
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+        DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id);
+
+        boxDocument.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+
+                    CollectionReference musicaCollection = documentSnapshot.getReference().collection(MUSICA);
+
+                    Map<String, Object> song_data = new HashMap<>();
+                    song_data.put(SONG_TITLE, musicInfo.getNombre());
+                    song_data.put(SONG_ARTIST, musicInfo.getArtista());
+                    song_data.put(SONG_IMAGE, musicInfo.getUriImagen());
+                    song_data.put(SONG_URI, musicInfo.getUriCancion());
+
+                    musicaCollection.add(song_data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            cb.onCallbackExito(true);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            cb.onCallbackExito(false);
+                        }
+                    });
+
+                } else {
+                    cb.onCallbackExito(false);
+                }
+            }
+        });
+    }
+
+    public void getSongs(String id, boolean isBox, Callbacks cb){
+
+        String COL = isBox ? COL_BOX : COL_CAP;
+
+
+        CollectionReference musicDocument = SingletonDataBase.getInstance().getDB().collection(COL).document(id).collection(MUSICA);
+        musicDocument.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<MusicInfo> canciones = new ArrayList<>();
+                            for (DocumentSnapshot document : task.getResult()) {
+
+                                String titulo = document.getString(SONG_TITLE);
+                                String artista = document.getString(SONG_ARTIST);
+                                String uriSong = document.getString(SONG_URI);
+                                String imageUri = document.getString(SONG_IMAGE);
+
+                                MusicInfo cancion = new MusicInfo(titulo, artista, uriSong, imageUri);
+                                canciones.add(cancion);
+                                cb.onCallbackMusicData(canciones);
+
+                            }
+                        } else {
+                            cb.onCallbackExito(false);
+                        }
+                    }
+                });
     }
 
 

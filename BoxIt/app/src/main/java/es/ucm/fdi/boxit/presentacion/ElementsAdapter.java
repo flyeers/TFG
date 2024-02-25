@@ -28,6 +28,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.types.ImageUri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +37,18 @@ import java.util.List;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.BoxInfo;
+import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
-    private boolean photo, doc, note, isBox;
+    private ArrayList<MusicInfo> musicData;
+    private boolean photo, doc, note, isBox, music;
     private String boxId;
     private BoxInfo box;
+
 
 
     private static final int IMAGE_WIDTH_KEY = 1;
@@ -52,8 +57,9 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private final String NOTE_IDENTIFIER ="///noteIdentifier///";
 
     private Context ctx;
+    private SpotifyAppRemote mSpotifyAppRemote;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc, boolean note, Context ctx, BoxInfo box){
+    public void setElementsData(List<String> data, boolean photo, boolean doc, boolean note, boolean music, Context ctx, BoxInfo box, List<MusicInfo> musicData, SpotifyAppRemote mSpotifyAppRemote ){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
@@ -61,6 +67,9 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         this.ctx = ctx;
         this.boxId = box.getId();
         this.box = box;
+        this.music = music;
+        this.musicData = (ArrayList<MusicInfo>) musicData;
+        this.mSpotifyAppRemote = mSpotifyAppRemote;
         isBox = true;
     }
 
@@ -71,9 +80,10 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
 
-        private ImageView imagen;
+        private ImageView imagen, songCover;
         private CardView cardView;
-        private TextView fileName;
+        private TextView fileName, songName, artist;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -82,6 +92,9 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             imagen = view.findViewById(R.id.photoBox);
             cardView=  view.findViewById(R.id.card_amigo);
             fileName = view.findViewById(R.id.nombreDoc);
+            songCover =  view.findViewById(R.id.imageSong);
+            songName = view.findViewById(R.id.songTitle);
+            artist = view.findViewById(R.id.artist);
 
         }
     }
@@ -99,6 +112,8 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             v = inflater.inflate(R.layout.document_view,parent,false);
         } else if (note) {
             v = inflater.inflate(R.layout.note_view,parent,false);
+        } else if (music) {
+            v = inflater.inflate(R.layout.music_view,parent,false);
         }
 
         return new ViewHolder(v);
@@ -350,6 +365,17 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     return false;
                 }
             });
+        } else if (music) {
+            MusicInfo song = musicData.get(position);
+            ImageUri imageUri = new ImageUri(song.getUriImagen());
+            mSpotifyAppRemote.getImagesApi().getImage(imageUri).setResultCallback(
+                    bitmap -> {
+
+                        h1.songCover.setImageBitmap(bitmap);
+
+                    });
+            h1.songName.setText(song.getNombre());
+            h1.artist.setText(song.getArtista());
         }
 
     }

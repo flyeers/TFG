@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
+import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
@@ -56,9 +57,10 @@ public class Capsula extends AppCompatActivity {
     private Context ctx;
     private CapsuleInfo capsuleInfo;
     private String imagePath;
-    private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
+    private ElementsAdapter photoAdapter, docAdapter, noteAdapter, musicAdapter;
 
     private List<String> documents_b, photos_b, notes_b;
+    private List<MusicInfo> music_b;
 
     private android.net.Uri selectedItem = null;
 
@@ -75,6 +77,8 @@ public class Capsula extends AppCompatActivity {
     private String songTitle, artist, songUri;
 
     private ImageUri songImage;
+
+    private MusicInfo musicInfo;
 
 
 
@@ -117,6 +121,7 @@ public class Capsula extends AppCompatActivity {
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
         noteAdapter = new ElementsAdapter();
+        musicAdapter = new ElementsAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacapsula));
@@ -322,7 +327,7 @@ public class Capsula extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
-                    photoAdapter.setElementsData(photos_b, true, false, false, ctx, capsuleInfo);
+                    photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                     photoAdapter.setType(false);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
@@ -377,7 +382,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    docAdapter.setElementsData(documents_b, false, true, false, ctx, capsuleInfo);
+                    docAdapter.setElementsData(documents_b, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -430,7 +435,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    noteAdapter.setElementsData(notes_b, false, false, true, ctx, capsuleInfo);
+                    noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }
@@ -628,7 +633,7 @@ public class Capsula extends AppCompatActivity {
                             saBox.getPhotos(capsuleInfo.getId(), false, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, false, ctx, capsuleInfo);
+                                    photoAdapter.setElementsData(photos, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                                     photoAdapter.setType(false);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
@@ -663,7 +668,7 @@ public class Capsula extends AppCompatActivity {
                         saBox.getDocs(capsuleInfo.getId(), false, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, false, true, false, ctx, capsuleInfo);
+                                docAdapter.setElementsData(items, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -686,7 +691,7 @@ public class Capsula extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, false, ctx, capsuleInfo);
+                docAdapter.setElementsData(documents_b, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -696,7 +701,7 @@ public class Capsula extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, false, ctx, capsuleInfo);
+                photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                 photoAdapter.setType(false);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
@@ -704,16 +709,29 @@ public class Capsula extends AppCompatActivity {
             }
         });
 
-
         saBox.getNotes(capsuleInfo.getId(), false, new Callbacks() {
             @Override
             public void onCallbackItems(ArrayList<String> notes) {
                 notes_b = notes;
-                noteAdapter.setElementsData(notes_b, false, false, true, ctx, capsuleInfo);
+                noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                 RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                 recyclerView.setAdapter(noteAdapter);
             }
         });
+
+        saBox.getSongs(capsuleInfo.getId(), false, new Callbacks() {
+            @Override
+            public void onCallbackMusicData(ArrayList<MusicInfo> data) {
+                music_b = data;
+                List<String> a  = new ArrayList<>();
+                musicAdapter.setElementsData(a, false, false, false, true, ctx, capsuleInfo, music_b, mSpotifyAppRemote);
+                RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                recyclerView.setAdapter(musicAdapter);
+
+            }
+        });
+
+
 
     }
 
@@ -781,6 +799,7 @@ public class Capsula extends AppCompatActivity {
             songImage = track.imageUri;
             songUri = track.uri;
 
+
             mSpotifyAppRemote.getImagesApi().getImage(songImage).setResultCallback(
                     bitmap -> {
                         cover.setImageBitmap(bitmap);
@@ -788,6 +807,7 @@ public class Capsula extends AppCompatActivity {
                     });
 
 
+            musicInfo = new MusicInfo(songTitle,artist,songUri, songImage.toString());
 
             nombreCancion.setText(songTitle + " - " + artist);
 
@@ -806,8 +826,20 @@ public class Capsula extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                mSpotifyAppRemote.getPlayerApi().play(songUri);
+               // mSpotifyAppRemote.getPlayerApi().play(songUri);
 
+                SABox saBox = new SABox();
+                saBox.addSong(capsuleInfo.getId(), musicInfo, false, new Callbacks() {
+                    @Override
+                    public void onCallbackExito(Boolean exito) {
+                        if(exito){
+                            Log.d("CLAU", "bien");
+                        }
+                        else{
+                            Log.d("CLAU", "mal");
+                        }
+                    }
+                });
                 dialogAddMusic.dismiss();
 
             }
