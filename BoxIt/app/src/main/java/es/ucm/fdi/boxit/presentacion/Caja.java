@@ -54,7 +54,7 @@ public class Caja extends AppCompatActivity {
 
     private BoxInfo boxInfo;
     private String imagePath;
-    private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
+    private ElementsAdapter photoAdapter, docAdapter, noteAdapter, musicAdapter;
 
     private List<MusicInfo> music_b;
     private List<String> documents_b, photos_b, notes_b;
@@ -115,6 +115,7 @@ public class Caja extends AppCompatActivity {
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
         noteAdapter = new ElementsAdapter();
+        musicAdapter = new ElementsAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
@@ -700,11 +701,14 @@ public class Caja extends AppCompatActivity {
                 recyclerView.setAdapter(noteAdapter);
             }
        });
-        saBox.getSongs(boxInfo.getId(), false, new Callbacks() {
+        saBox.getSongs(boxInfo.getId(), true, new Callbacks() {
             @Override
             public void onCallbackMusicData(ArrayList<MusicInfo> data) {
                 music_b = data;
+                musicAdapter.setElementsData(null, false, false, false, true, ctx, boxInfo, music_b, mSpotifyAppRemote);
 
+                RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                recyclerView.setAdapter(musicAdapter);
             }
         });
 

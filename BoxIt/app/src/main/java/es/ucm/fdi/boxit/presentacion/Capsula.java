@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
@@ -513,7 +514,10 @@ public class Capsula extends AppCompatActivity {
                         else if(id == R.id.addMusic){
 
 
-                            conectarSpotify();
+                            conectarSpotify(true, new Callbacks() {
+                            });
+
+
 
                             return true;
                         }
@@ -668,6 +672,7 @@ public class Capsula extends AppCompatActivity {
                         saBox.getDocs(capsuleInfo.getId(), false, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
+
                                 docAdapter.setElementsData(items, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
@@ -719,17 +724,30 @@ public class Capsula extends AppCompatActivity {
             }
         });
 
-        saBox.getSongs(capsuleInfo.getId(), false, new Callbacks() {
+        conectarSpotify(false, new Callbacks() {
             @Override
-            public void onCallbackMusicData(ArrayList<MusicInfo> data) {
-                music_b = data;
-                List<String> a  = new ArrayList<>();
-                musicAdapter.setElementsData(a, false, false, false, true, ctx, capsuleInfo, music_b, mSpotifyAppRemote);
-                RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
-                recyclerView.setAdapter(musicAdapter);
+            public void onCallbackExito(Boolean exito) {
+                if(exito){
+                    saBox.getSongs(capsuleInfo.getId(), false, new Callbacks() {
+                        @Override
+                        public void onCallbackMusicData(ArrayList<MusicInfo> data) {
+                            music_b = data;
+                            List<String> a  = new ArrayList<>();
+                            for (int i = 0; i < data.size(); i++){
+                                a.add("a");
+                            }
 
+                            musicAdapter.setElementsData(a, false, false, false, true, ctx, capsuleInfo, music_b, mSpotifyAppRemote);
+
+                            RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                            recyclerView.setAdapter(musicAdapter);
+
+                        }
+                    });
+                }
             }
         });
+
 
 
 
@@ -754,7 +772,7 @@ public class Capsula extends AppCompatActivity {
 
 
 
-    private void conectarSpotify(){
+    private void conectarSpotify(boolean add, Callbacks cb){
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
@@ -770,12 +788,19 @@ public class Capsula extends AppCompatActivity {
                         mSpotifyAppRemote = spotifyAppRemote;
                         Log.d("CLAU", "Connected! Yay!");
                         // Now you can start interacting with App Remote
-                        addLastSong();
+
+                        if(add){
+                            addLastSong();
+
+                        }
+                        cb.onCallbackExito(true);
+
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         Toast.makeText(ctx,R.string.errorConect , Toast.LENGTH_SHORT).show();
+                        cb.onCallbackExito(false);
                     }
                 });
     }
@@ -798,7 +823,6 @@ public class Capsula extends AppCompatActivity {
             artist = track.artist.name; // Nombre del artista
             songImage = track.imageUri;
             songUri = track.uri;
-
 
             mSpotifyAppRemote.getImagesApi().getImage(songImage).setResultCallback(
                     bitmap -> {

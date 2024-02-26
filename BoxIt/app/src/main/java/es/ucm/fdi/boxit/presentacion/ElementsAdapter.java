@@ -367,8 +367,12 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             });
         } else if (music) {
             MusicInfo song = musicData.get(position);
-            ImageUri imageUri = new ImageUri(song.getUriImagen());
-            mSpotifyAppRemote.getImagesApi().getImage(imageUri).setResultCallback(
+            int inicio = song.getUriImagen().indexOf('{') + 1;
+            int fin = song.getUriImagen().indexOf('}') - 1;
+            String id = song.getUriImagen().substring(inicio, fin);
+            ImageUri imageUri = new ImageUri(id);
+
+           mSpotifyAppRemote.getImagesApi().getImage(imageUri).setResultCallback(
                     bitmap -> {
 
                         h1.songCover.setImageBitmap(bitmap);
@@ -376,6 +380,13 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                     });
             h1.songName.setText(song.getNombre());
             h1.artist.setText(song.getArtista());
+
+            h1.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
+                }
+            });
         }
 
     }

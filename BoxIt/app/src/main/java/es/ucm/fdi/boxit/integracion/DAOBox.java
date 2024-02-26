@@ -1030,9 +1030,10 @@ public class DAOBox {
 
                                 MusicInfo cancion = new MusicInfo(titulo, artista, uriSong, imageUri);
                                 canciones.add(cancion);
-                                cb.onCallbackMusicData(canciones);
+
 
                             }
+                            cb.onCallbackMusicData(canciones);
                         } else {
                             cb.onCallbackExito(false);
                         }
