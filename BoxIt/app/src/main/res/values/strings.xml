@@ -33,6 +33,7 @@
     <string name="verTod">ver todas</string>
     <string name="sharedCap">Cápsulas compartidas</string>
     <string name="sharedBox">Cajas compartidas</string>
+    <string name="capClose">La capsula está cerrada</string>
 
     <!--Creaciones-->
     <string name="crearCaja">Crear caja</string>

@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onCallbackCapsules(ArrayList<CapsuleInfo> cs) {
                     Collections.sort(cs, Comparator.comparing(BoxInfo::getTitle).reversed());
                     capsules.addAll(cs);
-                    c1.setCapData(capsules, false, true);
+                    c1.setCapData(capsules, false, true, MainActivity.this);
                     RecyclerView recyclerView = findViewById(R.id.recycler_view_capsule);
                     recyclerView.setAdapter(c1);
                 }
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         recyclerView4.setVisibility(View.VISIBLE);
 
                         capsulesShared.addAll(cs);
-                        c2.setCapData(capsulesShared, true,true);
+                        c2.setCapData(capsulesShared, true,true,MainActivity.this);
                         recyclerView4.setAdapter(c2);
                     }
                     else{
@@ -301,10 +301,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
 }

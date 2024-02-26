@@ -216,14 +216,14 @@ public class VerTodo extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 c = new CapAdapter();
                 if(newText.equals("")){ //toda la lista
-                    c.setCapData(allCapsules, true, false);
+                    c.setCapData(allCapsules, true, false, VerTodo.this);
                     recyclerCap.setAdapter(c);
                 }
                 else{
                     resCapsules =  allCapsules.stream()
                             .filter(capInfo -> capInfo.getTitle().toLowerCase().contains(newText.toLowerCase()))
                             .collect(Collectors.toList());
-                    c.setCapData(resCapsules, true, false);
+                    c.setCapData(resCapsules, true, false, VerTodo.this);
                     recyclerCap.setAdapter(c);
                 }
 
@@ -268,7 +268,7 @@ public class VerTodo extends AppCompatActivity {
                 recyclerBox.setAdapter(b);
 
                 Collections.sort(allCapsules, Comparator.comparing(CapsuleInfo::getTitle));
-                c.setCapData(allCapsules, true, false);
+                c.setCapData(allCapsules, true, false,VerTodo.this);
                 recyclerCap.setAdapter(c);            }
         }, 1000);
 

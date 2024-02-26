@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,13 +44,15 @@ public class CapAdapter extends RecyclerView.Adapter{
     private boolean small, addCard, isBox;
     private static final int IMAGE_WIDTH_KEY = 1;
     private static final int IMAGE_HEIGHT_KEY = 2;
+    private Context ctx;
 
 
 
-    public void setCapData(List<CapsuleInfo> data, boolean small, boolean addCard){
+    public void setCapData(List<CapsuleInfo> data, boolean small, boolean addCard, Context ctx){
         this.capsData = (ArrayList<CapsuleInfo>) data;
         this.small = small;
         this.addCard = addCard;
+        this.ctx = ctx;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -219,6 +222,14 @@ public class CapAdapter extends RecyclerView.Adapter{
                             intent.putExtra("capsuleInfo", selectedCap);
                             ctx.startActivity(intent);
 
+                        }
+                    });
+                }
+                else{
+                    h1.cardView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(ctx, R.string.capClose, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

@@ -34,6 +34,7 @@
     <string name="verTod">see all</string>
     <string name="sharedCap">Shared Capsules</string>
     <string name="sharedBox">Shared Boxes</string>
+    <string name="capClose">The capsule is close</string>
 
     <!--Creations-->
     <string name="crearCaja">Create box</string>
