@@ -64,7 +64,7 @@ public class Caja extends AppCompatActivity {
 
     private int numfotos = 0;
 
-    private boolean fotoPulsado, docPulsado, notasPulsado;
+    private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
     private ImageView home, delete, exit;
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
     private static final String REDIRECT_URI = "com.spotify.boxit://callback";
@@ -89,6 +89,7 @@ public class Caja extends AppCompatActivity {
         fotoPulsado = false;
         docPulsado = false;
         notasPulsado = false;
+        musicaPulsado = false;
 
         photos_b = new ArrayList<>();
         documents_b = new ArrayList<>();
@@ -282,10 +283,18 @@ public class Caja extends AppCompatActivity {
                     textoFotos2.setText("");
                     textoFotos1.setText("");
                 }
+                if(musicaPulsado){
+                    musicaPulsado = false;
+                    musica.setBackgroundResource(android.R.color.transparent);
+                    musica.setTextColor(getResources().getColor(R.color.rosaBoton));
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+                }
 
                 findViewById(R.id.recyclerdocsCaja).setVisibility(View.VISIBLE);
                 findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                 findViewById(R.id.recyclernotasCaja).setVisibility(View.VISIBLE);
+                findViewById(R.id.recyclermusicaCaja).setVisibility(View.VISIBLE);
             }
         });
 
@@ -335,9 +344,15 @@ public class Caja extends AppCompatActivity {
                     notas.setTextColor(getResources().getColor(R.color.rosaBoton));
 
                 }
+                if(musicaPulsado){
+                    musicaPulsado = false;
+                    musica.setBackgroundResource(android.R.color.transparent);
+                    musica.setTextColor(getResources().getColor(R.color.rosaBoton));
+                }
 
                 findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
                 findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclermusicaCaja).setVisibility(View.GONE);
 
             }
         });
@@ -390,9 +405,15 @@ public class Caja extends AppCompatActivity {
                     notas.setTextColor(getResources().getColor(R.color.rosaBoton));
 
                 }
+                if(musicaPulsado){
+                    musicaPulsado = false;
+                    musica.setBackgroundResource(android.R.color.transparent);
+                    musica.setTextColor(getResources().getColor(R.color.rosaBoton));
+                }
 
                 findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
                 findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclermusicaCaja).setVisibility(View.GONE);
 
 
             }
@@ -445,15 +466,80 @@ public class Caja extends AppCompatActivity {
                     documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
 
                 }
+                if(musicaPulsado){
+                    musicaPulsado = false;
+                    musica.setBackgroundResource(android.R.color.transparent);
+                    musica.setTextColor(getResources().getColor(R.color.rosaBoton));
+                }
 
                 findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
                 findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclermusicaCaja).setVisibility(View.GONE);
+
 
 
             }
         });
 
 
+        musica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!musicaPulsado){
+                    musicaPulsado = true;
+                    findViewById(R.id.recyclermusicaCaja).setVisibility(View.VISIBLE);
+
+                    GradientDrawable drawable = new GradientDrawable();
+                    drawable.setShape(GradientDrawable.RECTANGLE);
+                    drawable.setCornerRadius(20);
+                    drawable.setColor(getResources().getColor(R.color.rosaBoton));
+
+                    musica.setBackground(drawable);
+                    musica.setTextColor(getResources().getColor(R.color.fondoClaro));
+
+                    textoFotos1.setText(getResources().getString(R.string.musica));
+                    textoFotos2.setText(getResources().getString(R.string.delacaja));
+
+                    musicAdapter.setData(music_b, mSpotifyAppRemote, boxInfo.getId(), ctx);
+
+                    RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                    recyclerView.setAdapter(musicAdapter);
+                }
+                else{
+                    musicaPulsado = false;
+                    musica.setBackgroundResource(android.R.color.transparent);
+                    musica.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                    findViewById(R.id.recyclermusicaCaja).setVisibility(View.GONE);
+                    textoFotos2.setText("");
+                    textoFotos1.setText("");
+
+                }
+
+                if(fotoPulsado){
+                    fotoPulsado = false;
+                    fotos.setBackgroundResource(android.R.color.transparent);
+                    fotos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+                if(docPulsado){
+                    docPulsado = false;
+                    documentos.setBackgroundResource(android.R.color.transparent);
+                    documentos.setTextColor(getResources().getColor(R.color.rosaBoton));
+
+                }
+                if(notasPulsado){
+                    notasPulsado = false;
+                    notas.setBackgroundResource(android.R.color.transparent);
+                    notas.setTextColor(getResources().getColor(R.color.rosaBoton));
+                }
+
+                findViewById(R.id.recyclerdocsCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclerfotosCaja).setVisibility(View.GONE);
+                findViewById(R.id.recyclernotasCaja).setVisibility(View.GONE);
+
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -495,7 +581,8 @@ public class Caja extends AppCompatActivity {
                             return true;
                         }
                         else if(id == R.id.addMusic){
-
+                            conectarSpotify(true, new Callbacks() {
+                            });
 
                             return true;
                         }
@@ -702,19 +789,28 @@ public class Caja extends AppCompatActivity {
                 recyclerView.setAdapter(noteAdapter);
             }
        });
-        saBox.getSongs(boxInfo.getId(), true, new Callbacks() {
+        conectarSpotify(false, new Callbacks() {
             @Override
-            public void onCallbackMusicData(ArrayList<MusicInfo> data) {
-                music_b = data;
-                musicAdapter.setData(music_b, mSpotifyAppRemote);
+            public void onCallbackExito(Boolean exito) {
+                if(exito){
+                    saBox.getSongs(boxInfo.getId(), true, new Callbacks() {
+                        @Override
+                        public void onCallbackMusicData(ArrayList<MusicInfo> data) {
+                            music_b = data;
 
-                RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
-                recyclerView.setAdapter(musicAdapter);
+                            musicAdapter.setData( music_b, mSpotifyAppRemote, boxInfo.getId(), ctx);
+
+                            RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                            recyclerView.setAdapter(musicAdapter);
+
+                        }
+                    });
+                }
             }
         });
 
-    }
 
+    }
 
 
     private String getFileName(Uri uri) {
@@ -731,7 +827,8 @@ public class Caja extends AppCompatActivity {
         }
         return result;
     }
-    private void conectarSpotify(){
+
+    private void conectarSpotify(boolean add, Callbacks cb){
 
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
@@ -739,22 +836,36 @@ public class Caja extends AppCompatActivity {
                         .showAuthView(true)
                         .build();
 
-        SpotifyAppRemote.connect(this, connectionParams,
-                new Connector.ConnectionListener() {
+        try {
+            SpotifyAppRemote.connect(getApplicationContext(), connectionParams, new Connector.ConnectionListener() {
 
-                    @Override
-                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        mSpotifyAppRemote = spotifyAppRemote;
-                        Log.d("CLAU", "Connected! Yay!");
-                        // Now you can start interacting with App Remote
+                @Override
+                public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                    mSpotifyAppRemote = spotifyAppRemote;
+                    Log.d("CLAU", "Connected! Yay!");
+                    // Now you can start interacting with App Remote
+
+                    if (add) {
                         addLastSong();
-                    }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Toast.makeText(ctx,R.string.errorConect , Toast.LENGTH_SHORT).show();
                     }
-                });
+                    cb.onCallbackExito(true);
+
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.e("CLAU", "Error al conectar con Spotify: " + throwable.getMessage(), throwable);
+
+                    Toast.makeText(ctx, R.string.errorConect, Toast.LENGTH_SHORT).show();
+                    cb.onCallbackExito(false);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("CLAU", e.getMessage());
+
+        }
     }
 
     private void addLastSong(){
@@ -776,7 +887,6 @@ public class Caja extends AppCompatActivity {
             songImage = track.imageUri;
             songUri = track.uri;
 
-
             mSpotifyAppRemote.getImagesApi().getImage(songImage).setResultCallback(
                     bitmap -> {
                         cover.setImageBitmap(bitmap);
@@ -784,7 +894,7 @@ public class Caja extends AppCompatActivity {
                     });
 
 
-            musicInfo = new MusicInfo(songTitle,artist,songUri, songImage.toString());
+            musicInfo = new MusicInfo(songTitle,artist,songUri, songImage.toString(), "a");
 
             nombreCancion.setText(songTitle + " - " + artist);
 
@@ -803,17 +913,28 @@ public class Caja extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                // mSpotifyAppRemote.getPlayerApi().play(songUri);
 
                 SABox saBox = new SABox();
                 saBox.addSong(boxInfo.getId(), musicInfo, true, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
-                            Log.d("CLAU", "bien");
+                            saBox.getSongs(boxInfo.getId(), true, new Callbacks() {
+                                @Override
+                                public void onCallbackMusicData(ArrayList<MusicInfo> data) {
+                                    music_b = data;
+
+                                    musicAdapter.setData( music_b, mSpotifyAppRemote, boxInfo.getId(), ctx);
+
+                                    RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
+                                    recyclerView.setAdapter(musicAdapter);
+
+                                }
+                            });
+                            Toast.makeText(ctx,R.string.addBien , Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Log.d("CLAU", "mal");
+                            Toast.makeText(ctx,R.string.addMal , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

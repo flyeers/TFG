@@ -6,14 +6,19 @@ import java.util.ArrayList;
 
 public class MusicInfo {
 
-    private String nombre, artista, uriCancion, uriImagen;
+    private String nombre, artista, uriCancion, uriImagen, id;
 
 
-    public MusicInfo(String nombre, String artista, String uriCancion, String uriImagen){
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public MusicInfo(String nombre, String artista, String uriCancion, String uriImagen, String id){
         this.nombre = nombre;
         this.artista = artista;
         this.uriCancion = uriCancion;
         this.uriImagen = uriImagen;
+        this.id = id;
     }
 
     public String getNombre() {
@@ -30,5 +35,8 @@ public class MusicInfo {
 
     public String getUriImagen() {
         return uriImagen;
+    }
+    public String getId() {
+        return id;
     }
 }

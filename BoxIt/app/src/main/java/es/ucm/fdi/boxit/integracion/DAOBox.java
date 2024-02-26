@@ -56,7 +56,7 @@ public class DAOBox {
 
     private final String FOTOS_CAP = "capsule_photos";
     private final String DOCS_CAP = "capsule_documents";
-    private final String MUSICA_CAP = "capsule_music";
+
     private final String NOTAS_CAP = "capsule_notes";
     private final String NOTAS = "box_notes";
     private final String COL_CAP = "capsules";
@@ -993,6 +993,8 @@ public class DAOBox {
                     musicaCollection.add(song_data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+
+                            musicInfo.setId(documentReference.getId());
                             cb.onCallbackExito(true);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -1028,7 +1030,7 @@ public class DAOBox {
                                 String uriSong = document.getString(SONG_URI);
                                 String imageUri = document.getString(SONG_IMAGE);
 
-                                MusicInfo cancion = new MusicInfo(titulo, artista, uriSong, imageUri);
+                                MusicInfo cancion = new MusicInfo(titulo, artista, uriSong, imageUri, document.getId());
                                 canciones.add(cancion);
 
 
@@ -1037,6 +1039,31 @@ public class DAOBox {
                         } else {
                             cb.onCallbackExito(false);
                         }
+                    }
+                });
+    }
+
+    public void deleteSong(String idBox, Boolean isBox, String idSong, Callbacks cb){
+        String COL = isBox ? COL_BOX : COL_CAP;
+
+        DocumentReference documentReference = SingletonDataBase.getInstance().getDB()
+                .collection(COL)
+                .document(idBox)
+                .collection(MUSICA)
+                .document(idSong);
+
+        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d("TAG", "Documento eliminado correctamente!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        cb.onCallbackExito(false);
                     }
                 });
     }

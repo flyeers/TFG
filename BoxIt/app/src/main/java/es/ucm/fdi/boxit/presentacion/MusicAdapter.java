@@ -46,12 +46,21 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     private List<MusicInfo> musicData;
     private SpotifyAppRemote mSpotifyAppRemote;
+    private String boxId;
+    private Context ctx;
+    private boolean isBox;
 
-    public void setData(List<MusicInfo> musicData, SpotifyAppRemote mSpotifyAppRemote){
+    public void setData(List<MusicInfo> musicData, SpotifyAppRemote mSpotifyAppRemote, String boxId, Context ctx){
         this.musicData = (ArrayList<MusicInfo>) musicData;
         this.mSpotifyAppRemote = mSpotifyAppRemote;
+        this.boxId = boxId;
+        this.ctx = ctx;
+        isBox = true;
     }
 
+    public void setType(boolean notBox){
+        this.isBox = notBox;
+    }
     @NonNull
     @Override
     public MusicAdapter.MusicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -80,7 +89,56 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         h.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
+                mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
+            }
+        });
+
+        h.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Dialog dialogConfirm = new Dialog(ctx);
+                dialogConfirm.setContentView(R.layout.eliminar_confirm);
+                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
+                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
+
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogConfirm.dismiss();
+                    }
+                });
+
+                confirmar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SABox saBox = new SABox();
+                        saBox.deleteSong(boxId, song.getId(), isBox, new Callbacks() {
+                            @Override
+                            public void onCallbackExito(Boolean exito) {
+                                if(exito){
+                                    int pos = musicData.indexOf(song);
+                                    if(pos != -1){
+                                        musicData.remove(pos);
+                                        notifyDataSetChanged();
+                                    }
+                                    Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
+                                    dialogConfirm.dismiss();
+                                }
+                                else{
+                                    Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
+                                    dialogConfirm.dismiss();
+                                }
+                            }
+                        });
+
+                    }
+
+
+                });
+
+                dialogConfirm.show();
+
+                return false;
             }
         });
     }

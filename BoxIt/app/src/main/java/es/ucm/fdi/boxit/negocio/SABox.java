@@ -106,5 +106,9 @@ public class SABox {
         DAOBox dao = new DAOBox();
         dao.getSongs(id,isbox, cb);
     }
+    public void deleteSong(String idBox, String idSong, Boolean isbox, Callbacks cb){
+        DAOBox dao = new DAOBox();
+        dao.deleteSong(idBox, isbox, idSong, cb);
+    }
 
 }
