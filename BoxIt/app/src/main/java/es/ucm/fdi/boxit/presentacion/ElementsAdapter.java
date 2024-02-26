@@ -44,8 +44,7 @@ import es.ucm.fdi.boxit.negocio.SACapsule;
 public class ElementsAdapter extends RecyclerView.Adapter {
 
     private ArrayList<String> itemsData;
-    private ArrayList<MusicInfo> musicData;
-    private boolean photo, doc, note, isBox, music;
+    private boolean photo, doc, note, isBox;
     private String boxId;
     private BoxInfo box;
 
@@ -57,9 +56,8 @@ public class ElementsAdapter extends RecyclerView.Adapter {
     private final String NOTE_IDENTIFIER ="///noteIdentifier///";
 
     private Context ctx;
-    private SpotifyAppRemote mSpotifyAppRemote;
 
-    public void setElementsData(List<String> data, boolean photo, boolean doc, boolean note, boolean music, Context ctx, BoxInfo box, List<MusicInfo> musicData, SpotifyAppRemote mSpotifyAppRemote ){
+    public void setElementsData(List<String> data, boolean photo, boolean doc, boolean note, Context ctx, BoxInfo box){
         this.itemsData = (ArrayList<String>) data;
         this.photo = photo;
         this.doc = doc;
@@ -67,9 +65,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         this.ctx = ctx;
         this.boxId = box.getId();
         this.box = box;
-        this.music = music;
-        this.musicData = (ArrayList<MusicInfo>) musicData;
-        this.mSpotifyAppRemote = mSpotifyAppRemote;
         isBox = true;
     }
 
@@ -112,8 +107,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
             v = inflater.inflate(R.layout.document_view,parent,false);
         } else if (note) {
             v = inflater.inflate(R.layout.note_view,parent,false);
-        } else if (music) {
-            v = inflater.inflate(R.layout.music_view,parent,false);
         }
 
         return new ViewHolder(v);
@@ -363,28 +356,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
 
                     dialogConfirm.show();
                     return false;
-                }
-            });
-        } else if (music) {
-            MusicInfo song = musicData.get(position);
-            int inicio = song.getUriImagen().indexOf('{') + 1;
-            int fin = song.getUriImagen().indexOf('}') - 1;
-            String id = song.getUriImagen().substring(inicio, fin);
-            ImageUri imageUri = new ImageUri(id);
-
-           mSpotifyAppRemote.getImagesApi().getImage(imageUri).setResultCallback(
-                    bitmap -> {
-
-                        h1.songCover.setImageBitmap(bitmap);
-
-                    });
-            h1.songName.setText(song.getNombre());
-            h1.artist.setText(song.getArtista());
-
-            h1.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
                 }
             });
         }

@@ -54,7 +54,8 @@ public class Caja extends AppCompatActivity {
 
     private BoxInfo boxInfo;
     private String imagePath;
-    private ElementsAdapter photoAdapter, docAdapter, noteAdapter, musicAdapter;
+    private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
+    private MusicAdapter musicAdapter;
 
     private List<MusicInfo> music_b;
     private List<String> documents_b, photos_b, notes_b;
@@ -115,7 +116,7 @@ public class Caja extends AppCompatActivity {
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
         noteAdapter = new ElementsAdapter();
-        musicAdapter = new ElementsAdapter();
+        musicAdapter = new MusicAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
@@ -308,7 +309,7 @@ public class Caja extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
-                    photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                    photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
                 }
@@ -362,7 +363,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    docAdapter.setElementsData(documents_b, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                    docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -417,7 +418,7 @@ public class Caja extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacaja));
 
-                    noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                    noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }
@@ -617,7 +618,7 @@ public class Caja extends AppCompatActivity {
                             saBox.getPhotos(boxInfo.getId(), true, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                                    photoAdapter.setElementsData(photos, true, false, false, ctx, boxInfo);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
 
@@ -651,7 +652,7 @@ public class Caja extends AppCompatActivity {
                         saBox.getDocs(boxInfo.getId(), true, new Callbacks() {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
-                                docAdapter.setElementsData(items, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                                docAdapter.setElementsData(items, false, true, false, ctx, boxInfo);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -675,7 +676,7 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                docAdapter.setElementsData(documents_b, false, true, false, ctx, boxInfo );
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -685,7 +686,7 @@ public class Caja extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                photoAdapter.setElementsData(photos_b, true, false, false, ctx, boxInfo );
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
 
@@ -696,7 +697,7 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> notes) {
                 notes_b = notes;
-                noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, boxInfo, null, mSpotifyAppRemote);
+                noteAdapter.setElementsData(notes_b, false, false, true, ctx, boxInfo );
                 RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                 recyclerView.setAdapter(noteAdapter);
             }
@@ -705,7 +706,7 @@ public class Caja extends AppCompatActivity {
             @Override
             public void onCallbackMusicData(ArrayList<MusicInfo> data) {
                 music_b = data;
-                musicAdapter.setElementsData(null, false, false, false, true, ctx, boxInfo, music_b, mSpotifyAppRemote);
+                musicAdapter.setData(music_b, mSpotifyAppRemote);
 
                 RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
                 recyclerView.setAdapter(musicAdapter);

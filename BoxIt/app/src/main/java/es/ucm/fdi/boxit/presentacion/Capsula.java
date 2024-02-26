@@ -58,8 +58,8 @@ public class Capsula extends AppCompatActivity {
     private Context ctx;
     private CapsuleInfo capsuleInfo;
     private String imagePath;
-    private ElementsAdapter photoAdapter, docAdapter, noteAdapter, musicAdapter;
-
+    private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
+    private MusicAdapter musicAdapter;
     private List<String> documents_b, photos_b, notes_b;
     private List<MusicInfo> music_b;
 
@@ -99,6 +99,7 @@ public class Capsula extends AppCompatActivity {
         photos_b = new ArrayList<>();
         documents_b = new ArrayList<>();
         notes_b = new ArrayList<>();
+        music_b = new ArrayList<>();
 
         capsuleInfo = getIntent().getParcelableExtra("capsuleInfo");
 
@@ -122,7 +123,7 @@ public class Capsula extends AppCompatActivity {
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
         noteAdapter = new ElementsAdapter();
-        musicAdapter = new ElementsAdapter();
+        musicAdapter = new MusicAdapter();
 
 
         textoInicio.setText(getResources().getString(R.string.tododelacapsula));
@@ -328,7 +329,7 @@ public class Capsula extends AppCompatActivity {
                     findViewById(R.id.recyclerfotosCaja).setVisibility(View.VISIBLE);
                     textoFotos1.setText(getResources().getString(R.string.galeria));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
-                    photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                    photoAdapter.setElementsData(photos_b, true, false, false, ctx, capsuleInfo);
                     photoAdapter.setType(false);
                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                     recyclerView.setAdapter(photoAdapter);
@@ -383,7 +384,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.docs));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    docAdapter.setElementsData(documents_b, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                    docAdapter.setElementsData(documents_b, false, true, false, ctx, capsuleInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                     recyclerView.setAdapter(docAdapter);
                 }
@@ -436,7 +437,7 @@ public class Capsula extends AppCompatActivity {
                     textoFotos1.setText(getResources().getString(R.string.notas));
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
-                    noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                    noteAdapter.setElementsData(notes_b, false, false, true,  ctx, capsuleInfo);
                     RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                     recyclerView.setAdapter(noteAdapter);
                 }
@@ -514,8 +515,8 @@ public class Capsula extends AppCompatActivity {
                         else if(id == R.id.addMusic){
 
 
-                            conectarSpotify(true, new Callbacks() {
-                            });
+                            /*conectarSpotify(true, new Callbacks() {
+                            });*/
 
 
 
@@ -637,7 +638,7 @@ public class Capsula extends AppCompatActivity {
                             saBox.getPhotos(capsuleInfo.getId(), false, new Callbacks() {
                                 @Override
                                 public void onCallbackItems(ArrayList<String> photos) {
-                                    photoAdapter.setElementsData(photos, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                                    photoAdapter.setElementsData(photos, true, false, false, ctx, capsuleInfo);
                                     photoAdapter.setType(false);
                                     RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                                     recyclerView.setAdapter(photoAdapter);
@@ -673,7 +674,7 @@ public class Capsula extends AppCompatActivity {
                             @Override
                             public void onCallbackItems(ArrayList<String> items) {
 
-                                docAdapter.setElementsData(items, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                                docAdapter.setElementsData(items, false, true, false, ctx, capsuleInfo);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                                 recyclerView.setAdapter(docAdapter);
                             }
@@ -696,7 +697,7 @@ public class Capsula extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> docs) {
                 documents_b = docs;
-                docAdapter.setElementsData(documents_b, false, true, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                docAdapter.setElementsData(documents_b, false, true, false, ctx, capsuleInfo);
                 RecyclerView recyclerView = findViewById(R.id.recyclerdocsCaja);
                 recyclerView.setAdapter(docAdapter);
             }
@@ -706,7 +707,7 @@ public class Capsula extends AppCompatActivity {
             public void onCallbackItems(ArrayList<String> photos) {
 
                 photos_b = photos;
-                photoAdapter.setElementsData(photos_b, true, false, false, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                photoAdapter.setElementsData(photos_b, true, false, false, ctx, capsuleInfo);
                 photoAdapter.setType(false);
                 RecyclerView recyclerView = findViewById(R.id.recyclerfotosCaja);
                 recyclerView.setAdapter(photoAdapter);
@@ -718,11 +719,12 @@ public class Capsula extends AppCompatActivity {
             @Override
             public void onCallbackItems(ArrayList<String> notes) {
                 notes_b = notes;
-                noteAdapter.setElementsData(notes_b, false, false, true, false, ctx, capsuleInfo, null, mSpotifyAppRemote);
+                noteAdapter.setElementsData(notes_b, false, false, true, ctx, capsuleInfo);
                 RecyclerView recyclerView = findViewById(R.id.recyclernotasCaja);
                 recyclerView.setAdapter(noteAdapter);
             }
         });
+
 
         conectarSpotify(false, new Callbacks() {
             @Override
@@ -732,12 +734,8 @@ public class Capsula extends AppCompatActivity {
                         @Override
                         public void onCallbackMusicData(ArrayList<MusicInfo> data) {
                             music_b = data;
-                            List<String> a  = new ArrayList<>();
-                            for (int i = 0; i < data.size(); i++){
-                                a.add("a");
-                            }
 
-                            musicAdapter.setElementsData(a, false, false, false, true, ctx, capsuleInfo, music_b, mSpotifyAppRemote);
+                            musicAdapter.setData( music_b, mSpotifyAppRemote);
 
                             RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
                             recyclerView.setAdapter(musicAdapter);
@@ -747,9 +745,6 @@ public class Capsula extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
     }
 
@@ -780,29 +775,36 @@ public class Capsula extends AppCompatActivity {
                         .showAuthView(true)
                         .build();
 
-        SpotifyAppRemote.connect(this, connectionParams,
-                new Connector.ConnectionListener() {
+        try {
+            SpotifyAppRemote.connect(getApplicationContext(), connectionParams, new Connector.ConnectionListener() {
 
-                    @Override
-                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        mSpotifyAppRemote = spotifyAppRemote;
-                        Log.d("CLAU", "Connected! Yay!");
-                        // Now you can start interacting with App Remote
+                @Override
+                public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                    mSpotifyAppRemote = spotifyAppRemote;
+                    Log.d("CLAU", "Connected! Yay!");
+                    // Now you can start interacting with App Remote
 
-                        if(add){
-                            addLastSong();
-
-                        }
-                        cb.onCallbackExito(true);
+                    if (add) {
+                        addLastSong();
 
                     }
+                    cb.onCallbackExito(true);
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Toast.makeText(ctx,R.string.errorConect , Toast.LENGTH_SHORT).show();
-                        cb.onCallbackExito(false);
-                    }
-                });
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.e("CLAU", "Error al conectar con Spotify: " + throwable.getMessage(), throwable);
+
+                    Toast.makeText(ctx, R.string.errorConect, Toast.LENGTH_SHORT).show();
+                    cb.onCallbackExito(false);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("CLAU", e.getMessage());
+
+        }
     }
 
     private void addLastSong(){
