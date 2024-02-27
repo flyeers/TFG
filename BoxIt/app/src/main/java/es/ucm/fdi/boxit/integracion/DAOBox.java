@@ -1056,7 +1056,7 @@ public class DAOBox {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        Log.d("TAG", "Documento eliminado correctamente!");
+                        cb.onCallbackExito(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

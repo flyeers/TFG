@@ -8,6 +8,7 @@ public class MusicInfo {
 
     private String nombre, artista, uriCancion, uriImagen, id;
 
+    private boolean isPlayed;
 
     public void setId(String id) {
         this.id = id;
@@ -19,6 +20,7 @@ public class MusicInfo {
         this.uriCancion = uriCancion;
         this.uriImagen = uriImagen;
         this.id = id;
+        isPlayed = false;
     }
 
     public String getNombre() {
@@ -39,4 +41,7 @@ public class MusicInfo {
     public String getId() {
         return id;
     }
+
+    public boolean isPlaying(){return isPlayed;}
+    public void setPlayed(boolean p){ isPlayed = p;}
 }

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.types.ImageUri;
+import com.spotify.protocol.types.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     private SpotifyAppRemote mSpotifyAppRemote;
     private String boxId;
     private Context ctx;
-    private boolean isBox;
+
+    private boolean isBox, sonando;
 
     public void setData(List<MusicInfo> musicData, SpotifyAppRemote mSpotifyAppRemote, String boxId, Context ctx){
         this.musicData = (ArrayList<MusicInfo>) musicData;
@@ -56,6 +59,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         this.boxId = boxId;
         this.ctx = ctx;
         isBox = true;
+        sonando = false;
     }
 
     public void setType(boolean notBox){
@@ -89,7 +93,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         h.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
+                mSpotifyAppRemote.getPlayerApi().getPlayerState()
+                        .setResultCallback(playerState -> {
+                            final Track track = playerState.track;
+                            if (playerState.isPaused && !song.isPlaying()) {
+                                song.setPlayed(true);
+                                mSpotifyAppRemote.getPlayerApi().play(song.getUriCancion());
+                                h.pausar.setVisibility(View.VISIBLE);
+                            } else if(!playerState.isPaused && song.isPlaying()){
+                                sonando = false;
+                                song.setPlayed(false);
+                                mSpotifyAppRemote.getPlayerApi().pause();
+                                h.pausar.setVisibility(View.INVISIBLE);
+                            }
+
+                        });
+
             }
         });
 
@@ -153,6 +172,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         private ImageView imagen, songCover;
         private CardView cardView;
         private TextView fileName, songName, artist;
+        private LinearLayout pausar;
 
 
         public MusicViewHolder(View view) {
@@ -163,6 +183,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             songCover =  view.findViewById(R.id.imageSong);
             songName = view.findViewById(R.id.songTitle);
             artist = view.findViewById(R.id.artist);
+            pausar = view.findViewById(R.id.pause);
 
         }
     }
