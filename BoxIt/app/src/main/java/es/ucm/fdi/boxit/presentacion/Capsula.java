@@ -26,6 +26,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -68,7 +71,7 @@ public class Capsula extends AppCompatActivity {
     private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
-    private ImageView home, delete, exit;
+    private ImageView home, delete, exit, ellipse;
 
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
     private static final String REDIRECT_URI = "com.spotify.boxit://callback";
@@ -560,6 +563,12 @@ public class Capsula extends AppCompatActivity {
             }
         });
 
+        //cover
+        ellipse = findViewById(R.id.ellipse_13);
+        Glide.with(this)
+                .load(capsuleInfo.getImg())
+                .transform(new CenterCrop(), new RoundedCorners(5000))
+                .into(ellipse);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
