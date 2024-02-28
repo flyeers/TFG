@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -65,7 +69,7 @@ public class Caja extends AppCompatActivity {
     private int numfotos = 0;
 
     private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
-    private ImageView home, delete, exit;
+    private ImageView home, delete, exit, ellipse;
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
     private static final String REDIRECT_URI = "com.spotify.boxit://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
@@ -122,7 +126,6 @@ public class Caja extends AppCompatActivity {
 
         textoInicio.setText(getResources().getString(R.string.tododelacaja));
         getAll();
-
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -540,6 +543,13 @@ public class Caja extends AppCompatActivity {
 
             }
         });
+
+        //cover
+        ellipse = findViewById(R.id.ellipse_13);
+        Glide.with(this)
+                .load(boxInfo.getImg())
+                .transform(new CenterCrop(), new RoundedCorners(5000))
+                .into(ellipse);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

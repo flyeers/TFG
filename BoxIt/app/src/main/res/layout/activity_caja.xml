@@ -8,7 +8,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,6 +55,8 @@
             <TextView
                 android:id="@+id/nombre_caja"
                 style="@style/TituloFondo"
+                android:background="#70FAFAFA"
+                android:backgroundTint="#F8F1F3"
                 android:text="@string/CajaTitulo" />
 
             <LinearLayout
@@ -249,6 +255,7 @@
     </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -260,9 +267,9 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            tools:background="@drawable/shape_circle"
             android:text="+"
             android:textColor="#000000"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            tools:background="@drawable/shape_circle" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
