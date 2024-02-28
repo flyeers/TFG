@@ -48,7 +48,7 @@ public class ValidarFormulario {
     //Contraseña segura -> al menos 11 caracteres, 1 número y 1 mayuscula
     public boolean isValidPassword(){
 
-        String regex = "^(?=.*[A-Z])(?=.*\\d).{11,}$";
+        String regex = "^(?=.*[A-Z])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();

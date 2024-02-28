@@ -4,39 +4,32 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="2dp">
+        android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/search_user"
+            android:layout_width="301dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/fondoCards" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/text_buscar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/noBusqueda" />
 
-            <SearchView
-                android:id="@+id/search_user"
-                android:layout_width="301dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/fondoCards"
-                android:backgroundTint="@color/fondoCards" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_buscar_amigos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/text_buscar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/noBusqueda" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_buscar_amigos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </FrameLayout>

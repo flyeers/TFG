@@ -20,7 +20,9 @@
             android:exported="false" />
         <activity
             android:name=".presentacion.Perfil"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".presentacion.CrearCapsulaForm"
             android:exported="false" />

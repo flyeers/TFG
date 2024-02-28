@@ -755,7 +755,11 @@ public class DAOUsuario {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot d : task.getResult()) {
                         String userId = d.getId();
-                        usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getEmail()));
+                        ArrayList<String> s = (ArrayList<String>) d.get(LISTA_SOLICITUDES);
+                        ArrayList<String> a = (ArrayList<String>) d.get(LISTA_AMIGOS);
+                        if (!s.contains(currentUser.getEmail()) && !a.contains(currentUser.getEmail())) {//si no esta ya lo silicitud o amigos
+                            usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getEmail()));
+                        }
                     }
                 }
             });

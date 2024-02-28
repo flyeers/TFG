@@ -76,15 +76,17 @@ public class Registro extends AppCompatActivity {
                                         startActivity(intent2);
                                     }
                                     else{
-                                        Toast.makeText(Registro.this, "ERROR", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Registro.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                         }
+                        else{
+                            Toast.makeText(Registro.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
-                // TODO Registro no valido
             }
         });
 

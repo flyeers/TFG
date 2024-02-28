@@ -5,27 +5,21 @@
     android:layout_height="wrap_content">
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_amigos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/noSolicitudes" />
 
-            <TextView
-                android:id="@+id/text_amigos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/noSolicitudes" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_solicitudes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_solicitudes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
 </FrameLayout>

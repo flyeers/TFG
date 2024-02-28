@@ -47,7 +47,7 @@ public class LogIn extends AppCompatActivity {
                                 startActivity(intent2);
                             }
                             else{
-                                Toast.makeText(LogIn.this, "ERROR", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogIn.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -66,7 +66,7 @@ public class LogIn extends AppCompatActivity {
                                         startActivity(intent2);
                                     }
                                     else{
-                                        Toast.makeText(LogIn.this, "ERROR", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LogIn.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

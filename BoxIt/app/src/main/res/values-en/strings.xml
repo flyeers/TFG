@@ -25,7 +25,9 @@
     <string name="userNameIncorrecto">Invalid username</string>
     <string name="nameIncorrecto">Invalid name</string>
     <string name="o">or </string>
-    <string name="patronContraseña">The password must contain at least 11 characters, a number and a capital letter.</string>
+    <string name="patronContraseña">The password must contain at least 8 characters, a number and a capital letter.</string>
+    <string name="errerLogIn">Wrong data</string>
+
 
     <!--Main view-->
     <string name="bienvenida">Hey</string>
