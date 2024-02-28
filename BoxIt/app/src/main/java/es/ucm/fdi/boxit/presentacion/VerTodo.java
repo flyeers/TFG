@@ -2,6 +2,8 @@ package es.ucm.fdi.boxit.presentacion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextThemeWrapper;
@@ -19,9 +21,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,6 +68,10 @@ public class VerTodo extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertodo);
+
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        SAUser saUser = new SAUser();
 
         cap = findViewById(R.id.capsulaName);
         box = findViewById(R.id.cajaName);
@@ -130,6 +141,41 @@ public class VerTodo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        Context ctx = this;
+        saUser.infoUsuario(currentUser.getEmail().toString(), new Callbacks() {
+            @Override
+            public void onCallback(UserInfo u) {
+
+                String f = u.getImgPerfil().toString();
+                if (f != ""){
+
+                    Glide.with(ctx)
+                            .asBitmap()
+                            .load(u.getImgPerfil())
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                                    roundedDrawable.setCircular(true);
+
+                                    perfil.setImageDrawable(roundedDrawable);
+                                }
+
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                }
+
+
+                            });
+
+                }
+
+            }
+        });
+
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,8 +278,7 @@ public class VerTodo extends AppCompatActivity {
         });
 
         //Carga info
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        SAUser saUser = new SAUser();
+
         saUser.getBoxes(currentUser.getEmail(), new Callbacks() {
             @Override
             public void onCallbackBoxes(ArrayList<BoxInfo> boxes) {

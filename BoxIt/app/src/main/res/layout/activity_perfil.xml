@@ -112,7 +112,7 @@
 
         <LinearLayout
             android:layout_width="335dp"
-            android:layout_height="match_parent"
+            android:layout_height="311dp"
             android:layout_gravity="center|center_horizontal"
             android:gravity="center|center_horizontal"
             android:orientation="vertical">
