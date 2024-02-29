@@ -61,11 +61,7 @@ import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
-
-
-
     Button verTodoCapsula, verTodoCaja, verTodoCapsulaComp, verTodoCajaComp, plus;
-
     TextView nombre;
     ImageView perfil;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -308,6 +304,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
         this.recreate();
-
     }
 }

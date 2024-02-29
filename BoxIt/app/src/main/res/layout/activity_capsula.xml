@@ -6,268 +6,279 @@
     android:layout_height="match_parent"
     tools:context=".presentacion.Caja">
 
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/ellipse_13"
-                style="@style/FondoBase" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="-140dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/homeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/home" />
-
-                <ImageView
-                    android:id="@+id/exit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="255dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/exit"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/options2" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/nombre_caja"
-                style="@style/TituloFondo"
-                android:background="#70FAFAFA"
-                android:backgroundTint="#F8F1F3"
-                android:text="@string/CapsulaTitulo" />
-
-            <TextView
-                android:id="@+id/textTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="#70FAFAFA"
-                android:backgroundTint="#F8F1F3"
-                android:gravity="center_horizontal"
-                android:text="TextView" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="90dp"
                 android:orientation="vertical">
 
-
-                <TextView
-                    android:id="@+id/vertodo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:fontFamily="@font/inter"
-                    android:text="Ver todo"
-                    android:textColor="@color/rosaBoton"
-                    android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/ellipse_13"
+                    style="@style/FondoBase" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="-140dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/homeBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/home" />
+
+                    <ImageView
+                        android:id="@+id/exit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="255dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/exit"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/options2" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/nombre_caja"
+                    style="@style/TituloFondo"
+                    android:background="#70FAFAFA"
+                    android:backgroundTint="#F8F1F3"
+                    android:text="@string/CapsulaTitulo" />
+
+                <TextView
+                    android:id="@+id/textTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="@drawable/rectangle_2"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="4">
-
-
-                    <TextView
-                        android:id="@+id/fotosCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/interbold"
-                        android:text="@string/galeria"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
-
-
-                    <TextView
-                        android:id="@+id/musicaCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/interbold"
-                        android:text="@string/musica"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/documentosCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/interbold"
-                        android:text="@string/docs"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/notasCaja"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/interbold"
-                        android:text="@string/notas"
-                        android:textColor="@color/rosaBoton"
-                        android:textSize="18dp" />
-
-
-                </LinearLayout>
+                    android:background="#70FAFAFA"
+                    android:backgroundTint="#F8F1F3"
+                    android:gravity="center_horizontal"
+                    android:text="TextView" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="90dp"
                     android:orientation="vertical">
+
 
                     <TextView
-                        android:id="@+id/todoElContenidoCaja"
-                        style="@style/titulosVista"
-                        android:layout_width="match_parent"
+                        android:id="@+id/vertodo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
+                        android:layout_marginLeft="30dp"
+                        android:fontFamily="@font/inter"
+                        android:text="Ver todo"
+                        android:textColor="@color/rosaBoton"
+                        android:textSize="18dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/rectangle_2"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
 
                         <TextView
-                            android:id="@+id/fotosdelacaja"
-                            style="@style/titulosVista"
+                            android:id="@+id/fotosCaja"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text=""
-                            android:textColor="@color/textoOscuro" />
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/interbold"
+                            android:gravity="center"
+                            android:text="@string/galeria"
+                            android:textColor="@color/rosaBoton"
+                            android:textSize="18dp" />
+
 
                         <TextView
-                            android:id="@+id/fdelacaja"
+                            android:id="@+id/musicaCaja"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/interbold"
+                            android:gravity="center"
+                            android:text="@string/musica"
+                            android:textColor="@color/rosaBoton"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/documentosCaja"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/interbold"
+                            android:gravity="center"
+                            android:text="@string/docs"
+                            android:textColor="@color/rosaBoton"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/notasCaja"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/interbold"
+                            android:gravity="center"
+                            android:text="@string/notas"
+                            android:textColor="@color/rosaBoton"
+                            android:textSize="18dp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/todoElContenidoCaja"
                             style="@style/titulosVista"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="left"
                             android:text="" />
+
+
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerfotosCaja"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclermusicaCaja"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerdocsCaja"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3" />
-                </LinearLayout>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclernotasCaja"
+                            <TextView
+                                android:id="@+id/fotosdelacaja"
+                                style="@style/titulosVista"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text=""
+                                android:textColor="@color/textoOscuro" />
+
+                            <TextView
+                                android:id="@+id/fdelacaja"
+                                style="@style/titulosVista"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="left"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerfotosCaja"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="3" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclermusicaCaja"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerdocsCaja"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclernotasCaja"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="3" />
+                    </LinearLayout>
+
                 </LinearLayout>
+
 
             </LinearLayout>
 
-
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/buttonAdd2"

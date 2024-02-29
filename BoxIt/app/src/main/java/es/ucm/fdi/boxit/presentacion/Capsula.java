@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -50,7 +51,7 @@ import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 
-public class Capsula extends AppCompatActivity {
+public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private Button add, borrarFoto;
     private TextView nombre, tiempo, fotos, musica, notas, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
@@ -65,26 +66,19 @@ public class Capsula extends AppCompatActivity {
     private MusicAdapter musicAdapter;
     private List<String> documents_b, photos_b, notes_b;
     private List<MusicInfo> music_b;
-
     private android.net.Uri selectedItem = null;
-
     private int numfotos = 0;
-
     private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
     private ImageView home, delete, exit, ellipse;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
     private static final String REDIRECT_URI = "com.spotify.boxit://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-
     private Track track;
     private String songTitle, artist, songUri;
-
     private ImageUri songImage;
-
     private MusicInfo musicInfo;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +117,9 @@ public class Capsula extends AppCompatActivity {
         home = findViewById(R.id.homeBtn);
         delete = findViewById(R.id.delete);
         exit = findViewById(R.id.exit);
+
+        swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
@@ -682,6 +679,11 @@ public class Capsula extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        this.recreate();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

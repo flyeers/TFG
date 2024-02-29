@@ -2,6 +2,7 @@ package es.ucm.fdi.boxit.presentacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -46,7 +47,7 @@ import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 
-public class Caja extends AppCompatActivity {
+public class Caja extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private Button add, borrarFoto;
     private TextView nombre, fotos, musica, notas, documentos, audio, textoFotos1, textoFotos2, textoInicio, verTodo;
@@ -55,30 +56,24 @@ public class Caja extends AppCompatActivity {
     private static final int PICK_PDF_REQUEST_CODE = 2;
     private static final int RESULT_OK = -1;
     private Context ctx;
-
     private BoxInfo boxInfo;
     private String imagePath;
     private ElementsAdapter photoAdapter, docAdapter, noteAdapter;
     private MusicAdapter musicAdapter;
-
     private List<MusicInfo> music_b;
     private List<String> documents_b, photos_b, notes_b;
-
     private android.net.Uri selectedItem = null;
-
     private int numfotos = 0;
-
     private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
     private ImageView home, delete, exit, ellipse;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
     private static final String REDIRECT_URI = "com.spotify.boxit://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-
     private Track track;
     private String songTitle, artist, songUri;
-
     private ImageUri songImage;
-
     private MusicInfo musicInfo;
 
     @Override
@@ -117,6 +112,8 @@ public class Caja extends AppCompatActivity {
         delete = findViewById(R.id.deleteBox);
         exit = findViewById(R.id.exit);
 
+        swipeRefreshLayout = findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         docAdapter = new ElementsAdapter();
         photoAdapter = new ElementsAdapter();
@@ -659,6 +656,11 @@ public class Caja extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        this.recreate();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
