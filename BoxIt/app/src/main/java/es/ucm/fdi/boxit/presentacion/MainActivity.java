@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuInflater;
@@ -56,7 +59,7 @@ import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
 
 
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView nombre;
     ImageView perfil;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            swipeRefreshLayout = findViewById(R.id.swipe);
+            swipeRefreshLayout.setOnRefreshListener(this);
 
             plus = findViewById(R.id.button2);
             plus.setBackgroundColor(getResources().getColor(R.color.rosaBoton));
@@ -296,10 +302,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
-
-
-
     }
 
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        this.recreate();
+
+    }
 }
