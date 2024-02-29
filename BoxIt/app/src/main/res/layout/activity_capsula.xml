@@ -91,24 +91,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/rectangle_2"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/rectangle">
-
-                    </ImageView>
 
                     <TextView
                         android:id="@+id/fotosCaja"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="-380dp"
-                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/interbold"
                         android:text="@string/galeria"
                         android:textColor="@color/rosaBoton"
@@ -120,7 +117,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/interbold"
                         android:text="@string/musica"
                         android:textColor="@color/rosaBoton"
@@ -131,7 +129,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/interbold"
                         android:text="@string/docs"
                         android:textColor="@color/rosaBoton"
@@ -142,7 +141,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/interbold"
                         android:text="@string/notas"
                         android:textColor="@color/rosaBoton"
