@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             CapsuleInfo capAdd = new CapsuleInfo("","ADD", null);
 
             /////////////////////////// CAPSULAS ///////////////////////////////
-            //TODO
             CapAdapter c1 = new CapAdapter();
             ArrayList<CapsuleInfo> capsules = new ArrayList<>();
             capsules.add(capAdd);

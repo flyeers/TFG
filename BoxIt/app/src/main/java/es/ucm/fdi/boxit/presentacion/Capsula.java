@@ -627,7 +627,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
-                        else if(id == R.id.addNota){//TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
+                        else if(id == R.id.addNota){
 
                             Dialog dialogNote = new Dialog(ctx);
                             dialogNote.setContentView(R.layout.note_preview);
@@ -869,7 +869,6 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 @Override
                 public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                     mSpotifyAppRemote = spotifyAppRemote;
-                    Log.d("CLAU", "Connected! Yay!");
                     // Now you can start interacting with App Remote
 
                     if (add) {

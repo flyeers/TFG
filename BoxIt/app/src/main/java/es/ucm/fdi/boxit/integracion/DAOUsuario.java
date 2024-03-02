@@ -1,12 +1,9 @@
 package es.ucm.fdi.boxit.integracion;
 
 import android.net.Uri;
-import android.telecom.Call;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,12 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.StorageReference;
 
@@ -29,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
@@ -76,7 +68,6 @@ public class DAOUsuario {
                                     if (task.isSuccessful()) {
 
                                         // Sign in success, update UI with the signed-in user's information
-                                        Log.d("USUARIO", "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
 
                                         new ArrayList<String>();
@@ -149,16 +140,7 @@ public class DAOUsuario {
                                         }
 
 
-
-
-                                        //getUID() me devuelve el user id de la tabla de usuarios para emparejarlo con el usuario correspondiente
-
-                                        //cb.onCallbackExito(true);
-
-
                                     } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("USUARIO", "createUserWithEmail:failure", task.getException());
                                         cb.onCallbackExito(false);
                                     }
                                 }
@@ -213,7 +195,6 @@ public class DAOUsuario {
             if(task.isSuccessful()){
 
                 if(!task.getResult().isEmpty()){
-                    Log.d("CLAU", "ELUSUARIOEXISTE");
                     for (QueryDocumentSnapshot d: task.getResult()){
 
                         userInfo.setNombre(d.get(NOMBRE).toString());
@@ -253,7 +234,6 @@ public class DAOUsuario {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
-                                        Log.d("USUARIO", "signInWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Map<String, Object> updates = new HashMap<>();
                                         updates.put("token", newToken);
@@ -263,7 +243,6 @@ public class DAOUsuario {
                                         cb.onCallbackExito(true);
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        Log.w("USUARIO", "signInWithEmail:failure", task.getException());
                                         cb.onCallbackExito(false);
 
                                     }
@@ -297,7 +276,6 @@ public class DAOUsuario {
                 fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("CLAU", "Borrado del storage");
 
                         //ahora hay que subir la nueva imagen
 
@@ -332,8 +310,6 @@ public class DAOUsuario {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Uh-oh, an error occurred!
-                        Log.d("CLAU", "Borrado del storage MAL");
                         cb.onCallbackExito(false);
                     }
                 });
@@ -379,26 +355,6 @@ public class DAOUsuario {
 
 
     }
-
-
-
-    /*
-    public void insertBox(String correo, String idBox, boolean propia){
-        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
-        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                for (QueryDocumentSnapshot d : task.getResult()) {
-                    String userID = d.getId();
-                    if(propia){
-                        usersCollection.document(userID).update(CAJAS_PROPIAS, FieldValue.arrayUnion(idBox));
-                    }
-                    else{
-                        usersCollection.document(userID).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(idBox));
-                    }
-                }
-            }
-        });
-    }*/
 
     //CAJAS
     public void getUserBoxes(String correo, Callbacks cb){
@@ -782,38 +738,6 @@ public class DAOUsuario {
         }
     }
 
-    /* TODO quitar
-    public void searchUsuario(String username, Callbacks cb) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        ArrayList<UserInfo> users = new ArrayList<>();
-        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
-
-        String finalUsername = username.toLowerCase();
-        usersCollection.whereEqualTo(NOMBRE_USU, finalUsername).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                AtomicInteger count = new AtomicInteger(task.getResult().size());
-                for (QueryDocumentSnapshot d: task.getResult()){
-                    getUsuarioByUserName(finalUsername, new Callbacks() {
-                        @Override
-                        public void onCallback(UserInfo u) {
-                            if( u != null){
-                                if(u.getCorreo() != currentUser.getEmail())//que no sea el propio usuario
-                                    users.add(u);
-                            }
-                            if (count.decrementAndGet() == 0) {
-                                //cargadas los usuarios que coinciden con la busqueda
-                                cb.onCallbackUsers(users);
-                            }
-                        }
-                    });
-                }
-                //la busqueda no ha dado resultados
-                cb.onCallbackUsers(users);
-            }
-        });
-    }*/
-
     public void searchUsuario(String fragmentoUsername, Callbacks cb) {
         ArrayList<UserInfo> usuarios = new ArrayList<>();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
@@ -846,24 +770,5 @@ public class DAOUsuario {
             cb.onCallbackUsers(usuarios);
         });
     }
-
-
-
-    //TODO ver si se quiere usar -> puede suponer muchas llamadas
-    /*
-    public void esAmigo(String correo, Callbacks cb) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
-
-        usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot d : task.getResult()) {
-                    String userId = d.getId();
-                    ArrayList<String> amigos = (ArrayList<String>) d.get(LISTA_AMIGOS);
-                    cb.onCallbackExito(amigos.contains(correo));
-                }
-            }
-        });
-    }*/
 
 }

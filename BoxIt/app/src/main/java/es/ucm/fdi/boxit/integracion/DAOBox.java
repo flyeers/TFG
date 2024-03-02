@@ -2,9 +2,6 @@ package es.ucm.fdi.boxit.integracion;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.telecom.Call;
-import android.util.Base64;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.internal.StorageReferenceUri;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -34,7 +30,6 @@ import java.util.Random;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.MusicInfo;
-import es.ucm.fdi.boxit.negocio.SAUser;
 
 public class DAOBox {
 
@@ -128,7 +123,6 @@ public class DAOBox {
                                     else{
                                         try{
                                             for(String correo: b.getColaborators()){ //COLABORADORES
-                                                //TODO
                                                 //usersCollection.document(id).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(newBoxId));
                                                 usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task2 -> {
                                                     if (task.isSuccessful()) {
@@ -389,7 +383,6 @@ public class DAOBox {
 
         //IMG
         int random = new Random().nextInt(61) + 20;//generamos un numero para asegurarnos de no crear dos ids iguales
-        //TODO GENERAR UN ID SIMILAR AL RESTO
 
         FirebaseUser user = mAuth.getCurrentUser();
         String idImg = String.format("%s-%s-%s", b.getTitle(), random, "foto").replace("", "");
@@ -536,15 +529,12 @@ public class DAOBox {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Referencia de imagen en la colección eliminada exitosamente
-                        Log.d("CLAU", "Borrado de lista");
                         FirebaseStorage imageStorage = new FirebaseStorage();
 
                         //manipuilamos la referencia de la imagen para quedarnos con el id para borrarlo del storage:
                         int startIndex = imagenB.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
                         int endIndex = imagenB.indexOf(".png");
                         String res = imagenB.substring(startIndex, endIndex);
-
-                        //String idImagen = res.replace("%40", "@");
 
 
                         StorageReference fileReference = imageStorage.getStorageRef().child(res + ".png");
@@ -553,15 +543,12 @@ public class DAOBox {
                         fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d("CLAU", "Borrado del storage");
                                 cb.onCallbackExito(true);
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                // Uh-oh, an error occurred!
-                                Log.d("CLAU", "Borrado del storage MAL");
                                 cb.onCallbackExito(false);
                             }
                         });
@@ -593,7 +580,6 @@ public class DAOBox {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Referencia de documento en la colección eliminada exitosamente
-                        Log.d("CLAU", "Borrado de lista");
                         FirebaseStorage imageStorage = new FirebaseStorage();
 
                         int startIndex = file.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
@@ -606,7 +592,6 @@ public class DAOBox {
                         fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d("CLAU", "Borrado del storage");
                                 cb.onCallbackExito(true);
 
                             }
@@ -614,7 +599,6 @@ public class DAOBox {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
                                 // Uh-oh, an error occurred!
-                                Log.d("CLAU", "Borrado del storage MAL");
                                 cb.onCallbackExito(false);
                             }
                         });
@@ -756,7 +740,6 @@ public class DAOBox {
 
                                         for (String f : photos) {
 
-                                            Log.d("CLAU", "Foto");
                                             FirebaseStorage imageStorage = new FirebaseStorage();
                                             //manipuilamos la referencia de la imagen para quedarnos con el id para borrarlo del storage:
                                             int startIndex = f.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
@@ -770,13 +753,10 @@ public class DAOBox {
                                             fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Log.d("CLAU", "Borrado del storage");
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception exception) {
-                                                    // Uh-oh, an error occurred!
-                                                    Log.d("CLAU", "Borrado del storage MAL");
                                                     cb.onCallbackExito(false);
                                                 }
                                             });
@@ -787,7 +767,6 @@ public class DAOBox {
                                     if (docs != null) {
                                         // Para cada doc de la caja hay que eliminarla del storage
                                         for (String doc : docs) {
-                                            Log.d("CLAU", "Borrado de lista");
                                             FirebaseStorage imageStorage = new FirebaseStorage();
 
                                             int startIndex = doc.indexOf("/o/") + 3; // Sumamos 3 para avanzar hasta después de "/o/"
@@ -800,15 +779,12 @@ public class DAOBox {
                                             fileReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Log.d("CLAU", "Borrado del storage");
                                                     cb.onCallbackExito(true);
 
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception exception) {
-                                                    // Uh-oh, an error occurred!
-                                                    Log.d("CLAU", "Borrado del storage MAL");
                                                     cb.onCallbackExito(false);
                                                 }
                                             });
@@ -827,13 +803,10 @@ public class DAOBox {
                                     fileReference2.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.d("CLAU", "Portada borrada del storage");
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception exception) {
-                                            // Uh-oh, an error occurred!
-                                            Log.d("CLAU", "Error portada borrada del storage MAL");
                                             cb.onCallbackExito(false);
                                         }
                                     });
@@ -857,7 +830,6 @@ public class DAOBox {
                                         boxDoc.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Log.d("CLAU", "caja borrada");
                                                 cb.onCallbackExito(true);
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {

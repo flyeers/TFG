@@ -196,30 +196,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                         }
                                     }
                                 });
-                            /*}
-                            else{ TODO BORRA
-                                SACapsule saCapsule = new SACapsule();
-                                saCapsule.deletePhoto(boxId, img.toString(), new Callbacks() {
-                                    @Override
-                                    public void onCallbackExito(Boolean exito) {
-                                        if(exito){
-                                            int pos = itemsData.indexOf(img.toString());
-                                            if(pos != -1){
-                                                itemsData.remove(pos);
-                                                notifyDataSetChanged();
-                                            }
-                                            Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-                                            dialogConfirm.dismiss();
-
-                                        }
-                                        else{
-                                            Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                            dialogConfirm.dismiss();
-
-                                        }
-                                    }
-                                });
-                            }*/
                         }
                     });
 
@@ -270,7 +246,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onCallbackExito(Boolean exito) {
                                     if(exito){
-                                        Log.d("CLAU", "TODO BIEN");
                                         int pos = itemsData.indexOf(name);
                                         if(pos != -1){
                                             itemsData.remove(pos);
@@ -280,7 +255,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                         dialogConfirm.dismiss();
                                     }
                                     else{
-                                        Log.d("CLAU", "TODO MAL");
                                         Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
                                         dialogConfirm.dismiss();
                                     }
@@ -442,30 +416,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                                     }
                                 }
                             });
-                        /*}else{
-                            SACapsule saCapsule = new SACapsule();
-                            saCapsule.deletePhoto(boxId, i, new Callbacks() {
-                                @Override
-                                public void onCallbackExito(Boolean exito) {
-                                    if(exito){
-                                        int pos = itemsData.indexOf(i);
-                                        if(pos != -1){
-                                            itemsData.remove(pos);
-                                            notifyDataSetChanged();
-                                        }
-                                        dialogConfirm.dismiss();
-                                        dialog.dismiss();
-                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-
-                                    }
-                                    else{
-                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                        dialogConfirm.dismiss();
-                                        dialog.dismiss();
-                                    }
-                                }
-                            });
-                        }*/
                     }
                 });
 

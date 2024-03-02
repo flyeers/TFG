@@ -134,7 +134,6 @@ public class Registro extends AppCompatActivity {
                 @Override
                 public void onCallbackExito(Boolean exito) {
                     if(exito){
-                        Log.d("CLAU", "nombre ya se usa");
                         textInputLayoutName.setError(getString(R.string.userNameDuplicado));
                         //ok = false;
                         cb.onCallbackExito(false);
@@ -142,7 +141,6 @@ public class Registro extends AppCompatActivity {
                     else{
                         textInputLayoutName.setError(null);
                         if(!valid.isValidEmail()){
-                            //TODO DA ERROR mirar logs
                             textInputLayoutEmail.setError(getString(R.string.emailIncorrecto));
                             ok = false;
                         }
@@ -183,9 +181,6 @@ public class Registro extends AppCompatActivity {
 
 
         }
-
-
-        //return ok;
     }
 
     @Override

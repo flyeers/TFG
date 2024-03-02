@@ -603,7 +603,7 @@ public class Caja extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
                             startActivityForResult(docsIntent, PICK_PDF_REQUEST_CODE);
                             return true;
                         }
-                        else if(id == R.id.addNota){ //TODO CAMBIAR (lo dejo asi por si luego cambia músiaca)
+                        else if(id == R.id.addNota){
 
                             Dialog dialogNote = new Dialog(ctx);
                             dialogNote.setContentView(R.layout.note_preview);
@@ -854,7 +854,6 @@ public class Caja extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
                 @Override
                 public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                     mSpotifyAppRemote = spotifyAppRemote;
-                    Log.d("CLAU", "Connected! Yay!");
                     // Now you can start interacting with App Remote
 
                     if (add) {
@@ -867,16 +866,12 @@ public class Caja extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.e("CLAU", "Error al conectar con Spotify: " + throwable.getMessage(), throwable);
-
                     Toast.makeText(ctx, R.string.errorConect, Toast.LENGTH_SHORT).show();
                     cb.onCallbackExito(false);
                 }
             });
         }catch (Exception e){
             e.printStackTrace();
-            Log.e("CLAU", e.getMessage());
-
         }
     }
 

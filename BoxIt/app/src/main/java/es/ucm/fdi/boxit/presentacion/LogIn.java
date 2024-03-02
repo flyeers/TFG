@@ -38,7 +38,6 @@ public class LogIn extends AppCompatActivity {
                 SAUser saUser = new SAUser();
                 if(nombreUsuario.getText().toString().contains("@")){
                     //entrando con correo
-                    Log.d("CLAU", "Entrando con correo");
                     saUser.loginCorreo(nombreUsuario.getText().toString(), contraseña.getText().toString(), new Callbacks() {
                         @Override
                         public void onCallbackExito(Boolean exito) {
@@ -54,7 +53,6 @@ public class LogIn extends AppCompatActivity {
                 }
                 else{
                     //entrando con nombre de usuario
-                    Log.d("CLAU", "Entrando con username");
                     saUser.getUsuarioByUsername(nombreUsuario.getText().toString(), new Callbacks() {
                         @Override
                         public void onCallback(UserInfo u) {

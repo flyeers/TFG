@@ -69,7 +69,6 @@ public class Crear extends AppCompatActivity {
     }
 
     private void setPremadeDisings(){
-        //TODO
         ArrayList<CapsuleInfo> capDisings = new ArrayList<>();
         String packageName = getApplicationContext().getPackageName();
 

@@ -1,9 +1,7 @@
 package es.ucm.fdi.boxit.integracion;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Log;
 
+import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
@@ -21,9 +19,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
