@@ -38,7 +38,7 @@
 
     <!--Creaciones-->
     <string name="crearCaja">Crear caja</string>
-    <string name="crearCapsula">Crear capsula</string>
+    <string name="crearCapsula">Crear cápsula</string>
     <string name="desde0">Crear desde 0</string>
     <string name="diseños">Diseños recomendados</string>
     <string name="NombreCaja">Introduce Nombre de la caja</string>
@@ -47,28 +47,28 @@
     <string name="CajaTitulo">Nombre de la caja</string>
     <string name="selectImg">Elegir foto de Portada</string>
     <string name="addCol">Añadir Colaboradores</string>
-    <string name="abrirse">dias para abrirse</string>
-    <string name="cerrarse">dias para cerrarse</string>
+    <string name="abrirse">días para abrirse</string>
+    <string name="cerrarse">días para cerrarse</string>
     <string name="fechaApertura">Fecha de apertura</string>
     <string name="fechaCierre">Fecha de cierre</string>
     <string name="requerido">Campo obligatorio</string>
     <string name="errCrearCaja">No se ha podido crear la caja</string>
     <string name="set">Establecer</string>
-    <string name="dateObligatoria">Fechas oblogatorias</string>
+    <string name="dateObligatoria">Fechas obligatorias</string>
     <string name="CierrePreApertura">El cierre debe ser previo a la apertura</string>
-    <string name="datePreActual">Ninguna fecha puede ser preivia a hoy</string>
-    <string name="tiempoCerrado">La capsula estará cerrada durante </string>
-    <string name="dias">dias</string>
+    <string name="datePreActual">Ninguna fecha puede ser preivia a la del día de hoy</string>
+    <string name="tiempoCerrado">La cápsula estará cerrada durante </string>
+    <string name="dias">días</string>
     <string name="abiertaPermanente">Permanentemente abierta </string>
-    <string name="errCrearCap">No se ha podido crear la capsula</string>
-    <string name="errUpdate">No se ha podido actualizar</string>
+    <string name="errCrearCap">No se ha podido crear la cápsula</string>
+    <string name="errUpdate">No se han podido actualizar los datos</string>
 
 
     <!--Ver all-->
     <string name="cajas">Cajas</string>
     <string name="capsulas">Cápsulas</string>
     <string name="todas">Todas</string>
-    <string name="mine">Mias</string>
+    <string name="mine">Mías</string>
     <string name="compartidas">Compartidas conmigo</string>
 
     <!--Perfil-->
@@ -84,7 +84,7 @@
     <string name="noBusqueda">No se han encontrado resultados</string>
 
     <!--Elementos-->
-    <string name="camara">Camara</string>
+    <string name="camara">Cámara</string>
     <string name="galeria">Fotos</string>
     <string name="todo">Ver todo</string>
     <string name="musica">Música</string>
@@ -99,7 +99,7 @@
 
     <!--titulos-->
     <string name="delacaja">de la caja</string>
-    <string name="delacapsula">de la capsula</string>
+    <string name="delacapsula">de la cápsula</string>
     <string name="tododelacapsula">Contenido de la cápsula</string>
     <string name="tododelacaja">Contenido de la caja</string>
 
