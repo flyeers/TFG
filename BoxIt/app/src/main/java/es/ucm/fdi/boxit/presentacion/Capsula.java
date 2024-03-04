@@ -552,7 +552,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                     textoFotos2.setText(getResources().getString(R.string.delacapsula));
 
                     musicAdapter.setData(music_b, mSpotifyAppRemote, capsuleInfo.getId(), ctx);
-
+                    musicAdapter.setCapsula();
                     RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
                     recyclerView.setAdapter(musicAdapter);
                 }
@@ -856,7 +856,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                             music_b = data;
 
                             musicAdapter.setData( music_b, mSpotifyAppRemote, capsuleInfo.getId(), ctx);
-
+                            musicAdapter.setCapsula();
                             RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
                             recyclerView.setAdapter(musicAdapter);
 
@@ -981,7 +981,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                                     music_b = data;
 
                                     musicAdapter.setData( music_b, mSpotifyAppRemote, capsuleInfo.getId(), ctx);
-
+                                    musicAdapter.setCapsula();
                                     RecyclerView recyclerView = findViewById(R.id.recyclermusicaCaja);
                                     recyclerView.setAdapter(musicAdapter);
 

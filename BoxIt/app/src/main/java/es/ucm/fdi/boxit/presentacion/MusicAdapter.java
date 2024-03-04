@@ -187,5 +187,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         }
     }
+
+    public void setCapsula(){
+        this.isBox = false;
+    }
 }
 
