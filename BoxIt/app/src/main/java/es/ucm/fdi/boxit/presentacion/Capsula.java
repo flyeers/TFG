@@ -138,7 +138,12 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
             long dias = TimeUnit.MILLISECONDS.toDays(d);
             long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;
             long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;
-            tiempo.setText(dias+"D. "+horas+"H. "+minutos+"M. ");
+
+            //getResources().getString(R.string.tododelacaja)
+            String day = dias < 10 ? getResources().getString(R.string.dia) : getResources().getString(R.string.dias2);
+            String hour = dias < 10 ? getResources().getString(R.string.hora) : getResources().getString(R.string.horas);
+            String minute = dias < 10 ? getResources().getString(R.string.minuto) : getResources().getString(R.string.minutos);
+            tiempo.setText(dias+" "+day+" "+horas+" "+hour+" "+minutos+" "+minute);
 
         }else{
             tiempo.setText(getResources().getString(R.string.abiertaPermanente));

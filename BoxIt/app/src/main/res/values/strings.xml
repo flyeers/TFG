@@ -99,6 +99,12 @@
     <string name="addBienCap">Elemento añadido a la cápsula</string>
     <string name="addMal">Error al insertar elemento</string>
     <string name="colaboradores">Colaboradores</string>
+    <string name="dia">Día</string>
+    <string name="dias2">Días</string>
+    <string name="hora">Hora</string>
+    <string name="horas">Horas</string>
+    <string name="minuto">Minuto</string>
+    <string name="minutos">Minutos</string>
 
     <!--titulos-->
     <string name="delacaja">de la caja</string>

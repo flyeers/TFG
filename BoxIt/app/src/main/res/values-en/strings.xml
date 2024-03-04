@@ -101,6 +101,12 @@
     <string name="addBienCap">Item added to capsule</string>
     <string name="addMal">Error while inserting item</string>
     <string name="colaboradores">Collaborators</string>
+    <string name="dia">Day</string>
+    <string name="dias2">Days</string>
+    <string name="hora">Hour</string>
+    <string name="horas">Hours</string>
+    <string name="minuto">Minute</string>
+    <string name="minutos">Minutes</string>
 
     <!--titulos-->
     <string name="delacaja">from the box</string>
