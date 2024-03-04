@@ -56,18 +56,26 @@ public class LogIn extends AppCompatActivity {
                     saUser.getUsuarioByUsername(nombreUsuario.getText().toString(), new Callbacks() {
                         @Override
                         public void onCallback(UserInfo u) {
-                            saUser.loginCorreo(u.getCorreo().toString(), contraseña.getText().toString(), new Callbacks() {
-                                @Override
-                                public void onCallbackExito(Boolean exito) {
-                                    if(exito){
-                                        Intent intent2 = new Intent(LogIn.this, MainActivity.class);
-                                        startActivity(intent2);
+
+                            if(u != null){
+                                saUser.loginCorreo(u.getCorreo().toString(), contraseña.getText().toString(), new Callbacks() {
+                                    @Override
+                                    public void onCallbackExito(Boolean exito) {
+                                        if(exito){
+                                            Intent intent2 = new Intent(LogIn.this, MainActivity.class);
+                                            startActivity(intent2);
+                                        }
+                                        else{
+                                            Toast.makeText(LogIn.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                    else{
-                                        Toast.makeText(LogIn.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                                });
+                            }
+                            else{
+                                Toast.makeText(LogIn.this, R.string.errerLogIn, Toast.LENGTH_SHORT).show();
+
+                            }
+
                         }
                     });
                 }

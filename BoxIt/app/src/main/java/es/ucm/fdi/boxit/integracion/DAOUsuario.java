@@ -207,15 +207,15 @@ public class DAOUsuario {
                     }
 
                     cb.onCallback(userInfo);
-                    cb.onCallbackExito(true);
+
                 }
                 else{
-                    cb.onCallbackExito(false);
+                    cb.onCallback(null);
                 }
 
             }
             else{
-                cb.onCallbackExito(false);
+                cb.onCallback(null);
             }
         });
 
