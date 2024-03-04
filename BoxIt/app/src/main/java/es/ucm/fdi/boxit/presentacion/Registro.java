@@ -132,8 +132,8 @@ public class Registro extends AppCompatActivity {
             SAUser saUser = new SAUser();
             saUser.getUsuarioByUsername(username.getText().toString(), new Callbacks() {
                 @Override
-                public void onCallbackExito(Boolean exito) {
-                    if(exito){
+                public void onCallback(UserInfo userInfo) {
+                    if(userInfo != null){
                         textInputLayoutName.setError(getString(R.string.userNameDuplicado));
                         //ok = false;
                         cb.onCallbackExito(false);

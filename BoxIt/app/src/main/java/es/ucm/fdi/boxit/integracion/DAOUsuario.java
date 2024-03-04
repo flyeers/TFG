@@ -75,7 +75,7 @@ public class DAOUsuario {
                                         //metemos en la bd la informacion del usuario
                                         Map<String, Object> data = new HashMap<>();
                                         data.put(NOMBRE_USU, usuarioInsertar.getNombreUsuario().toLowerCase());//username en minusculas
-                                        data.put(CORREO, usuarioInsertar.getCorreo());
+                                        data.put(CORREO, usuarioInsertar.getCorreo().toLowerCase());
                                         data.put(NOMBRE, usuarioInsertar.getNombre());
                                         data.put(TOKEN, token);
 
@@ -668,6 +668,11 @@ public class DAOUsuario {
                     for (QueryDocumentSnapshot d : task.getResult()) {
                         String userId = d.getId();
                         usersCollection.document(userId).update(LISTA_AMIGOS, FieldValue.arrayUnion(currentUser.getEmail()));
+
+                        //si el usuario tenia tambien una solicitud de current
+                        ArrayList<String> s = (ArrayList<String>) d.get(LISTA_SOLICITUDES);
+                        if(s.contains(currentUser.getEmail()))
+                            usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayRemove(currentUser.getEmail()));
                     }
                 }
             });
