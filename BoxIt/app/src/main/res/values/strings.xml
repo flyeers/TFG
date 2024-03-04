@@ -70,6 +70,8 @@
     <string name="todas">Todas</string>
     <string name="mine">Mías</string>
     <string name="compartidas">Compartidas conmigo</string>
+    <string name="noCajas">Aún no tienes ninguna caja</string>
+    <string name="noCapsulas">Aún no tienes ninguna cápsula</string>
 
     <!--Perfil-->
     <string name="editarPerf">Editar perfil</string>
@@ -96,6 +98,7 @@
     <string name="addBien">Elemento añadido a la caja</string>
     <string name="addBienCap">Elemento añadido a la cápsula</string>
     <string name="addMal">Error al insertar elemento</string>
+    <string name="colaboradores">Colaboradores</string>
 
     <!--titulos-->
     <string name="delacaja">de la caja</string>

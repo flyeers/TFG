@@ -33,6 +33,7 @@ public class UsersAdapter extends RecyclerView.Adapter{
     private ArrayList<UserInfo> usersData; //nombreUsuario e imagen de perfil
 
     private ArrayList<String> colaboradores = new ArrayList<>();
+    private boolean readOnly = false;
 
     public void setUserData(List<UserInfo> data){
         this.usersData = (ArrayList<UserInfo>) data;
@@ -40,6 +41,8 @@ public class UsersAdapter extends RecyclerView.Adapter{
     public void setPreData(ArrayList<String> colaborators) {
         this.colaboradores = colaborators;
     }
+
+    public void setReadOnly(boolean readOnly){ this.readOnly = readOnly;}
     public ArrayList<String> getData(){
         return colaboradores;
     }
@@ -76,9 +79,11 @@ public class UsersAdapter extends RecyclerView.Adapter{
                     }
                 });
 
-
+        if(readOnly){
+            h.imgOver.setVisibility(View.GONE);
+        }
         //si no era colaborador de inicio
-        if(colaboradores.isEmpty() || !colaboradores.contains(u.getCorreo())){
+        else if(colaboradores.isEmpty() || !colaboradores.contains(u.getCorreo())){
             h.imgOver.setVisibility(View.GONE);
             h.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

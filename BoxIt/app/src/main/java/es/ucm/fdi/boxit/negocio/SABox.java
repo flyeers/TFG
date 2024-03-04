@@ -111,4 +111,8 @@ public class SABox {
         dao.deleteSong(idBox, isbox, idSong, cb);
     }
 
+    public void getCollaborators(String id, boolean isBox, Callbacks cb) {
+        DAOBox dao = new DAOBox();
+        dao.getCollaboratos(id, isBox, cb);
+    }
 }

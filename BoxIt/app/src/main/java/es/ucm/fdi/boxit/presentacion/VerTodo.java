@@ -53,7 +53,7 @@ import es.ucm.fdi.boxit.negocio.UserInfo;
 public class VerTodo extends AppCompatActivity {
 
     private RecyclerView recyclerBox, recyclerCap;
-    private TextView cap, box;
+    private TextView cap, box, noElem;
     private Button plus;
     private LinearLayout layBox, layCap;
     private SearchView sBox, sCap;
@@ -75,6 +75,7 @@ public class VerTodo extends AppCompatActivity {
 
         cap = findViewById(R.id.capsulaName);
         box = findViewById(R.id.cajaName);
+        noElem = findViewById(R.id.textNoElem);
 
         allBoxes = new ArrayList<>();
         allCapsules = new ArrayList<>();
@@ -116,6 +117,10 @@ public class VerTodo extends AppCompatActivity {
                     layBox.setVisibility(View.VISIBLE);
                     box.setTextColor(getResources().getColor(R.color.rosaBoton));
                     cap.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
+                    if(allBoxes.isEmpty()){
+                        noElem.setVisibility(View.VISIBLE);
+                        noElem.setText(R.string.noCajas);
+                    } else noElem.setVisibility(View.GONE);
                 }
             }
         });
@@ -127,6 +132,10 @@ public class VerTodo extends AppCompatActivity {
                     layCap.setVisibility(View.VISIBLE);
                     cap.setTextColor(getResources().getColor(R.color.rosaBoton));
                     box.setTextColor(getResources().getColor(R.color.rosaBotonClaro));
+                    if(allCapsules.isEmpty()){
+                        noElem.setVisibility(View.VISIBLE);
+                        noElem.setText(R.string.noCapsulas);
+                    } else noElem.setVisibility(View.GONE);
                 }
             }
         });
@@ -314,7 +323,17 @@ public class VerTodo extends AppCompatActivity {
 
                 Collections.sort(allCapsules, Comparator.comparing(CapsuleInfo::getTitle));
                 c.setCapData(allCapsules, true, false,VerTodo.this);
-                recyclerCap.setAdapter(c);            }
+                recyclerCap.setAdapter(c);
+                if(isBox && allBoxes.isEmpty()){
+                    noElem.setVisibility(View.VISIBLE);
+                    noElem.setText(R.string.noCajas);
+                }
+                else if(!isBox && allCapsules.isEmpty()){
+                    noElem.setVisibility(View.VISIBLE);
+                    noElem.setText(R.string.noCapsulas);
+                }
+
+            }
         }, 1000);
 
     }

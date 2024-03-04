@@ -27,9 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.MusicInfo;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class DAOBox {
 
@@ -1041,4 +1043,37 @@ public class DAOBox {
     }
 
 
+    public void getCollaboratos(String id, boolean isBox, Callbacks cb) {
+        String COL = isBox ? COL_BOX : COL_CAP;
+        ArrayList<UserInfo> users = new ArrayList<>();
+
+        CollectionReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL);
+            boxDocument.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot ds = task.getResult();
+
+                        ArrayList<String> colab = new ArrayList<>();
+                        colab = (ArrayList<String>) ds.getData().get(COLABORADORES);
+                        AtomicInteger count = new AtomicInteger(colab.size());
+                        DAOUsuario daoUsuario = new DAOUsuario();
+                        for(String email: colab){
+                            daoUsuario.getUsuario(email, new Callbacks() {
+                                @Override
+                                public void onCallback(UserInfo u) {
+                                    if( u != null){
+                                        users.add(u);
+                                    }
+                                    if (count.decrementAndGet() == 0) {
+                                        cb.onCallbackUsers(users);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else cb.onCallbackUsers(users);
+                }
+            });
+    }
 }

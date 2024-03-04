@@ -50,6 +50,7 @@ import es.ucm.fdi.boxit.negocio.CapsuleInfo;
 import es.ucm.fdi.boxit.negocio.MusicInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
+import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
@@ -69,7 +70,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
     private android.net.Uri selectedItem = null;
     private int numfotos = 0;
     private boolean fotoPulsado, docPulsado, notasPulsado, musicaPulsado;
-    private ImageView home, delete, exit, ellipse;
+    private ImageView home, delete, exit, colab, ellipse;
     SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String CLIENT_ID = "84e06632856840c38d929188d2bfd919";
@@ -117,6 +118,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
         home = findViewById(R.id.homeBtn);
         delete = findViewById(R.id.delete);
         exit = findViewById(R.id.exit);
+        colab = findViewById(R.id.colab);
 
         swipeRefreshLayout = findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -273,6 +275,36 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
                     });
 
                     dialogConfirm.show();
+                }
+            });
+
+            colab.setVisibility(View.VISIBLE);
+            colab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog dialogColab = new Dialog(ctx);
+                    dialogColab.setContentView(R.layout.collaborators_dialog);
+                    Button cancelar = dialogColab.findViewById(R.id.buttonCancelar);
+                    RecyclerView colab = dialogColab.findViewById(R.id.recyclerColab);
+
+                    SABox saBox = new SABox();
+                    saBox.getCollaborators(capsuleInfo.getId(), false, new Callbacks() {
+                        @Override
+                        public void onCallbackUsers(ArrayList<UserInfo> users) {
+                            UsersAdapter usersAdapter = new UsersAdapter();
+                            usersAdapter.setReadOnly(true);
+                            usersAdapter.setUserData(users);
+                            colab.setAdapter(usersAdapter);
+                        }
+                    });
+
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogColab.dismiss();
+                        }
+                    });
+                    dialogColab.show();
                 }
             });
         }
@@ -881,9 +913,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.e("CLAU", "Error al conectar con Spotify: " + throwable.getMessage(), throwable);
-
-                    Toast.makeText(ctx, R.string.errorConect, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(ctx, R.string.errorConect, Toast.LENGTH_SHORT).show();
                     cb.onCallbackExito(false);
                 }
             });

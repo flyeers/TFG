@@ -72,6 +72,8 @@
     <string name="todas">All</string>
     <string name="mine">Mine</string>
     <string name="compartidas">Shared with me</string>
+    <string name="noCajas">You do not have boxes yet</string>
+    <string name="noCapsulas">You do not have capsules yet</string>
 
     <!--Perfil-->
     <string name="editarPerf">Edit profile</string>
@@ -98,6 +100,7 @@
     <string name="addBien">Item added to box</string>
     <string name="addBienCap">Item added to capsule</string>
     <string name="addMal">Error while inserting item</string>
+    <string name="colaboradores">Collaborators</string>
 
     <!--titulos-->
     <string name="delacaja">from the box</string>
