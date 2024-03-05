@@ -143,5 +143,13 @@
     <string name="add">Añadir</string>
     <string name="errorConect">Algo fue mal</string>
 
+    <string name="infoCapsule1">
+        Una cápsula funciona igual que una caja en cuanto a lo que puedes guardar,
+        pero el tiempo para hacerlo es limitado!
+    </string>
+    <string name="infoCapsule2">
+        Establece una fecha de cierre y espera para ver tus recuerdos durante dias, semanas o meses,
+        de modo que cuando llegue la fecha de apertura de la capsula, serán aun más especiales
+    </string>
 
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +14,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,15 +37,15 @@ import java.util.concurrent.TimeUnit;
 
 import es.ucm.fdi.boxit.R;
 import es.ucm.fdi.boxit.integracion.Callbacks;
-import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.CapsuleInfo;
+import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
 
 public class CrearCapsulaForm extends AppCompatActivity {
 
-    private ImageView ellipse, home;
+    private ImageView ellipse, home, info;
     private EditText nombreCapsulaInput;
     private TextView nombreCapsulaTitulo, textApertura, textCierre, daysApertura, daysCierre, daysCerrado;
     private NumberPicker diaCierre, mesCierre, añoCierre, diaApertura, mesApertura, añoApertura;
@@ -65,6 +65,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
         setContentView(R.layout.activity_crear_capsula_form);
 
         home = findViewById(R.id.homeBtn);
+        info = findViewById(R.id.btnInfo);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +73,22 @@ public class CrearCapsulaForm extends AppCompatActivity {
                 Intent intent = new Intent(ctx, MainActivity.class);
                 intent.putExtra("nueva", true);
                 ctx.startActivity(intent);
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialogColab = new Dialog(CrearCapsulaForm.this);
+                dialogColab.setContentView(R.layout.cap_info_dialog);
+                Button cancelar = dialogColab.findViewById(R.id.buttonCancelar);
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogColab.dismiss();
+                    }
+                });
+                dialogColab.show();
             }
         });
 

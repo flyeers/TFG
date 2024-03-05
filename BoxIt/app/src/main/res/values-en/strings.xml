@@ -146,4 +146,13 @@
     <string name="add">Add</string>
     <string name="errorConect">Something went wrong</string>
 
+    <string name="infoCapsule1">
+        A capsule works just like a box in terms of what you can store,
+        but the time to do so is limited!
+    </string>
+    <string name="infoCapsule2">
+        Set a closing date and wait to view your memories for days, weeks, or months,
+        so that when the opening date for the capsule arrives, they will be even more special.
+    </string>
+
 </resources>
