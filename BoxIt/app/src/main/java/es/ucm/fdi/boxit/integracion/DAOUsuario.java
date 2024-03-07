@@ -13,8 +13,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.StorageReference;
 
@@ -710,24 +712,30 @@ public class DAOUsuario {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
 
-        try {
-            //Añadimos a la lista de solicitudes del al que se le solicita seguir
-            usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot d : task.getResult()) {
-                        String userId = d.getId();
-                        ArrayList<String> s = (ArrayList<String>) d.get(LISTA_SOLICITUDES);
-                        ArrayList<String> a = (ArrayList<String>) d.get(LISTA_AMIGOS);
-                        if (!s.contains(currentUser.getEmail()) && !a.contains(currentUser.getEmail())) {//si no esta ya lo silicitud o amigos
-                            usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getEmail()));
+        if(!correo.equals(mAuth.getCurrentUser().getEmail())){
+            try {
+                //Añadimos a la lista de solicitudes del al que se le solicita seguir
+                usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot d : task.getResult()) {
+                            String userId = d.getId();
+                            ArrayList<String> s = (ArrayList<String>) d.get(LISTA_SOLICITUDES);
+                            ArrayList<String> a = (ArrayList<String>) d.get(LISTA_AMIGOS);
+                            if (!s.contains(currentUser.getEmail()) && !a.contains(currentUser.getEmail())) {//si no esta ya lo silicitud o amigos
+                                usersCollection.document(userId).update(LISTA_SOLICITUDES, FieldValue.arrayUnion(currentUser.getEmail()));
+                            }
                         }
                     }
-                }
-            });
-            cb.onCallbackExito(true);
-        } catch (Exception e) {
+                });
+                cb.onCallbackExito(true);
+            } catch (Exception e) {
+                cb.onCallbackExito(false);
+            }
+        }
+        else{
             cb.onCallbackExito(false);
         }
+
     }
 
     public void removeSolicitud(String correo, Callbacks cb) {
@@ -773,6 +781,31 @@ public class DAOUsuario {
                 }
             }
             cb.onCallbackUsers(usuarios);
+        });
+    }
+
+    public void getToken(String correo, Callbacks cb){
+
+        SingletonDataBase.getInstance().getDB().collection(COL_USERS).whereEqualTo("correo",
+               correo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                        String userToken = document.getString("token");
+                        cb.onCallbackData(userToken);
+
+                    }
+                    else{
+                        cb.onCallbackData("");
+                    }
+                }
+                else{
+                    cb.onCallbackData("");
+                }
+            }
         });
     }
 

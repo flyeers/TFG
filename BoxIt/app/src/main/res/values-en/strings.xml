@@ -155,4 +155,8 @@
         so that when the opening date for the capsule arrives, they will be even more special.
     </string>
 
+    <!--Notificaciones -->
+    <string name="solicitudNoti"> wants to be your friend</string>
+    <string name="noti_solicitud">Request Notification</string>
+    <string name="exito_noti">Notification send</string>
 </resources>

@@ -94,4 +94,9 @@ public class SAUser {
         dao.updateperfil(nuevoNom, nuevaFoto, username, hayFoto, cb);
     }
 
+    public void getToken(String correo, Callbacks cb){
+        DAOUsuario dao = new DAOUsuario();
+        dao.getToken(correo, cb);
+    }
+
 }

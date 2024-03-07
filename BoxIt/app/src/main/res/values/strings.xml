@@ -152,4 +152,9 @@
         de modo que cuando llegue la fecha de apertura de la capsula, serán aun más especiales
     </string>
 
+    <!--Notificaciones -->
+    <string name="solicitudNoti"> quiere ser tu amigo</string>
+    <string name="noti_solicitud">Request Notification</string>
+    <string name="exito_noti">Solicitud enviada</string>
+
 </resources>
