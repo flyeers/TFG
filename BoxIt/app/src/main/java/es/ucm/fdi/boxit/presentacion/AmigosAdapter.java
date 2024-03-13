@@ -240,7 +240,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", R.string.noti_solicitud);
-            String bodyNotification = username_actual + R.string.solicitudNoti;
+            String bodyNotification = username_actual;
             notificationObj.put("texto", bodyNotification);
             notificationObj.put("tag",  currentuser.getEmail());
             jsonObject.put("notification",notificationObj);

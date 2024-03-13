@@ -1,12 +1,8 @@
 package es.ucm.fdi.boxit.integracion;
 
-
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -20,11 +16,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
-import es.ucm.fdi.boxit.presentacion.MainActivity;
+import es.ucm.fdi.boxit.R;
 
 
 /* Esta clase se encarga de gestionar la llegada de notificaciones. No se instancia en ningún sitio.
@@ -33,28 +26,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     /* Listener que espera la llegada de nuevas notificaciones y desempaqueta el mensaje en título de
     la notificación y cuerpo.  */
-   /* @Override
+    @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
             String title = notification.getTitle();
-            String body = notification.getBody();
-            String email = notification.getTag();
-            showNotification(title, body, email);
-
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-            String fecha = dateFormat.format(calendar.getTime());
-
-            SAUser sa = new SAUser();
-            sa.aniadirNotificacion(body, fecha, email);
+            String body = notification.getBody()+ " " + getString(R.string.solicitudNoti);
+            //Log.d("Notifrecibida", "Title: " + title + ", Body: " + body);
+            showNotification(title, body);
         }
-    }*/
+    }
 
     /* Esta función crea la vista de la notificación. Ocurre que en las versiones más nuevas es
      * obligatorio crear un canal de comunicación pero en las más antiguas no, por eso el IF. */
-    private void showNotification(String title, String body, String email) {
+    private void showNotification(String title, String body) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         String channelId = "my_channel_id";
@@ -75,14 +61,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setStyle(bigTextStyle)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("fragmentToLoad", "UsuarioBibliotecaFragment");
-        intent.putExtra("propietario", email);
-
-        // Creamos PendingIntent para la notificación con el Intent configurado
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        builder.setContentIntent(pendingIntent);
-
 
         /* El id debería ser un número aleatorio, de momento lo dejo en 0 */
         notificationManager.notify(0, builder.build());
@@ -91,7 +69,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /* Función que se invoca cuando el token del usuario ha cambiado. Existen diversas razones como
      * reinstalar la aplicación o ejecutarla en modo debug. Explico qué es el token del usuario en
      * DAOUser */
-    /*
     @Override
     public void onNewToken(String newToken) {
 
@@ -106,6 +83,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .collection("Usuarios").document(idUsuario).update(updates);
 
     }
-    */
-
 }
