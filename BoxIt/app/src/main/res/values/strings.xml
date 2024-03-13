@@ -56,7 +56,7 @@
     <string name="set">Establecer</string>
     <string name="dateObligatoria">Fechas obligatorias</string>
     <string name="CierrePreApertura">El cierre debe ser previo a la apertura</string>
-    <string name="datePreActual">Ninguna fecha puede ser preivia a la del día de hoy</string>
+    <string name="datePreActual">Ninguna fecha puede ser anterior o igual a la de hoy</string>
     <string name="tiempoCerrado">La cápsula estará cerrada durante </string>
     <string name="dias">días</string>
     <string name="abiertaPermanente">Permanentemente abierta </string>

@@ -333,7 +333,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     Toast.makeText(CrearCapsulaForm.this, R.string.CierrePreApertura, Toast.LENGTH_LONG).show();;
                 }
                 else if(apertura.before(cd) || cierre.before(cd)){//El antes de el dia actual
-                    Toast.makeText(CrearCapsulaForm.this, R.string.CierrePreApertura, Toast.LENGTH_LONG).show();;
+                    Toast.makeText(CrearCapsulaForm.this, R.string.datePreActual, Toast.LENGTH_LONG).show();;
                 }
                 else{
                     if(selectedImage == null){

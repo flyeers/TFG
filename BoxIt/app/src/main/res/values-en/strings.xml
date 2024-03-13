@@ -58,7 +58,7 @@
     <string name="set">Set</string>
     <string name="dateObligatoria">Dates are mandatory</string>
     <string name="CierrePreApertura">Closing must be prior to opening</string>
-    <string name="datePreActual">None of the dates can be prior to today.</string>
+    <string name="datePreActual">None of the dates can be prior or equal to today</string>
     <string name="tiempoCerrado">The capsule remains closed for </string>
     <string name="dias">days</string>
     <string name="abiertaPermanente">Permanently open</string>
