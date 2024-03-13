@@ -154,6 +154,26 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                                 notifyItemRemoved(holder.getAdapterPosition());
                                 notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
 
+
+                            }
+                        }
+                    });
+
+                }
+            });
+        }
+        else{ //lista busqueda
+            holder.btn1.setVisibility(View.GONE);
+            holder.btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserInfo selectedUser = users.get(holder.getAdapterPosition());
+                    SAUser saUser = new SAUser();
+                    saUser.sendSolicitud(selectedUser.getCorreo(), new Callbacks() { //enviar solicitud
+                        @Override
+                        public void onCallbackExito(Boolean exito) {
+                            if(exito){
+                                holder.btn2.setVisibility(View.GONE);
                                 //GENERAMOS LAS NOTIFICACIONES
 
                                 saUser.getToken(selectedUser.getCorreo(), new Callbacks() {
@@ -174,25 +194,6 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                                         }
                                     }
                                 });
-                            }
-                        }
-                    });
-
-                }
-            });
-        }
-        else{ //lista busqueda
-            holder.btn1.setVisibility(View.GONE);
-            holder.btn2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UserInfo selectedUser = users.get(holder.getAdapterPosition());
-                    SAUser saUser = new SAUser();
-                    saUser.sendSolicitud(selectedUser.getCorreo(), new Callbacks() { //enviar solicitud
-                        @Override
-                        public void onCallbackExito(Boolean exito) {
-                            if(exito){
-                                holder.btn2.setVisibility(View.GONE);
                             }
                         }
                     });
