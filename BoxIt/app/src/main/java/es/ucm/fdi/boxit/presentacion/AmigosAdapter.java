@@ -253,7 +253,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
         OkHttpClient client = new OkHttpClient();
         String url = "https://fcm.googleapis.com/fcm/send";
-        RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
+        RequestBody body = RequestBody.create(jsonObject.toString(), mediaType);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)

@@ -2,21 +2,28 @@ package es.ucm.fdi.boxit.integracion;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.os.IBinder;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import es.ucm.fdi.boxit.R;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+/* Esta clase se encarga de gestionar la llegada de notificaciones. No se instancia en ningún sitio.
+ * Funciona porque está añadida como un servicio en el Android Manifest. */
+public class MyFirebaseMessagingService2 extends FirebaseMessagingService {
+
+    /* Listener que espera la llegada de nuevas notificaciones y desempaqueta el mensaje en título de
+    la notificación y cuerpo.  */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -29,6 +36,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    /* Esta función crea la vista de la notificación. Ocurre que en las versiones más nuevas es
+     * obligatorio crear un canal de comunicación pero en las más antiguas no, por eso el IF. */
     private void showNotification(String title, String body) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -55,5 +64,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0, builder.build());
     }
 
+    /* Función que se invoca cuando el token del usuario ha cambiado. Existen diversas razones como
+     * reinstalar la aplicación o ejecutarla en modo debug. Explico qué es el token del usuario en
+     * DAOUser */
+    @Override
+    public void onNewToken(String newToken) {
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String idUsuario = currentUser.getUid();
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("token", newToken);
+
+        SingletonDataBase.getInstance().getDB()
+                .collection("Usuarios").document(idUsuario).update(updates);
+
+    }
 }
