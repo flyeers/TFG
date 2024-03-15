@@ -153,7 +153,24 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                                 // Notificar al adaptador que los datos han cambiado
                                 notifyItemRemoved(holder.getAdapterPosition());
                                 notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
+                                saUser.getToken(selectedUser.getCorreo(), new Callbacks() {
+                                    @Override
+                                    public void onCallbackData(String data) {
+                                        if(!data.equals("")){
 
+                                            //aqui se podria hacer una llamada para obtener el nombre de usuario y que se envie en la notificacion
+                                            currentuser = FirebaseAuth.getInstance().getCurrentUser();
+                                            saUser.infoUsuario(currentuser.getEmail(), new Callbacks() {
+                                                @Override
+                                                public void onCallback(UserInfo u) {
+                                                    username_actual = u.getNombreUsuario();
+                                                    realizar_Https_AcceptRequest(data);
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                });
 
                             }
                         }
@@ -187,7 +204,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                                                 @Override
                                                 public void onCallback(UserInfo u) {
                                                     username_actual = u.getNombreUsuario();
-                                                    realizar_Https(data);
+                                                    realizar_Https_SendRequest(data);
                                                 }
                                             });
 
@@ -229,7 +246,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
      * api de Firebase Cloud Messaging. Se pasa como parámetro el token del dispositivo al que se va
      * a mandar la notificación. También, para realizar la llamada es necesario auntenticarse por eso
      * el Bearer, que he sacado del proyecto de la web de Firebase.*/
-    public void realizar_Https (String USER_TOKEN){
+    public void realizar_Https_SendRequest (String USER_TOKEN){
         MediaType mediaType = MediaType.parse("application/json");
         JSONObject jsonObject = null;
 
@@ -241,6 +258,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             JSONObject notificationObj = new JSONObject();
             //notificationObj.put("title", "BoxIt");
             notificationObj.put("body", username_actual);
+            notificationObj.put("tag", "1");
             jsonObject.put("notification",notificationObj);
             jsonObject.put("to", USER_TOKEN);
 
@@ -274,6 +292,53 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
 
     }
+
+    public void realizar_Https_AcceptRequest (String USER_TOKEN){
+        MediaType mediaType = MediaType.parse("application/json");
+        JSONObject jsonObject = null;
+
+        try{
+
+            UserInfo yo = new UserInfo();
+            jsonObject  = new JSONObject();
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("body", username_actual);
+            notificationObj.put("tag", "2");
+            jsonObject.put("notification",notificationObj);
+            jsonObject.put("to", USER_TOKEN);
+
+        }catch (Exception e){
+            Log.d("error", e.toString());
+        }
+
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), mediaType);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", BEARER_TOKEN)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("CLAU", "notificacion mal");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                //Toast.makeText(this, R.string.exito_noti, Toast.LENGTH_SHORT).show();
+                Log.d("CLAU", "notificacion bien");
+            }
+        });
+
+
+
+    }
+
 }
 
 

@@ -154,7 +154,8 @@
 
     <!--Notificaciones -->
     <string name="solicitudNoti"> quiere ser tu amigo</string>
-    <string name="noti_solicitud">Request Notification</string>
+    <string name="solicitudAceptaNoti"> ha aceptado tu solicitud de amistad</string>
+    <string name="noti_solicitud">Solicitud de amistad</string>
     <string name="exito_noti">Solicitud enviada</string>
 
 </resources>

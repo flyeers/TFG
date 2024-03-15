@@ -157,6 +157,7 @@
 
     <!--Notificaciones -->
     <string name="solicitudNoti"> wants to be your friend</string>
+    <string name="solicitudAceptaNoti"> accepted your request</string>
     <string name="noti_solicitud">Request Notification</string>
     <string name="exito_noti">Notification send</string>
 </resources>

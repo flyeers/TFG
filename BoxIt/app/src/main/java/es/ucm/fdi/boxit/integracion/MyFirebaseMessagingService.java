@@ -22,10 +22,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
-            //String title = notification.getTitle();
-            String title = getString(R.string.noti_solicitud);
-            String body = notification.getBody()+ " " + getString(R.string.solicitudNoti);
-            //Log.d("Notifrecibida", "Title: " + title + ", Body: " + body);
+            String tag = notification.getTag();
+            String title ="", body="";
+            switch (tag) {
+                case "1":
+                    title = getString(R.string.noti_solicitud);
+                    body = notification.getBody() + " " + getString(R.string.solicitudNoti);
+                    break;
+                case "2":
+                    title = getString(R.string.noti_solicitud);
+                    body = notification.getBody() + " " + getString(R.string.solicitudAceptaNoti);
+                    break;
+                case "3":
+                    break;
+                default:
+                    break;
+            }
             showNotification(title, body);
         }
     }
