@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.BoxIt"
         tools:targetApi="31" >
-        <service
-            android:name=".integracion.MyFirebaseMessagingService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-
         <activity
             android:name=".presentacion.Caja"
             android:exported="false" />
@@ -55,15 +49,10 @@
         </activity>
 
         <service
-            android:name=".integracion.MyFirebaseMessagingService2"
+            android:name=".integracion.MyFirebaseMessagingService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".MyFirebaseInstanceIDService" >
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
     </application>

@@ -47,7 +47,7 @@ import okhttp3.Response;
 
 public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewHolder>{
     private ArrayList<UserInfo> users;
-    private static final String BEARER_TOKEN = "Bearer AAAAabD_4J8:APA91bHFi2tlM3CUqssG1jqw0HqSsDbWyeCZHUWwLxQDGO_BKYHwlbUC2bISS6zEJ38P3cxVfWiNVWbU_XrXKU0RF2Z4nw0AwQBaxgHLrlajhWnyRk6bNzjwU-wlQf-WmWcEkWZc5oK1";
+    private static final String BEARER_TOKEN = "Bearer AAAAmrxyPYg:APA91bFQnxoyzAqjk2LKtwC6CuEDd3qx37QtldiuPvrl8XV0kSi5sgxTmdriwnVH64bhKvkQjQAw0XEgUymTB0DP_h821tsddqFKpoQyCDGR2qBtcAqksjmzz1dC9H6FbXoy-sslF8NB";
 
     private int typeCard;
     private String username_actual;
@@ -239,10 +239,8 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             jsonObject  = new JSONObject();
 
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", R.string.noti_solicitud);
-            String bodyNotification = username_actual;
-            notificationObj.put("texto", bodyNotification);
-            notificationObj.put("tag",  currentuser.getEmail());
+            //notificationObj.put("title", "BoxIt");
+            notificationObj.put("body", username_actual);
             jsonObject.put("notification",notificationObj);
             jsonObject.put("to", USER_TOKEN);
 

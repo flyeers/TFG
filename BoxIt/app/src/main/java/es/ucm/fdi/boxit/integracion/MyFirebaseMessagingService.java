@@ -22,7 +22,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
-            String title = notification.getTitle();
+            //String title = notification.getTitle();
+            String title = getString(R.string.noti_solicitud);
             String body = notification.getBody()+ " " + getString(R.string.solicitudNoti);
             //Log.d("Notifrecibida", "Title: " + title + ", Body: " + body);
             showNotification(title, body);
@@ -44,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .bigText(body);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(android.R.drawable.btn_star_big_on)
+                .setSmallIcon(R.drawable.icon_boxit)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setStyle(bigTextStyle)
