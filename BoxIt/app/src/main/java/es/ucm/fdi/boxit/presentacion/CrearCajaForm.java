@@ -1,5 +1,6 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import es.ucm.fdi.boxit.R;
@@ -39,6 +43,13 @@ import es.ucm.fdi.boxit.negocio.BoxInfo;
 import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CrearCajaForm extends AppCompatActivity {
 
@@ -54,7 +65,9 @@ public class CrearCajaForm extends AppCompatActivity {
     private ArrayList<UserInfo> amigos;
     private ArrayList<String> colaboradores = new ArrayList<>();
     private UsersAdapter adapter;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private static final String BEARER_TOKEN = "Bearer AAAAmrxyPYg:APA91bFQnxoyzAqjk2LKtwC6CuEDd3qx37QtldiuPvrl8XV0kSi5sgxTmdriwnVH64bhKvkQjQAw0XEgUymTB0DP_h821tsddqFKpoQyCDGR2qBtcAqksjmzz1dC9H6FbXoy-sslF8NB";
+    private String boxName, username_actual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +211,26 @@ public class CrearCajaForm extends AppCompatActivity {
                             @Override
                             public void onCallbackExito(Boolean exito) {
                                 if(exito){
+                                    boxName = nombreCajaInput.getText().toString();
+                                    //notificamos a los colaboradores
+                                    for (String colab: colaboradores) {
+                                        saUser.getToken(colab, new Callbacks() {
+                                            @Override
+                                            public void onCallbackData(String data) {
+
+
+                                                saUser.infoUsuario(currentUser.getEmail(), new Callbacks() {
+                                                    @Override
+                                                    public void onCallback(UserInfo u) {
+                                                        username_actual = u.getNombreUsuario();
+                                                        realizar_Https_SendAviso(data);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+
+                                    //
                                     Context ctx = v.getContext();
                                     Intent intent = new Intent(ctx, Caja.class);
                                     intent.putExtra("boxInfo", box);
@@ -258,5 +291,52 @@ public class CrearCajaForm extends AppCompatActivity {
                     .into(ellipse);
             selectedImage = boxDising.getImg();
         }
+    }
+
+    public void realizar_Https_SendAviso (String USER_TOKEN){
+        MediaType mediaType = MediaType.parse("application/json");
+        JSONObject jsonObject = null;
+
+        try{
+
+
+            jsonObject  = new JSONObject();
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", boxName);
+            notificationObj.put("body", username_actual);
+            notificationObj.put("tag", "3");
+            jsonObject.put("notification",notificationObj);
+            jsonObject.put("to", USER_TOKEN);
+
+        }catch (Exception e){
+            Log.d("error", e.toString());
+        }
+
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), mediaType);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", BEARER_TOKEN)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("CLAU", "notificacion mal");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                //Toast.makeText(this, R.string.exito_noti, Toast.LENGTH_SHORT).show();
+                Log.d("CLAU", "notificacion bien");
+            }
+        });
+
+
+
     }
 }

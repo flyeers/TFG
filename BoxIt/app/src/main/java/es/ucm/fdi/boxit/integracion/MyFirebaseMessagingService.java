@@ -34,6 +34,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     body = notification.getBody() + " " + getString(R.string.solicitudAceptaNoti);
                     break;
                 case "3":
+                    title = "As sido añadido a una caja";
+                    body = notification.getBody() + " " + "te ha añadido a la caja" + " " +notification.getTitle();
                     break;
                 default:
                     break;
