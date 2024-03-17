@@ -159,6 +159,14 @@ public class DAOUsuario {
 
 
     public void logOut(){
+
+        CollectionReference usersCollection = SingletonDataBase.getInstance().getDB().collection(COL_USERS);
+
+
+        Map<String, Object> data = new HashMap<>();
+        data.put(TOKEN, "");
+        usersCollection.document(mAuth.getCurrentUser().getUid()).update(data);
+
         FirebaseAuth.getInstance().signOut();
     }
 

@@ -160,4 +160,12 @@
     <string name="solicitudAceptaNoti"> accepted your request</string>
     <string name="noti_solicitud">Request Notification</string>
     <string name="exito_noti">Notification send</string>
+    <string name="titleAddCaja">New shared box</string>
+    <string name="titleAddCapsula">New shared capsule</string>
+    <string name="bodyAddCaja"> added you to the box </string>
+    <string name="bodyAddCapsula"> added you to the capsule </string>
+    <string name="bodyAddCajaUpdate"> has added colaborators to the box </string>
+    <string name="bodyAddCapsUpdate"> has added colaborators to the capsule</string>
+    <string name="titleCajaUpdate">Box updated</string>
+    <string name="titleCapsUpdate">Capsule updated</string>
 </resources>

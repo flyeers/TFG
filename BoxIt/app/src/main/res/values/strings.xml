@@ -157,5 +157,13 @@
     <string name="solicitudAceptaNoti"> ha aceptado tu solicitud de amistad</string>
     <string name="noti_solicitud">Solicitud de amistad</string>
     <string name="exito_noti">Solicitud enviada</string>
+    <string name="titleAddCaja">Nueva caja colaborativa</string>
+    <string name="titleAddCapsula">Nueva cápsula colaborativa</string>
+    <string name="bodyAddCaja"> te ha añadido a la caja </string>
+    <string name="bodyAddCapsula"> te ha añadido a la cápsula </string>
+    <string name="bodyAddCajaUpdate"> ha añadido colaboradores a la caja </string>
+    <string name="bodyAddCapsUpdate"> ha añadido colaboradores a la cápsula </string>
+    <string name="titleCajaUpdate">Caja actualizada</string>
+    <string name="titleCapsUpdate">Cápsula actualizada</string>
 
 </resources>

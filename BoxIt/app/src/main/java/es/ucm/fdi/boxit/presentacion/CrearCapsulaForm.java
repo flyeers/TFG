@@ -1,5 +1,6 @@
 package es.ucm.fdi.boxit.presentacion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +31,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +47,13 @@ import es.ucm.fdi.boxit.negocio.SABox;
 import es.ucm.fdi.boxit.negocio.SACapsule;
 import es.ucm.fdi.boxit.negocio.SAUser;
 import es.ucm.fdi.boxit.negocio.UserInfo;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CrearCapsulaForm extends AppCompatActivity {
 
@@ -50,13 +62,16 @@ public class CrearCapsulaForm extends AppCompatActivity {
     private TextView nombreCapsulaTitulo, textApertura, textCierre, daysApertura, daysCierre, daysCerrado;
     private NumberPicker diaCierre, mesCierre, añoCierre, diaApertura, mesApertura, añoApertura;
     private LinearLayout btnAddImg, btnAddColaborator, layCierre, layApertura, layTextCierre, layTextApertura;
+    private static final String BEARER_TOKEN = "Bearer AAAAmrxyPYg:APA91bFQnxoyzAqjk2LKtwC6CuEDd3qx37QtldiuPvrl8XV0kSi5sgxTmdriwnVH64bhKvkQjQAw0XEgUymTB0DP_h821tsddqFKpoQyCDGR2qBtcAqksjmzz1dC9H6FbXoy-sslF8NB";
     private Button btnCrear, btnCancelar, btnSetCierre, btnSetApertura;
     private android.net.Uri selectedImage = null;
     private static final int PICK_IMAGE_REQUEST = 1;
     private ArrayList<UserInfo> amigos;
     private ArrayList<String> colaboradores = new ArrayList<>();
+    private ArrayList<String> oldColaborators = new ArrayList<>();
     private UsersAdapter adapter;
     private Date apertura, cierre;
+    private String capsuleName, username_actual;
     private String [] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept","Oct", "Nov", "Dec"};
 
     @Override
@@ -349,16 +364,43 @@ public class CrearCapsulaForm extends AppCompatActivity {
                     //cogemos los colaboradores si los hay
                     colaboradores = adapter.getData();
                     if(!colaboradores.isEmpty()) {
-                        colaboradores.add(currentUser.getEmail());
+                        if(isCrear || oldColaborators.isEmpty()){
+                            colaboradores.add(currentUser.getEmail());
+                        }
+
                         cap.setCollaborators(colaboradores);
                     }
 
                     SACapsule saCapsule = new SACapsule();
+                    capsuleName = nombreCapsulaInput.getText().toString();
                     if(isCrear){
                         saCapsule.createCapsule(cap, new Callbacks() {
                             @Override
                             public void onCallbackExito(Boolean exito) {
                                 if(exito){
+
+
+                                    //notificamos a los colaboradores
+                                    for (String colab: colaboradores) {
+                                        if(!colab.equals(currentUser.getEmail())){
+                                            saUser.getToken(colab, new Callbacks() {
+                                                @Override
+                                                public void onCallbackData(String data) {
+
+
+                                                    saUser.infoUsuario(currentUser.getEmail(), new Callbacks() {
+                                                        @Override
+                                                        public void onCallback(UserInfo u) {
+                                                            username_actual = u.getNombreUsuario();
+                                                            realizar_Https_SendAvisoCaps(data);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
+                                    }
+
                                     Context ctx = v.getContext();
                                     Intent intent = new Intent(ctx, Capsula.class);
                                     intent.putExtra("capsuleInfo", cap);
@@ -376,6 +418,43 @@ public class CrearCapsulaForm extends AppCompatActivity {
                             @Override
                             public void onCallbackExito(Boolean exito) {
                                 if(exito){
+                                    for (String col: cap.getColaborators()) {
+                                        if(!col.equals(currentUser.getEmail())){
+                                            if(!oldColaborators.contains(col)){
+                                                saUser.getToken(col, new Callbacks() {
+                                                    @Override
+                                                    public void onCallbackData(String data) {
+
+                                                        saUser.infoUsuario(currentUser.getEmail(), new Callbacks() {
+                                                            @Override
+                                                            public void onCallback(UserInfo u) {
+                                                                username_actual = u.getNombreUsuario();
+                                                                realizar_Https_SendAvisoCaps(data);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            else{
+                                                saUser.getToken(col, new Callbacks() {
+                                                    @Override
+                                                    public void onCallbackData(String data) {
+
+                                                        saUser.infoUsuario(currentUser.getEmail(), new Callbacks() {
+                                                            @Override
+                                                            public void onCallback(UserInfo u) {
+                                                                username_actual = u.getNombreUsuario();
+                                                                realizar_Https_SendAvisoUpdateCap(data);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        }
+
+
+
+                                    }
                                     Context ctx = v.getContext();
                                     Intent intent = new Intent(ctx, Caja.class);
                                     intent.putExtra("boxInfo", cap);
@@ -412,6 +491,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
         nombreCapsulaInput.setText(capDising.getTitle());
         nombreCapsulaTitulo.setText(capDising.getTitle());
 
+        oldColaborators.addAll(capDising.getColaborators());
         if (capDising.getImg() != null) {
             ellipse = findViewById(R.id.ellipse_13);
             Glide.with(this)
@@ -450,5 +530,100 @@ public class CrearCapsulaForm extends AppCompatActivity {
 
         d = apertura.getTime() -  cierre.getTime();
         daysCerrado.setText(getString(R.string.tiempoCerrado)+" "+ TimeUnit.MILLISECONDS.toDays(d) +" "+ getString(R.string.dias));
+    }
+
+    public void realizar_Https_SendAvisoCaps (String USER_TOKEN){
+
+        MediaType mediaType = MediaType.parse("application/json");
+        JSONObject jsonObject = null;
+
+        try{
+
+
+            jsonObject  = new JSONObject();
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", capsuleName);
+            notificationObj.put("body", username_actual);
+            notificationObj.put("tag", "4");
+            jsonObject.put("notification",notificationObj);
+            jsonObject.put("to", USER_TOKEN);
+
+        }catch (Exception e){
+            Log.d("error", e.toString());
+        }
+
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), mediaType);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", BEARER_TOKEN)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("CLAU", "notificacion mal");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                //Toast.makeText(this, R.string.exito_noti, Toast.LENGTH_SHORT).show();
+                Log.d("CLAU", "notificacion bien");
+            }
+        });
+
+
+
+    }
+
+    public void realizar_Https_SendAvisoUpdateCap (String USER_TOKEN){
+        MediaType mediaType = MediaType.parse("application/json");
+        JSONObject jsonObject = null;
+
+        try{
+
+
+            jsonObject  = new JSONObject();
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", capsuleName);
+            notificationObj.put("body", username_actual);
+            notificationObj.put("tag", "6");
+            jsonObject.put("notification",notificationObj);
+            jsonObject.put("to", USER_TOKEN);
+
+        }catch (Exception e){
+            Log.d("error", e.toString());
+        }
+
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(), mediaType);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", BEARER_TOKEN)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("CLAU", "notificacion mal");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                //Toast.makeText(this, R.string.exito_noti, Toast.LENGTH_SHORT).show();
+                Log.d("CLAU", "notificacion bien");
+            }
+        });
+
+
+
     }
 }
