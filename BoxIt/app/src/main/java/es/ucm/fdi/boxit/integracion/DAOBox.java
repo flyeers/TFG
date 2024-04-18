@@ -125,7 +125,6 @@ public class DAOBox {
                                     else{
                                         try{
                                             for(String correo: b.getColaborators()){ //COLABORADORES
-                                                //usersCollection.document(id).update(CAJAS_COMPARTIDAS, FieldValue.arrayUnion(newBoxId));
                                                 usersCollection.whereEqualTo(CORREO, correo).get().addOnCompleteListener(task2 -> {
                                                     if (task.isSuccessful()) {
                                                         for (QueryDocumentSnapshot d : task2.getResult()) {

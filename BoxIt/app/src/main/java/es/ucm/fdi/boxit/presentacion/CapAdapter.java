@@ -188,7 +188,7 @@ public class CapAdapter extends RecyclerView.Adapter{
                 boolean isAbierta = true;
                 if(cd.before(cap.getCierre())){//antes del cierre
 
-                    Long d = cap.getApertura().getTime() - cd.getTime();
+                    Long d = cap.getCierre().getTime() - cd.getTime();
 
                     long dias = TimeUnit.MILLISECONDS.toDays(d);
                     long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;

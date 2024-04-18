@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/inter"
-                        android:text="Ver todo"
+                        android:text="@string/todo"
                         android:textColor="@color/rosaBoton"
                         android:textSize="18dp" />
 

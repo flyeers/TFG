@@ -18,14 +18,4 @@
         android:backgroundTint="@color/fondoAdd"
         android:src="@drawable/default_image"/>
 
-    <Button
-        android:id="@+id/eliminarFoto"
-        android:layout_width="170dp"
-        android:backgroundTint="@color/rosaBoton"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/fondoAdd"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Eliminar" />
-
 </LinearLayout>

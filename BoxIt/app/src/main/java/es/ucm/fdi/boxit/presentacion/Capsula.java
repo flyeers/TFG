@@ -134,7 +134,7 @@ public class Capsula extends AppCompatActivity implements SwipeRefreshLayout.OnR
         Date cd = Calendar.getInstance().getTime();
         if(cd.before(capsuleInfo.getCierre())){//antes del cierre
 
-            Long d = capsuleInfo.getApertura().getTime() - cd.getTime();
+            Long d = capsuleInfo.getCierre().getTime() - cd.getTime();
             long dias = TimeUnit.MILLISECONDS.toDays(d);
             long horas = TimeUnit.MILLISECONDS.toHours(d) % 24;
             long minutos = TimeUnit.MILLISECONDS.toMinutes(d) % 60;

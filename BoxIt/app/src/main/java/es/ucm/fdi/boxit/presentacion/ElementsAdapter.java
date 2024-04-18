@@ -369,60 +369,6 @@ public class ElementsAdapter extends RecyclerView.Adapter {
         Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.photo_preview);
 
-        Button borrarFoto = dialog.findViewById(R.id.eliminarFoto);
-
-        borrarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Dialog dialogConfirm = new Dialog(ctx);
-                dialogConfirm.setContentView(R.layout.eliminar_confirm);
-                Button cancelar = dialogConfirm.findViewById(R.id.buttonCancelar);
-                Button confirmar = dialogConfirm.findViewById(R.id.buttonEliminar);
-
-                cancelar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogConfirm.dismiss();
-                        dialog.dismiss();
-                    }
-                });
-
-                confirmar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //if(isBox){
-                            SABox saBox = new SABox();
-                            saBox.deletePhoto(boxId, i, isBox, new Callbacks() {
-                                @Override
-                                public void onCallbackExito(Boolean exito) {
-                                    if(exito){
-
-                                        int pos = itemsData.indexOf(i);
-                                        if(pos != -1){
-                                            itemsData.remove(pos);
-                                            notifyDataSetChanged();
-                                        }
-                                        dialogConfirm.dismiss();
-                                        dialog.dismiss();
-                                        Toast.makeText(ctx,R.string.deleteBien , Toast.LENGTH_SHORT).show();
-
-
-                                    }
-                                    else{
-                                        Toast.makeText(ctx,R.string.deleteMal , Toast.LENGTH_SHORT).show();
-                                        dialogConfirm.dismiss();
-                                        dialog.dismiss();
-                                    }
-                                }
-                            });
-                    }
-                });
-
-                dialogConfirm.show();
-            }
-        });
-
         ImageView dialogImageView = dialog.findViewById(R.id.modalImageView);
 
         Glide.with(ctx)
@@ -462,7 +408,7 @@ public class ElementsAdapter extends RecyclerView.Adapter {
                 String noteIdNew = String.format("%s%s", preId, noteTextNew);
 
                 SABox saBox = new SABox();
-                saBox.updateNote(boxId, noteId, noteIdNew, true, new Callbacks() {
+                saBox.updateNote(boxId, noteId, noteIdNew, isBox, new Callbacks() {
                     @Override
                     public void onCallbackExito(Boolean exito) {
                         if(exito){
