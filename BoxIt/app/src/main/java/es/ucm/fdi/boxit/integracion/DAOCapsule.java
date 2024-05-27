@@ -157,8 +157,8 @@ public class DAOCapsule {
 
         DocumentReference boxDocument = SingletonDataBase.getInstance().getDB().collection(COL_CAP).document(c.getId());
         boxDocument.update(NOMBRE, c.getTitle());
-        boxDocument.update(APERTURA, c.getCierre());
-        boxDocument.update(CIERRE, c.getApertura());
+        boxDocument.update(APERTURA, c.getApertura());
+        boxDocument.update(CIERRE, c.getCierre());
 
         //COVER
         boxDocument.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
