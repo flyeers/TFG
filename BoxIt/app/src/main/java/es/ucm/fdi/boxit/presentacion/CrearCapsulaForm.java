@@ -457,7 +457,7 @@ public class CrearCapsulaForm extends AppCompatActivity {
                                     }
                                     Context ctx = v.getContext();
                                     Intent intent = new Intent(ctx, Caja.class);
-                                    intent.putExtra("boxInfo", cap);
+                                    intent.putExtra("capsuleInfo", cap);
                                     ctx.startActivity(intent);
                                 }
                                 else{
